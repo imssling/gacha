@@ -20,4 +20,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Metadatas\" />
+    <Folder Include="DTOs\" />
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
 </Project>
