@@ -57,6 +57,8 @@ public partial class gachaContext : DbContext
 
     public virtual DbSet<rechargePlan> rechargePlan { get; set; }
 
+    public virtual DbSet<rolePermission> rolePermission { get; set; }
+
     public virtual DbSet<role> role { get; set; }
 
     public virtual DbSet<shipping> shipping { get; set; }
