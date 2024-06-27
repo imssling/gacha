@@ -57,9 +57,9 @@ public partial class gachaContext : DbContext
 
     public virtual DbSet<rechargePlan> rechargePlan { get; set; }
 
-    public virtual DbSet<rolePermission> rolePermission { get; set; }
-
     public virtual DbSet<role> role { get; set; }
+
+    public virtual DbSet<rolePermission> rolePermission { get; set; }
 
     public virtual DbSet<shipping> shipping { get; set; }
 
@@ -83,7 +83,7 @@ public partial class gachaContext : DbContext
     {
         modelBuilder.Entity<achievement>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__achievem__3213E83F3B8EEC15");
+            entity.HasKey(e => e.id).HasName("PK__achievem__3213E83FF8B98AFD");
 
             entity.Property(e => e.achievementType).HasMaxLength(50);
             entity.Property(e => e.createdAt)
@@ -97,7 +97,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<achievementProgress>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__achievem__3213E83FE4B43C22");
+            entity.HasKey(e => e.id).HasName("PK__achievem__3213E83F2D6BCDBD");
 
             entity.HasOne(d => d.achievement).WithMany(p => p.achievementProgress)
                 .HasForeignKey(d => d.achievementID)
@@ -112,7 +112,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<activity>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__activity__3213E83FB1F628AC");
+            entity.HasKey(e => e.id).HasName("PK__activity__3213E83F0FDDF3AF");
 
             entity.Property(e => e.activityEnd).HasColumnType("datetime");
             entity.Property(e => e.activityStart).HasColumnType("datetime");
@@ -133,7 +133,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<activityLinkVoucher>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__activity__3213E83F8FAB28B8");
+            entity.HasKey(e => e.id).HasName("PK__activity__3213E83F4422E68F");
 
             entity.HasOne(d => d.activity).WithMany(p => p.activityLinkVoucher)
                 .HasForeignKey(d => d.activityID)
@@ -148,7 +148,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<activityType>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__activity__3213E83F653B4D71");
+            entity.HasKey(e => e.id).HasName("PK__activity__3213E83F324A2EAA");
 
             entity.Property(e => e.createdAt)
                 .HasDefaultValueSql("(getdate())")
@@ -160,9 +160,9 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<admin>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__admin__3213E83FBAAB67B2");
+            entity.HasKey(e => e.id).HasName("PK__admin__3213E83FBD7C3EF4");
 
-            entity.HasIndex(e => e.account, "UQ__admin__EA162E118BAF01BB").IsUnique();
+            entity.HasIndex(e => e.account, "UQ__admin__EA162E113C14F48C").IsUnique();
 
             entity.Property(e => e.id).ValueGeneratedNever();
             entity.Property(e => e.account)
@@ -189,7 +189,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<announcement>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__announce__3213E83F277E96BE");
+            entity.HasKey(e => e.id).HasName("PK__announce__3213E83F6BA59F11");
 
             entity.Property(e => e.content)
                 .IsRequired()
@@ -205,7 +205,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<bag>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__bag__3213E83F77B4C879");
+            entity.HasKey(e => e.id).HasName("PK__bag__3213E83F16D4763C");
 
             entity.Property(e => e.date)
                 .HasDefaultValueSql("(getdate())")
@@ -227,7 +227,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<chatRoom>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__chatRoom__3213E83F62C6D136");
+            entity.HasKey(e => e.id).HasName("PK__chatRoom__3213E83F1C3B6FFF");
 
             entity.Property(e => e.createdAt)
                 .HasDefaultValueSql("(getdate())")
@@ -246,7 +246,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<checkIn>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__checkIn__3213E83F7FEE2079");
+            entity.HasKey(e => e.id).HasName("PK__checkIn__3213E83F033F30E3");
 
             entity.Property(e => e.checkInDate)
                 .HasDefaultValueSql("(getdate())")
@@ -260,7 +260,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<convenienceStore>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__convenie__3213E83F48292BD5");
+            entity.HasKey(e => e.id).HasName("PK__convenie__3213E83F0DC0CE19");
 
             entity.Property(e => e.storeAddress)
                 .IsRequired()
@@ -275,7 +275,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<convenienceStoreInfo>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__convenie__3214EC077EB6C4AE");
+            entity.HasKey(e => e.Id).HasName("PK__convenie__3214EC0709A0539B");
 
             entity.HasOne(d => d.shippingDetail).WithMany(p => p.convenienceStoreInfo)
                 .HasForeignKey(d => d.shippingDetailId)
@@ -295,7 +295,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<exchangeRecord>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__exchange__3213E83F20C138D9");
+            entity.HasKey(e => e.id).HasName("PK__exchange__3213E83FD9E936B7");
 
             entity.Property(e => e.exchangeDate)
                 .HasDefaultValueSql("(getdate())")
@@ -320,7 +320,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<gachaDetailList>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__gachaDet__3213E83F88E24D5E");
+            entity.HasKey(e => e.id).HasName("PK__gachaDet__3213E83F2D93CDC1");
 
             entity.HasOne(d => d.bag).WithMany(p => p.gachaDetailList)
                 .HasForeignKey(d => d.bagId)
@@ -340,7 +340,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<gachaMachine>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__gachaMac__3213E83F972C93DA");
+            entity.HasKey(e => e.id).HasName("PK__gachaMac__3213E83F5F86E802");
 
             entity.Property(e => e.createTime)
                 .HasDefaultValueSql("(getdate())")
@@ -361,7 +361,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<gachaProduct>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__gachaPro__3213E83FA80D6D94");
+            entity.HasKey(e => e.id).HasName("PK__gachaPro__3213E83FB4E36CB1");
 
             entity.Property(e => e.createTime)
                 .HasDefaultValueSql("(getdate())")
@@ -381,7 +381,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<gachaTheme>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__gachaThe__3213E83F9746D14C");
+            entity.HasKey(e => e.id).HasName("PK__gachaThe__3213E83F231728FC");
 
             entity.Property(e => e.themeName)
                 .IsRequired()
@@ -390,7 +390,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<message>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__message__3213E83F826A7AF5");
+            entity.HasKey(e => e.id).HasName("PK__message__3213E83F405BD5E7");
 
             entity.Property(e => e.content).HasMaxLength(500);
             entity.Property(e => e.sendDate)
@@ -410,7 +410,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<permission>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__permissi__3213E83F6BCC8345");
+            entity.HasKey(e => e.id).HasName("PK__permissi__3213E83F1C3B8E23");
 
             entity.Property(e => e.id).ValueGeneratedNever();
             entity.Property(e => e.permissionDesc)
@@ -420,7 +420,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<pointList>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__pointLis__3213E83FCD46D0AC");
+            entity.HasKey(e => e.id).HasName("PK__pointLis__3213E83F477BB25D");
 
             entity.HasOne(d => d.achievement).WithMany(p => p.pointList)
                 .HasForeignKey(d => d.achievementId)
@@ -440,7 +440,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<rechargeList>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__recharge__3213E83F7C678FD2");
+            entity.HasKey(e => e.id).HasName("PK__recharge__3213E83F868308DA");
 
             entity.Property(e => e.paymentMode)
                 .IsRequired()
@@ -459,7 +459,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<rechargePlan>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__recharge__3213E83FB9BEACBD");
+            entity.HasKey(e => e.id).HasName("PK__recharge__3213E83F0B2F00A7");
 
             entity.Property(e => e.createdAt)
                 .HasDefaultValueSql("(getdate())")
@@ -476,33 +476,32 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<role>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__role__3213E83F5DCB084A");
+            entity.HasKey(e => e.id).HasName("PK__role__3213E83F624D3392");
 
             entity.Property(e => e.id).ValueGeneratedNever();
             entity.Property(e => e.title)
                 .IsRequired()
                 .HasMaxLength(20);
+        });
 
-            entity.HasMany(d => d.permission).WithMany(p => p.role)
-                .UsingEntity<Dictionary<string, object>>(
-                    "rolePermission",
-                    r => r.HasOne<permission>().WithMany()
-                        .HasForeignKey("permissionId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__rolePermi__permi__5AEE82B9"),
-                    l => l.HasOne<role>().WithMany()
-                        .HasForeignKey("roleId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__rolePermi__roleI__59FA5E80"),
-                    j =>
-                    {
-                        j.HasKey("roleId", "permissionId").HasName("PK__rolePerm__101A55037702E264");
-                    });
+        modelBuilder.Entity<rolePermission>(entity =>
+        {
+            entity.HasKey(e => new { e.roleId, e.permissionId }).HasName("PK__rolePerm__101A550382A92AF1");
+
+            entity.HasOne(d => d.permission).WithMany(p => p.rolePermission)
+                .HasForeignKey(d => d.permissionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__rolePermi__permi__5AEE82B9");
+
+            entity.HasOne(d => d.role).WithMany(p => p.rolePermission)
+                .HasForeignKey(d => d.roleId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__rolePermi__roleI__59FA5E80");
         });
 
         modelBuilder.Entity<shipping>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__shipping__3213E83FB9B50387");
+            entity.HasKey(e => e.id).HasName("PK__shipping__3213E83F642826CA");
 
             entity.Property(e => e.contactPhone)
                 .IsRequired()
@@ -529,7 +528,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<shippingDetail>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__shipping__3213E83F3EB76A0B");
+            entity.HasKey(e => e.id).HasName("PK__shipping__3213E83F79504C82");
 
             entity.HasOne(d => d.bag).WithMany(p => p.shippingDetail)
                 .HasForeignKey(d => d.bagId)
@@ -544,7 +543,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<trackingList>(entity =>
         {
-            entity.HasKey(e => new { e.userId, e.gachaMachineId }).HasName("PK__tracking__62AB230B109AF473");
+            entity.HasKey(e => new { e.userId, e.gachaMachineId }).HasName("PK__tracking__62AB230B20F56BA1");
 
             entity.Property(e => e.noteStatus)
                 .IsRequired()
@@ -566,7 +565,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<uploadRecord>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__uploadRe__3213E83FC777FA27");
+            entity.HasKey(e => e.id).HasName("PK__uploadRe__3213E83F99A9A3DC");
 
             entity.Property(e => e.uploadDate)
                 .HasDefaultValueSql("(getdate())")
@@ -580,7 +579,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<userAchievement>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__userAchi__3213E83F157BA4DD");
+            entity.HasKey(e => e.id).HasName("PK__userAchi__3213E83FFD61D727");
 
             entity.Property(e => e.achievedAt)
                 .HasDefaultValueSql("(getdate())")
@@ -599,9 +598,9 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<userInfo>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__userInfo__3213E83F7864B7B4");
+            entity.HasKey(e => e.id).HasName("PK__userInfo__3213E83F213BD39B");
 
-            entity.HasIndex(e => e.email, "UQ__userInfo__AB6E6164A0447B96").IsUnique();
+            entity.HasIndex(e => e.email, "UQ__userInfo__AB6E616486429728").IsUnique();
 
             entity.Property(e => e.email)
                 .IsRequired()
@@ -620,7 +619,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<userPassword>(entity =>
         {
-            entity.HasKey(e => e.email).HasName("PK__userPass__AB6E6165D5E128BE");
+            entity.HasKey(e => e.email).HasName("PK__userPass__AB6E616509F9AEA7");
 
             entity.Property(e => e.email).HasMaxLength(254);
             entity.Property(e => e.userPassword1)
@@ -632,7 +631,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<userVoucher>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__userVouc__3213E83F6D9FFD9F");
+            entity.HasKey(e => e.id).HasName("PK__userVouc__3213E83F1050D512");
 
             entity.Property(e => e.endDate).HasColumnType("datetime");
             entity.Property(e => e.startDate).HasColumnType("datetime");
@@ -650,7 +649,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<voucher>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__voucher__3213E83FBE76EAFF");
+            entity.HasKey(e => e.id).HasName("PK__voucher__3213E83F4CBDFE1D");
 
             entity.Property(e => e.voucherCode)
                 .IsRequired()
