@@ -1,0 +1,6 @@
+@gachaAPI_HostAddress = http://localhost:5084
+
+GET {{gachaAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
