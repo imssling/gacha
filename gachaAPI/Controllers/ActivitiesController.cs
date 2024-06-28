@@ -45,9 +45,15 @@ namespace gachaAPI.Controllers
 
         // GET: api/Activities/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ActivityDTO>> GetActivity(int id)
+        public async Task<ActivityDTO> GetActivity(int id)
         {
             var activity = await _context.Activities.FindAsync(id);
+
+            if (activity == null)
+            {
+                return null;
+            }
+
 
             ActivityDTO activityDTO = new ActivityDTO()
             {
@@ -61,10 +67,6 @@ namespace gachaAPI.Controllers
                 CreatedAt = activity.CreatedAt
             };
 
-            if (activity == null)
-            {
-                return NotFound();
-            }
 
             return activityDTO;
         }

@@ -35,16 +35,23 @@ namespace gachaAPI.Controllers
 
         // GET: api/ActivityLinkVouchers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ActivityLinkVoucher>> GetActivityLinkVoucher(int id)
+        public async Task<ActivityLinkVoucherDTO> GetActivityLinkVoucher(int id)
         {
             var activityLinkVoucher = await _context.ActivityLinkVouchers.FindAsync(id);
 
             if (activityLinkVoucher == null)
             {
-                return NotFound();
+                return null;
             }
 
-            return activityLinkVoucher;
+            ActivityLinkVoucherDTO activityLinkVoucherDTO = new ActivityLinkVoucherDTO
+            {
+                Id = activityLinkVoucher.Id,
+                ActivityId = activityLinkVoucher.ActivityId,
+                VoucherId = activityLinkVoucher.VoucherId
+            };
+
+            return activityLinkVoucherDTO;
         }
 
         // PUT: api/ActivityLinkVouchers/5
