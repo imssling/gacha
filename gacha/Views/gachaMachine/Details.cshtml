@@ -1,0 +1,54 @@
+﻿@model gacha.Models.gachaMachine
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>gachaMachine</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.machineName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.machineName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.machineDescription)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.machineDescription)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.machinePictureName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.machinePictureName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.createTime)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.createTime)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.price)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.price)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.theme)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.theme.themeName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

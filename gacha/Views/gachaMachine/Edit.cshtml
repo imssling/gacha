@@ -1,0 +1,59 @@
+﻿@model gacha.Models.gachaMachine
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>gachaMachine</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="id" />
+            <div class="form-group">
+                <label asp-for="themeId" class="control-label"></label>
+                <select asp-for="themeId" class="form-control" asp-items="ViewBag.themeId"></select>
+                <span asp-validation-for="themeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="machineName" class="control-label"></label>
+                <input asp-for="machineName" class="form-control" />
+                <span asp-validation-for="machineName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="machineDescription" class="control-label"></label>
+                <input asp-for="machineDescription" class="form-control" />
+                <span asp-validation-for="machineDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="machinePictureName" class="control-label"></label>
+                <input asp-for="machinePictureName" class="form-control" />
+                <span asp-validation-for="machinePictureName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="createTime" class="control-label"></label>
+                <input asp-for="createTime" class="form-control" />
+                <span asp-validation-for="createTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="price" class="control-label"></label>
+                <input asp-for="price" class="form-control" />
+                <span asp-validation-for="price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

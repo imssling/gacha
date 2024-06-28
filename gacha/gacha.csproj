@@ -8,6 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bundleconfig.json" />
     <None Include="efpt.config.json.user" />
   </ItemGroup>
 
@@ -21,7 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Metadatas\" />
     <Folder Include="DTOs\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
