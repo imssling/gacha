@@ -48,9 +48,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.id)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.userName)
             </td>
@@ -75,3 +75,15 @@
 }
     </tbody>
 </table>
+
+
+@section Scripts {
+    <script src="~/lib/datatables/js/jquery.datatables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            //alert("love me 3000");
+            $('table').dataTable();
+        });
+
+    </script>
+}
