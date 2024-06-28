@@ -37,7 +37,7 @@ namespace gachaAPI.Controllers
 
         // GET: api/ActivityTypes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ActivityType>> GetActivityType(int id)
+        public async Task<ActivityType> GetActivityType(int id)
         {
 
 
@@ -47,7 +47,7 @@ namespace gachaAPI.Controllers
 
             if (activityType == null)
             {
-                return NotFound();
+                return null;
             }
 
             return activityType;
@@ -56,11 +56,11 @@ namespace gachaAPI.Controllers
         // PUT: api/ActivityTypes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutActivityType(int id, ActivityTypeDTO activityTypeDTO)
+        public async Task<string> PutActivityType(int id, ActivityTypeDTO activityTypeDTO)
         {
             if (id != activityTypeDTO.Id)
             {
-                return BadRequest();
+                return "刪除活動類別失敗!";
             }
 
             ActivityType activityType = new ActivityType()
@@ -80,7 +80,7 @@ namespace gachaAPI.Controllers
             {
                 if (!ActivityTypeExists(id))
                 {
-                    return NotFound();
+                    return "刪除活動類別失敗!";
                 }
                 else
                 {
@@ -88,7 +88,7 @@ namespace gachaAPI.Controllers
                 }
             }
 
-            return NoContent();
+            return "刪除活動類別成功!";
         }
 
         // POST: api/ActivityTypes
@@ -107,23 +107,23 @@ namespace gachaAPI.Controllers
             _context.ActivityTypes.Add(activityType);
             await _context.SaveChangesAsync();
 
-            return $"活動類別ID:{activityType.Id}";
+            return $"建立活動類別成功! ID:{activityType.Id}";
         }
 
         // DELETE: api/ActivityTypes/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteActivityType(int id)
+        public async Task<string> DeleteActivityType(int id)
         {
             var activityType = await _context.ActivityTypes.FindAsync(id);
             if (activityType == null)
             {
-                return NotFound();
+                return "刪除活動類別失敗!";
             }
 
             _context.ActivityTypes.Remove(activityType);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return "刪除活動類別成功!";
         }
 
         private bool ActivityTypeExists(int id)

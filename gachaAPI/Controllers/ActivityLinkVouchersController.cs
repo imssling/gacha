@@ -57,12 +57,21 @@ namespace gachaAPI.Controllers
         // PUT: api/ActivityLinkVouchers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutActivityLinkVoucher(int id, ActivityLinkVoucher activityLinkVoucher)
+        public async Task<string> PutActivityLinkVoucher(int id, ActivityLinkVoucherDTO activityLinkVoucherDTO)
         {
-            if (id != activityLinkVoucher.Id)
+            if (id != activityLinkVoucherDTO.Id)
             {
-                return BadRequest();
+                return "修改活動與優惠關聯失敗!";
             }
+
+            ActivityLinkVoucher activityLinkVoucher = new ActivityLinkVoucher()
+            {
+                Id = activityLinkVoucherDTO.Id,
+                ActivityId = activityLinkVoucherDTO.ActivityId,
+                VoucherId = activityLinkVoucherDTO.VoucherId
+            };
+
+
 
             _context.Entry(activityLinkVoucher).State = EntityState.Modified;
 
@@ -74,7 +83,7 @@ namespace gachaAPI.Controllers
             {
                 if (!ActivityLinkVoucherExists(id))
                 {
-                    return NotFound();
+                    return "修改活動與優惠關聯失敗!";
                 }
                 else
                 {
@@ -82,13 +91,13 @@ namespace gachaAPI.Controllers
                 }
             }
 
-            return NoContent();
+            return "修改活動與優惠關聯成功!";
         }
 
         // POST: api/ActivityLinkVouchers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ActivityLinkVoucher>> PostActivityLinkVoucher(ActivityLinkVoucherDTO activityLinkVoucherDTO)
+        public async Task<string> PostActivityLinkVoucher(ActivityLinkVoucherDTO activityLinkVoucherDTO)
         {
 
             ActivityLinkVoucher activityLinkVoucher = new ActivityLinkVoucher() 
@@ -103,23 +112,23 @@ namespace gachaAPI.Controllers
             _context.ActivityLinkVouchers.Add(activityLinkVoucher);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetActivityLinkVoucher", new { id = activityLinkVoucher.Id }, activityLinkVoucher);
+            return $"成功建立活動與優惠的關聯 ID:{activityLinkVoucher.Id}";
         }
 
         // DELETE: api/ActivityLinkVouchers/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteActivityLinkVoucher(int id)
+        public async Task<string> DeleteActivityLinkVoucher(int id)
         {
             var activityLinkVoucher = await _context.ActivityLinkVouchers.FindAsync(id);
             if (activityLinkVoucher == null)
             {
-                return NotFound();
+                return "刪除活動與優惠的關聯失敗!";
             }
 
             _context.ActivityLinkVouchers.Remove(activityLinkVoucher);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return "刪除活動與優惠的關聯成功!";
         }
 
         private bool ActivityLinkVoucherExists(int id)
