@@ -78,35 +78,18 @@ namespace gachaAPI.Controllers
         {
             if (id != activityDTO.Id)
             {
-                return "修改活動失敗!";//848
+                return "修改活動失敗!";
             }
 
-            var tmpActicity = _context.Activities.Find(id);
+            Activity activity = await _context.Activities.FindAsync(id);
 
-            //if (tmpActivity != null)
-            //{
-            //    var tmpDate = tmpActivity.CreatedAt;
-            //}
-
-            Activity activity = new Activity()
-            {
-                Id = activityDTO.Id,
-                Title = activityDTO.Title,
-                Description = activityDTO.Description,
-                Status = activityDTO.Status,
-                ActivityTypeId = activityDTO.ActivityTypeId,
-                ActivityStart = activityDTO.ActivityStart,
-                ActivityEnd = activityDTO.ActivityEnd,
-
-            };
-
-            if (tmpActicity.CreatedAt != null)
-            {
-                activity.CreatedAt = tmpActicity.CreatedAt;
-            }
-
-
-            _context.Entry(tmpActicity).State = EntityState.Deleted;
+            activity.Title = activityDTO.Title;
+            activity.Description = activityDTO.Description;
+            activity.Status = activityDTO.Status;
+            activity.ActivityTypeId = activityDTO.ActivityTypeId;
+            activity.ActivityStart = activityDTO.ActivityStart;
+            activity.ActivityEnd = activityDTO.ActivityEnd;
+            
 
 
 

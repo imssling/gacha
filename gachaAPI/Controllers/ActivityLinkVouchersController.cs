@@ -64,12 +64,10 @@ namespace gachaAPI.Controllers
                 return "修改活動與優惠關聯失敗!";
             }
 
-            ActivityLinkVoucher activityLinkVoucher = new ActivityLinkVoucher()
-            {
-                Id = activityLinkVoucherDTO.Id,
-                ActivityId = activityLinkVoucherDTO.ActivityId,
-                VoucherId = activityLinkVoucherDTO.VoucherId
-            };
+            ActivityLinkVoucher activityLinkVoucher = await _context.ActivityLinkVouchers.FindAsync(id);
+
+            activityLinkVoucher.ActivityId = activityLinkVoucherDTO.ActivityId;
+            activityLinkVoucher.VoucherId = activityLinkVoucherDTO.VoucherId;
 
 
 

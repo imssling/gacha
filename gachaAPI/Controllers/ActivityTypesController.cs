@@ -60,15 +60,16 @@ namespace gachaAPI.Controllers
         {
             if (id != activityTypeDTO.Id)
             {
-                return "刪除活動類別失敗!";
+                return "修改活動類別失敗!";
             }
 
-            ActivityType activityType = new ActivityType()
-            {
-                Id = activityTypeDTO.Id,
-                Name = activityTypeDTO.Name,
-                CreatedAt = DateTime.UtcNow
-            };
+
+            ActivityType activityType = await _context.ActivityTypes.FindAsync(id);
+
+            activityType.Id = activityTypeDTO.Id;
+            activityType.Name = activityTypeDTO.Name;
+            //activityType.CreatedAt = DateTime.Now;
+            
 
             _context.Entry(activityType).State = EntityState.Modified;
 
@@ -80,7 +81,7 @@ namespace gachaAPI.Controllers
             {
                 if (!ActivityTypeExists(id))
                 {
-                    return "刪除活動類別失敗!";
+                    return "修改活動類別失敗!";
                 }
                 else
                 {
@@ -88,7 +89,7 @@ namespace gachaAPI.Controllers
                 }
             }
 
-            return "刪除活動類別成功!";
+            return "修改活動類別成功!";
         }
 
         // POST: api/ActivityTypes
