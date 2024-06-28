@@ -18,4 +18,14 @@ public partial class ExchangeRecord
     public int? GachaIdTo { get; set; }
 
     public DateTime? ExchangeDate { get; set; }
+
+    public virtual ICollection<GachaDetailList> GachaDetailLists { get; set; } = new List<GachaDetailList>();
+
+    public virtual GachaProduct GachaIdFromNavigation { get; set; }
+
+    public virtual GachaProduct GachaIdToNavigation { get; set; }
+
+    public virtual UserInfo UserIdFromNavigation { get; set; }
+
+    public virtual UserInfo UserIdToNavigation { get; set; }
 }

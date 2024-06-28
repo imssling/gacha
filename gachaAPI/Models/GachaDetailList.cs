@@ -5,15 +5,19 @@ using System.Collections.Generic;
 
 namespace gachaAPI.Models;
 
-public partial class UploadRecord
+public partial class GachaDetailList
 {
     public int Id { get; set; }
 
     public int BagId { get; set; }
 
-    public DateTime? UploadDate { get; set; }
+    public int ExchangeRecordId { get; set; }
+
+    public int UploadRecordId { get; set; }
 
     public virtual Bag Bag { get; set; }
 
-    public virtual ICollection<GachaDetailList> GachaDetailLists { get; set; } = new List<GachaDetailList>();
+    public virtual ExchangeRecord ExchangeRecord { get; set; }
+
+    public virtual UploadRecord UploadRecord { get; set; }
 }

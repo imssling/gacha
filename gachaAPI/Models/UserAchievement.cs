@@ -16,4 +16,6 @@ public partial class UserAchievement
     public DateTime? AchievedAt { get; set; }
 
     public virtual Achievement Achievement { get; set; }
+
+    public virtual UserInfo User { get; set; }
 }

@@ -5,19 +5,19 @@ using System.Collections.Generic;
 
 namespace gachaAPI.Models;
 
-public partial class AchievementProgress
+public partial class ConvenienceStoreInfo
 {
     public int Id { get; set; }
 
+    public int StoreId { get; set; }
+
     public int UserId { get; set; }
 
-    public int AchievementId { get; set; }
+    public int ShippingDetailId { get; set; }
 
-    public int Progress { get; set; }
+    public virtual ShippingDetail ShippingDetail { get; set; }
 
-    public int Target { get; set; }
-
-    public virtual Achievement Achievement { get; set; }
+    public virtual ConvenienceStore Store { get; set; }
 
     public virtual UserInfo User { get; set; }
 }

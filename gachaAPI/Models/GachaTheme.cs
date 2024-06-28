@@ -5,15 +5,11 @@ using System.Collections.Generic;
 
 namespace gachaAPI.Models;
 
-public partial class ActivityLinkVoucher
+public partial class GachaTheme
 {
     public int Id { get; set; }
 
-    public int ActivityId { get; set; }
+    public string ThemeName { get; set; }
 
-    public int VoucherId { get; set; }
-
-    public virtual Activity Activity { get; set; }
-
-    public virtual Voucher Voucher { get; set; }
+    public virtual ICollection<GachaMachine> GachaMachines { get; set; } = new List<GachaMachine>();
 }

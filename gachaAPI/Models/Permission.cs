@@ -5,15 +5,11 @@ using System.Collections.Generic;
 
 namespace gachaAPI.Models;
 
-public partial class ActivityLinkVoucher
+public partial class Permission
 {
     public int Id { get; set; }
 
-    public int ActivityId { get; set; }
+    public string PermissionDesc { get; set; }
 
-    public int VoucherId { get; set; }
-
-    public virtual Activity Activity { get; set; }
-
-    public virtual Voucher Voucher { get; set; }
+    public virtual ICollection<Role> Roles { get; set; } = new List<Role>();
 }

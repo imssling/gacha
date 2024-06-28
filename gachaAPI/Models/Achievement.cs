@@ -21,5 +21,7 @@ public partial class Achievement
 
     public virtual ICollection<AchievementProgress> AchievementProgresses { get; set; } = new List<AchievementProgress>();
 
+    public virtual ICollection<PointList> PointLists { get; set; } = new List<PointList>();
+
     public virtual ICollection<UserAchievement> UserAchievements { get; set; } = new List<UserAchievement>();
 }

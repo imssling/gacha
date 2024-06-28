@@ -1,0 +1,174 @@
+﻿{
+   "CodeGenerationMode": 4,
+   "ContextClassName": "gachaContext",
+   "ContextNamespace": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "gachaAPI",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 2,
+   "SelectedToBeGenerated": 0,
+   "T4TemplatePath": null,
+   "Tables": [
+      {
+         "Name": "[dbo].[achievement]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[achievementProgress]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[activity]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[activityLinkVoucher]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[activityType]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[admin]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[announcement]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[bag]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[chatRoom]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[checkIn]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[convenienceStore]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[convenienceStoreInfo]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[exchangeRecord]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[gachaDetailList]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[gachaMachine]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[gachaProduct]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[gachaTheme]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[message]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[permission]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[pointList]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[rechargeList]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[rechargePlan]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[role]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[rolePermission]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[shipping]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[shippingDetail]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[trackingList]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[uploadRecord]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[userAchievement]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[userInfo]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[userPassword]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[userVoucher]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[voucher]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": null,
+   "UncountableWords": null,
+   "UseAsyncStoredProcedureCalls": true,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDateOnlyTimeOnly": true,
+   "UseDbContextSplitting": false,
+   "UseDecimalDataAnnotationForSprocResult": true,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": true,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UsePrefixNavigationNaming": false,
+   "UseSchemaFolders": false,
+   "UseSchemaNamespaces": false,
+   "UseSpatial": false,
+   "UseT4": false
+}
