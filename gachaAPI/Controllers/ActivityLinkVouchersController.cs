@@ -88,8 +88,18 @@ namespace gachaAPI.Controllers
         // POST: api/ActivityLinkVouchers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ActivityLinkVoucher>> PostActivityLinkVoucher(ActivityLinkVoucher activityLinkVoucher)
+        public async Task<ActionResult<ActivityLinkVoucher>> PostActivityLinkVoucher(ActivityLinkVoucherDTO activityLinkVoucherDTO)
         {
+
+            ActivityLinkVoucher activityLinkVoucher = new ActivityLinkVoucher() 
+            {
+                Id = activityLinkVoucherDTO.Id,
+                ActivityId = activityLinkVoucherDTO.ActivityId,
+                VoucherId = activityLinkVoucherDTO.VoucherId
+            
+            };
+
+
             _context.ActivityLinkVouchers.Add(activityLinkVoucher);
             await _context.SaveChangesAsync();
 
