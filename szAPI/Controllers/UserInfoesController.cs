@@ -42,16 +42,24 @@ namespace szAPI.Controllers
 
         // GET: api/UserInfoes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserInfo>> GetUserInfo(int id)
+        public async Task<UserInfoDTO> GetUserInfo(int id)
         {
             var userInfo = await _context.UserInfos.FindAsync(id);
-
+            UserInfoDTO userInfoDTO = new UserInfoDTO
+            {
+                id = userInfo.Id,
+                userName = userInfo.UserName,
+                phoneNumber = userInfo.PhoneNumber,
+                email = userInfo.Email,
+                address = userInfo.Address,
+                gender = userInfo.Gender,
+            };
             if (userInfo == null)
             {
-                return NotFound();
+                return null;
             }
 
-            return userInfo;
+            return userInfoDTO;
         }
 
         // PUT: api/UserInfoes/5
