@@ -11,6 +11,7 @@ namespace gachaAPI.DTO
         public int ActivityTypeId { get; set; }
         public DateTime? ActivityStart { get; set; }
         public DateTime? ActivityEnd { get; set; }
-        public ActivityType ActivityType { get; set; }
+
+        public DateTime? CreatedAt { get; set; }
     }
 }

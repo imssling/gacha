@@ -27,6 +27,8 @@ namespace gachaAPI.Controllers
         {
 
 
+            //return _context.Activities;
+
 
             return _context.Activities.Select(a => new ActivityDTO
             {
@@ -37,33 +39,74 @@ namespace gachaAPI.Controllers
                 ActivityTypeId = a.ActivityTypeId,
                 ActivityStart = a.ActivityStart,
                 ActivityEnd = a.ActivityEnd,
-                ActivityType = a.ActivityType
+                CreatedAt = a.CreatedAt
             });
         }
 
         // GET: api/Activities/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Activity>> GetActivity(int id)
+        public async Task<ActionResult<ActivityDTO>> GetActivity(int id)
         {
             var activity = await _context.Activities.FindAsync(id);
+
+            ActivityDTO activityDTO = new ActivityDTO()
+            {
+                Id = activity.Id,
+                Title = activity.Title,
+                Description = activity.Description,
+                Status = activity.Status,
+                ActivityTypeId = activity.ActivityTypeId,
+                ActivityStart = activity.ActivityStart,
+                ActivityEnd = activity.ActivityEnd,
+                CreatedAt = activity.CreatedAt
+            };
 
             if (activity == null)
             {
                 return NotFound();
             }
 
-            return activity;
+            return activityDTO;
         }
 
         // PUT: api/Activities/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutActivity(int id, Activity activity)
+        public async Task<string> PutActivity(int id, ActivityDTO activityDTO)
         {
-            if (id != activity.Id)
+            if (id != activityDTO.Id)
             {
-                return BadRequest();//848
+                return "修改活動失敗!";//848
             }
+
+            var tmpActicity = _context.Activities.Find(id);
+
+            //if (tmpActivity != null)
+            //{
+            //    var tmpDate = tmpActivity.CreatedAt;
+            //}
+
+            Activity activity = new Activity()
+            {
+                Id = activityDTO.Id,
+                Title = activityDTO.Title,
+                Description = activityDTO.Description,
+                Status = activityDTO.Status,
+                ActivityTypeId = activityDTO.ActivityTypeId,
+                ActivityStart = activityDTO.ActivityStart,
+                ActivityEnd = activityDTO.ActivityEnd,
+
+            };
+
+            if (tmpActicity.CreatedAt != null)
+            {
+                activity.CreatedAt = tmpActicity.CreatedAt;
+            }
+
+
+            _context.Entry(tmpActicity).State = EntityState.Deleted;
+
+
 
             _context.Entry(activity).State = EntityState.Modified;
 
@@ -75,7 +118,7 @@ namespace gachaAPI.Controllers
             {
                 if (!ActivityExists(id))
                 {
-                    return NotFound();
+                    return "修改活動失敗!";
                 }
                 else
                 {
@@ -83,34 +126,47 @@ namespace gachaAPI.Controllers
                 }
             }
 
-            return NoContent();
+            return "修改活動成功!";
         }
 
         // POST: api/Activities
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Activity>> PostActivity(Activity activity)
+        public async Task<string> PostActivity(ActivityDTO activityDTO)
         {
+
+            Activity activity = new Activity()
+            {
+                Title = activityDTO.Title,
+                Description = activityDTO.Description,
+                Status = activityDTO.Status,
+                ActivityTypeId = activityDTO.ActivityTypeId,
+                ActivityStart = activityDTO.ActivityStart,
+                ActivityEnd = activityDTO.ActivityEnd
+            };
+
+
+
             _context.Activities.Add(activity);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetActivity", new { id = activity.Id }, activity);
+            return $"新增活動成功! ID : {activity.Id}";
         }
 
         // DELETE: api/Activities/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteActivity(int id)
+        public async Task<string> DeleteActivity(int id)
         {
             var activity = await _context.Activities.FindAsync(id);
             if (activity == null)
             {
-                return NotFound();
+                return "刪除活動失敗";
             }
 
             _context.Activities.Remove(activity);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return "刪除活動成功";
         }
 
         private bool ActivityExists(int id)
