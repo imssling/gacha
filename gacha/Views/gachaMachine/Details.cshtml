@@ -4,10 +4,12 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+@section Styles {
+    <link href="~/css/datatables.min.css" rel="stylesheet" />
+}
 
 <div>
-    <h4>gachaMachine</h4>
+    <h4>查看機台</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -49,6 +51,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.id" class="btn button">修改</a>
+    <a asp-action="Index" class="btn button">回清單</a>
 </div>

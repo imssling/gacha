@@ -1,6 +1,6 @@
 ﻿
 $(document).ready(function () {
-    $('table').dataTable({
+    $('table').DataTable({
         pageLength: '2',//預設為'10'，若需更改初始每頁顯示筆數，才需設定
         fixedHeader: {
             header: true,

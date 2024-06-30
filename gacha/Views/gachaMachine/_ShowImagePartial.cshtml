@@ -1,0 +1,9 @@
+﻿@model gachaMachine
+@if (Model.machinePictureName == null)
+{
+    <img src="~/img/no-photo.png" title="尚無圖案" style="width:320px;height:240px" class="my-3" />
+}
+else
+{
+    <img src="~/img/@Html.DisplayFor(model => model.machinePictureName)" title="@Html.DisplayFor(model => model.machinePictureName)" style="width:320px;height:240px" class="my-3" />
+}

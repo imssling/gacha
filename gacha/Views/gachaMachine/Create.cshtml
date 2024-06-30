@@ -28,20 +28,25 @@
                 <input asp-for="machineDescription" class="form-control" />
                 <span asp-validation-for="machineDescription" class="text-danger"></span>
             </div>
-            <div class="form-group">
+@*             <div class="form-group">
                 <label asp-for="createTime" class="control-label"></label>
                 <input asp-for="createTime" class="form-control" />
                 <span asp-validation-for="createTime" class="text-danger"></span>
-            </div>
+            </div> *@
             <div class="form-group">
                 <label asp-for="price" class="control-label"></label>
                 <input asp-for="price" class="form-control" />
                 <span asp-validation-for="price" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="machinePictureName" class="control-label"></label>
+@*                 <label asp-for="machinePictureName" class="control-label"></label>
                 <img src="~/img/no-photo-available.png" title="待上傳" style="width:320px;height:240px" />
-                <input asp-for="machinePictureName" type="file" accept="image/*" class="form-control" />
+                <input asp-for="machinePictureName" type="file" accept="image/*" class="form-control" /> *@
+
+                <label asp-for="machinePictureName" class="control-label"></label>
+                <img id="previewImage" src="~/img/no-photo-available.png" title="待上傳" style="width:320px;height:240px" />
+                <input type="file" accept="image/*" class="form-control" id="machinePictureFile" />
+                <input asp-for="machinePictureName" type="hidden" />
             </div>
             <div class="form-group">
                 <input type="submit" value="新增" class="btn button" />
@@ -54,7 +59,7 @@
     <a asp-action="Index" class="btn button">回清單</a>
 </div>
 
-@section Scripts {
+@* @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/js/picture.min.js" asp-append-version="true"></script>
     <script>
@@ -62,5 +67,66 @@
             //alert('change');
             previewImage(this);
         });
+        function previewImage(file) {
+    var allowType = "image.*";
+    var file = file.files[0];
+    if (file.type.match(allowType)) {
+        預覽圖片
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            檔案讀取完成
+            $('#machinePictureName').prev().attr("src", e.target.result);
+            $('#machinePictureName').prev().attr("title", file.name);
+        }
+        檔案讀取
+        reader.readAsDataURL(file)
+        $('.btn').prop('disabled', false);
+    }
+    else {
+        alert("不支援的檔案上傳類型");
+        $('.btn').prop('disabled', true);
+    }
+}
+    </script>
+
+} *@
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <!-- 包含外部 JavaScript 文件 -->
+    <script src="~/js/picture.min.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            // 綁定文件輸入元素的 change 事件
+            $('#machinePictureFile').on('change', function () {
+                previewImage(this);
+            });
+        });
+
+        function previewImage(input) {
+            var allowType = "image.*";
+            var file = input.files[0];
+            if (file.type.match(allowType)) {
+                // 預覽圖片
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    // 檔案讀取完成，設置圖片預覽
+                    $('#previewImage').attr("src", e.target.result);
+                    $('#previewImage').attr("title", file.name);
+                    // 設置圖片名稱到隱藏字段
+                    $('input[name="machinePictureName"]').val(file.name);
+                }
+                // 檔案讀取
+                reader.readAsDataURL(file);
+                // 啟用提交按鈕
+                $('.btn').prop('disabled', false);
+            } else {
+                alert("不支援的檔案上傳類型");
+                // 禁用提交按鈕
+                $('.btn').prop('disabled', true);
+            }
+        }
     </script>
 }

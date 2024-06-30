@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="id" />
             <div class="form-group">
@@ -30,14 +30,14 @@
             </div>
             <div class="form-group">
                 <label asp-for="machinePictureName" class="control-label"></label>
-                <input asp-for="machinePictureName" class="form-control" />
-                <span asp-validation-for="machinePictureName" class="text-danger"></span>
+                <partial name="_ShowImagePartial">
+                <input asp-for="machinePictureName" type="file" accept="image/*" class="form-control" />
             </div>
-            <div class="form-group">
+@*             <div class="form-group">
                 <label asp-for="createTime" class="control-label"></label>
                 <input asp-for="createTime" class="form-control" />
                 <span asp-validation-for="createTime" class="text-danger"></span>
-            </div>
+            </div> *@
             <div class="form-group">
                 <label asp-for="price" class="control-label"></label>
                 <input asp-for="price" class="form-control" />
@@ -55,5 +55,38 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            $('#machinePictureName').on("change", function () {
+                // 允許的副檔名
+                var allowType = "image.*";
+                // 上傳的第一個檔案
+                var file = this.files[0];
+                // 抓取檔案的型態是否為allowType的格式
+                if (file.type.match(allowType)) {
+                    // 讀取圖片
+                    var reader = new FileReader();
+                    // 檔案讀取完成的事件
+                    reader.onload = function (e) {
+                        // 選到#Picture的上一個元素修改src屬性
+                        $('#machinePictureName').prev().attr("src", e.target.result);
+                        // 選到#Picture的上一個元素修改title屬性
+                        $('#machinePictureName').prev().attr("title", e.file.name);
+                    }
+                    // 用圖片的URL讀取圖片
+                    reader.readAsDataURL(file);
+                    // 解除鎖定按鈕
+                    $('.btn').prop("disabled", false);
+                } else {
+                    alert("不支援的檔案上傳類型");
+                    // 鎖定按鈕
+                    $('.btn').prop("disabled", true);
+                }
+            });
+        });
+    </script>
 }
+

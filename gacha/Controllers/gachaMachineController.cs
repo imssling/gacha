@@ -101,7 +101,60 @@ namespace gacha.Controllers
             {
                 try
                 {
-                    _context.Update(gachaMachine);
+                        // 取出原先所有資料
+                        gachaMachine p = await _context.gachaMachine.FindAsync(gachaMachine.id);
+                        // 判斷是否有上傳檔案
+                        if (Request.Form.Files["machinePictureName"] != null)
+                        {
+                            // 取得照片欄位名稱
+                            var pictureFile = Request.Form.Files["machinePictureName"];
+
+                            // 新增存圖檔路徑
+                            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img");
+                            // 確保目標目錄存在
+                            if (!Directory.Exists(uploadsFolder))
+                            {
+                                // 如果路徑不在則創建
+                                Directory.CreateDirectory(uploadsFolder);
+                            }
+
+                            // 生成唯一的文件名以避免重名
+                            var uniqueFileName = Guid.NewGuid().ToString() + "_" + pictureFile.FileName;
+
+                            // 目標文件的完整路徑
+                            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                            // 將文件保存到指定路徑(合併檔名和路徑)
+                            using (var fileStream = new FileStream(filePath, FileMode.Create))
+                            {
+                                await pictureFile.CopyToAsync(fileStream);
+                            }
+
+                            // 刪除舊圖片文件（如果有）
+                            // 判斷是否原有圖片
+                            if (!string.IsNullOrEmpty(p.machinePictureName))
+                            {
+                                // 取得當前目錄,圖片存放路徑, 去掉路徑開頭的 / 符號，以防止路徑不正確
+                                var oldFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", p.machinePictureName.TrimStart('/'));
+                                // 檢查舊圖片文件是否存在
+                                if (System.IO.File.Exists(oldFilePath))
+                                {
+                                    // 存在則刪除照片
+                                    System.IO.File.Delete(oldFilePath);
+                                }
+                            }
+
+                            // 更新圖片路徑
+                            gachaMachine.machinePictureName = "/img/" + uniqueFileName;
+                        }
+                        else
+                        {
+                            // 放入原先資料
+                            gachaMachine.machinePictureName = p.machinePictureName;
+                        }
+                        // 解除追蹤
+                        _context.Entry(p).State = EntityState.Detached;
+                        _context.Update(gachaMachine);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

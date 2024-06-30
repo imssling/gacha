@@ -28,20 +28,23 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="rechargePlan" asp-action="Index">儲值後台</a>
                         </li>
-                        <li class="nav-item">
-                            @* <a class="nav-link text-dark" asp-area="" asp-controller="myProduct" asp-action="buttons">商品管理</a> *@
-                            <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                 商品管理
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" asp-area="" asp-controller="gachaTheme" asp-action="Index">主題</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="gachaMachine" asp-action="Index">機台</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="gachaProduct" asp-action="Index">商品</a></li>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" asp-controller="gachaTheme" asp-action="Index">主題</a></li>
+                                <li><a class="dropdown-item" asp-controller="gachaMachine" asp-action="Index">機台</a></li>
+                                <li><a class="dropdown-item" asp-controller="gachaProduct" asp-action="Index">商品</a></li>
                             </ul>
-                        </li>
+                        </div>
+
+
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
