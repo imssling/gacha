@@ -116,18 +116,18 @@ namespace gachaAPI.Controllers
 
         // DELETE: api/UploadRecords/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUploadRecord(int id)
+        public async Task<string> DeleteUploadRecord(int id)
         {
             var uploadRecord = await _context.UploadRecords.FindAsync(id);
             if (uploadRecord == null)
             {
-                return NotFound();
+                return "刪除上架紀錄失敗!";
             }
 
             _context.UploadRecords.Remove(uploadRecord);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return "刪除上架紀錄成功!";
         }
 
         private bool UploadRecordExists(int id)
