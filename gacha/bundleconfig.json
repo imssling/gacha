@@ -1,0 +1,8 @@
+[
+  {
+    "outputFileName": "wwwroot/css/dataTables.min.css",
+    "inputFiles": [
+      "wwwroot/css/dataTables.css"
+    ]
+  }
+]

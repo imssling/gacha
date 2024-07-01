@@ -13,5 +13,5 @@ public partial class role
 
     public virtual ICollection<admin> admin { get; set; } = new List<admin>();
 
-    public virtual ICollection<permission> permission { get; set; } = new List<permission>();
+    public virtual ICollection<rolePermission> rolePermission { get; set; } = new List<rolePermission>();
 }
