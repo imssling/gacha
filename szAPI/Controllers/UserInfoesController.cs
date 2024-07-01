@@ -25,6 +25,7 @@ namespace szAPI.Controllers
             _context = context;
         }
 
+        //查詢所有用戶資料
         // GET: api/UserInfoes
         [HttpGet]
         public async Task<IEnumerable<UserInfoDTO>> GetUserInfos()
@@ -40,6 +41,7 @@ namespace szAPI.Controllers
             });
         }
 
+        //查詢個別用戶資料
         // GET: api/UserInfoes/5
         [HttpGet("{id}")]
         public async Task<UserInfoDTO> GetUserInfo(int id)
@@ -62,15 +64,28 @@ namespace szAPI.Controllers
             return userInfoDTO;
         }
 
+        //更新個別用戶資料
         // PUT: api/UserInfoes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserInfo(int id, UserInfo userInfo)
+        public async Task<string> PutUserInfo(int id, UserInfoDTO userInfoDTO)
         {
-            if (id != userInfo.Id)
+            if (id != userInfoDTO.id)
             {
-                return BadRequest();
+                return "會員資料錯誤!";
             }
+
+            var userInfo = await _context.UserInfos.FindAsync(id);
+            if (userInfo == null)
+            {
+                return "該會員資料不存在!";
+            }
+
+            userInfo.UserName = userInfoDTO.userName;
+            userInfo.PhoneNumber = userInfoDTO.phoneNumber;
+            userInfo.Email = userInfoDTO.email;
+            userInfo.Address = userInfoDTO.address;
+            userInfo.Gender = userInfoDTO.gender;
 
             _context.Entry(userInfo).State = EntityState.Modified;
 
@@ -82,7 +97,7 @@ namespace szAPI.Controllers
             {
                 if (!UserInfoExists(id))
                 {
-                    return NotFound();
+                    return "該會員資料不存在!";
                 }
                 else
                 {
@@ -90,34 +105,54 @@ namespace szAPI.Controllers
                 }
             }
 
-            return NoContent();
+            return "會員資料修改成功!";
         }
 
+        //新增用戶資料
         // POST: api/UserInfoes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UserInfo>> PostUserInfo(UserInfo userInfo)
+        public async Task<string> PostUserInfo(UserInfoDTO userInfoDTO)
         {
+            UserInfo userInfo = new UserInfo
+            {
+                UserName = userInfoDTO.userName,
+                PhoneNumber = userInfoDTO.phoneNumber,
+                Email = userInfoDTO.email,
+                Address = userInfoDTO.address,
+                Gender = userInfoDTO.gender
+            };
+
+
             _context.UserInfos.Add(userInfo);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserInfo", new { id = userInfo.Id }, userInfo);
+            return $"成功新增會員，會員編號為:{userInfo.Id}";
         }
 
+        ////刪除用戶資料
         // DELETE: api/UserInfoes/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserInfo(int id)
+        public async Task<string> DeleteUserInfo(int id)
         {
             var userInfo = await _context.UserInfos.FindAsync(id);
             if (userInfo == null)
             {
-                return NotFound();
+                return "找不到要刪除的會員資料!";
             }
 
-            _context.UserInfos.Remove(userInfo);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.UserInfos.Remove(userInfo);
+                await _context.SaveChangesAsync();
+            }
 
-            return NoContent();
+            catch (DbUpdateException ex)
+            { 
+            return "刪除會員資料失敗!";
+            }
+
+            return "刪除會員資料成功!";
         }
 
         private bool UserInfoExists(int id)
