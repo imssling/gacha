@@ -1,4 +1,4 @@
-﻿@model IEnumerable<gacha.Models.permission>
+﻿@model IEnumerable<gacha.Models.rechargeList>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,6 +13,7 @@
         }
     </style>
 }
+
 <h1>Index</h1>
 
 <p>
@@ -22,10 +23,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.id)
+                @Html.DisplayNameFor(model => model.quantity)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.permissionDesc)
+                @Html.DisplayNameFor(model => model.amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.paymentMode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.rechargePlan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.user)
             </th>
             <th></th>
         </tr>
@@ -33,11 +43,20 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.id)
-                </td>
             <td>
-                @Html.DisplayFor(modelItem => item.permissionDesc)
+                @Html.DisplayFor(modelItem => item.quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.paymentMode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.rechargePlan.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.user.email)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |

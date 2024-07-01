@@ -3,6 +3,16 @@
 @{
     ViewData["Title"] = "Index";
 }
+@section Styles {
+    <link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" asp-append-version="true" />
+    @* REMEBER TO USE "asp-append-version" FOR A QUICKER VERSION *@
+    <style>
+        thead {
+            background-color: #F6EEA2;
+            color: BLACK;
+        }
+    </style>
+}
 
 <h1>Index</h1>
 
@@ -21,9 +31,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.shippingDate)
             </th>
-            <th>
+            @* <th>
                 @Html.DisplayNameFor(model => model.shippingDate)
-            </th>
+            </th> *@
             <th>
                 @Html.DisplayNameFor(model => model.shippingStatus)
             </th>
@@ -39,9 +49,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.shippingFee)
             </th>
-            <th>
+            @* <th>
                 @Html.DisplayNameFor(model => model.user)
-            </th>
+            </th> *@
             <th></th>
         </tr>
     </thead>
@@ -72,9 +82,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.shippingFee)
             </td>
-            <td>
+           @*  <td>
                 @Html.DisplayFor(modelItem => item.user.email)
-            </td>
+            </td> *@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.id">Details</a> |
@@ -84,3 +94,12 @@
 }
     </tbody>
 </table>
+@section Scripts {
+    <script src="~/lib/datatables/js/jquery.datatables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // alert("love you tate");
+            $('table').DataTable();
+        });
+    </script>
+}

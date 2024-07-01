@@ -1,4 +1,4 @@
-﻿@model IEnumerable<gacha.Models.permission>
+﻿@model IEnumerable<gacha.Models.exchangeRecord>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,6 +13,7 @@
         }
     </style>
 }
+
 <h1>Index</h1>
 
 <p>
@@ -22,10 +23,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.id)
+                @Html.DisplayNameFor(model => model.exchangeDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.permissionDesc)
+                @Html.DisplayNameFor(model => model.gachaIdFromNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.gachaIdToNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.userIdFromNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.userIdToNavigation)
             </th>
             <th></th>
         </tr>
@@ -33,11 +43,20 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.id)
-                </td>
             <td>
-                @Html.DisplayFor(modelItem => item.permissionDesc)
+                @Html.DisplayFor(modelItem => item.exchangeDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.gachaIdFromNavigation.productName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.gachaIdToNavigation.productName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.userIdFromNavigation.email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.userIdToNavigation.email)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
