@@ -66,6 +66,11 @@ namespace gachaAPI.Controllers
 
             ActivityType activityType = await _context.ActivityTypes.FindAsync(id);
 
+            if (activityType == null)
+            {
+                return "修改活動類別失敗!";
+            }
+
             activityType.Id = activityTypeDTO.Id;
             activityType.Name = activityTypeDTO.Name;
             //activityType.CreatedAt = DateTime.Now;
@@ -85,7 +90,7 @@ namespace gachaAPI.Controllers
                 }
                 else
                 {
-                    throw;
+                    return "修改活動類別失敗!";
                 }
             }
 

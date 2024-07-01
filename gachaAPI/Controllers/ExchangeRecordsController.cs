@@ -66,12 +66,17 @@ namespace gachaAPI.Controllers
         [HttpPut("{id}")]
         public async Task<string> PutExchangeRecord(int id, ExchangeRecordDTO exchangeRecordDTO)
         {
-            if (id != exchangeRecordDTO.Id)
+            if (id != exchangeRecordDTO.Id || exchangeRecordDTO.UserIdFrom == 0 || exchangeRecordDTO.UserIdTo == 0 || exchangeRecordDTO.GachaIdFrom == 0 || exchangeRecordDTO.GachaIdTo == 0)
             {
                 return "修改交換紀錄失敗!";
             }
 
             ExchangeRecord exchangeRecord = await _context.ExchangeRecords.FindAsync(id);
+
+            if (exchangeRecord == null) 
+            {
+                return "修改交換紀錄失敗!";
+            }
 
             exchangeRecord.UserIdFrom = exchangeRecordDTO.UserIdFrom;
             exchangeRecord.UserIdTo = exchangeRecordDTO.UserIdTo;
@@ -93,7 +98,7 @@ namespace gachaAPI.Controllers
                 }
                 else
                 {
-                    throw;
+                    return "修改交換紀錄失敗!";
                 }
             }
 

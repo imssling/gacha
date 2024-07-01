@@ -59,12 +59,17 @@ namespace gachaAPI.Controllers
         [HttpPut("{id}")]
         public async Task<string> PutActivityLinkVoucher(int id, ActivityLinkVoucherDTO activityLinkVoucherDTO)
         {
-            if (id != activityLinkVoucherDTO.Id)
+            if (id != activityLinkVoucherDTO.Id || activityLinkVoucherDTO.ActivityId == 0 || activityLinkVoucherDTO.VoucherId == 0)
             {
                 return "修改活動與優惠關聯失敗!";
             }
 
             ActivityLinkVoucher activityLinkVoucher = await _context.ActivityLinkVouchers.FindAsync(id);
+
+            if (activityLinkVoucher == null)
+            {
+                return "修改活動與優惠關聯失敗!";
+            }
 
             activityLinkVoucher.ActivityId = activityLinkVoucherDTO.ActivityId;
             activityLinkVoucher.VoucherId = activityLinkVoucherDTO.VoucherId;
@@ -85,7 +90,7 @@ namespace gachaAPI.Controllers
                 }
                 else
                 {
-                    throw;
+                    return "修改活動與優惠關聯失敗!";
                 }
             }
 

@@ -76,12 +76,17 @@ namespace gachaAPI.Controllers
         [HttpPut("{id}")]
         public async Task<string> PutActivity(int id, ActivityDTO activityDTO)
         {
-            if (id != activityDTO.Id)
+            if (id != activityDTO.Id || activityDTO.ActivityTypeId == 0)
             {
                 return "修改活動失敗!";
             }
 
             Activity activity = await _context.Activities.FindAsync(id);
+
+            if (activity == null)
+            {
+                return "修改活動失敗!";
+            }
 
             activity.Title = activityDTO.Title;
             activity.Description = activityDTO.Description;
@@ -107,7 +112,7 @@ namespace gachaAPI.Controllers
                 }
                 else
                 {
-                    throw;
+                    return "修改活動失敗!";
                 }
             }
 
