@@ -65,29 +65,27 @@ namespace szAPI.Controllers
         }
 
         //更新個別用戶資料
-        // PUT: api/UserInfoes/5
+        // PUT: api/Bags/user/{userId}
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<string> PutUserInfo(int id, UserInfoDTO userInfoDTO)
+        [HttpPut("user/{userId}/{id}")]
+        public async Task<string> PutBag(int userId, int id, Bag bag)
         {
-            if (id != userInfoDTO.id)
+            if (id != bag.Id || userId != bag.UserId)
             {
                 return "會員資料錯誤!";
             }
 
-            var userInfo = await _context.UserInfos.FindAsync(id);
-            if (userInfo == null)
+            var existingBag = await _context.Bags.FindAsync(id);
+
+            if (existingBag == null || existingBag.UserId != userId)
             {
-                return "該會員資料不存在!";
+                return "找無該筆會員的背包資料!";
             }
 
-            userInfo.UserName = userInfoDTO.userName;
-            userInfo.PhoneNumber = userInfoDTO.phoneNumber;
-            userInfo.Email = userInfoDTO.email;
-            userInfo.Address = userInfoDTO.address;
-            userInfo.Gender = userInfoDTO.gender;
-
-            _context.Entry(userInfo).State = EntityState.Modified;
+            //如果符合就去更新背包中的資料
+            existingBag.GachaProductId = bag.GachaProductId;
+            existingBag.GachaStatus = bag.GachaStatus;
+            existingBag.Date = bag.Date;
 
             try
             {
@@ -95,9 +93,9 @@ namespace szAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserInfoExists(id))
+                if (!BagExists(id))
                 {
-                    return "該會員資料不存在!";
+                    return "找無該筆會員的背包資料!";
                 }
                 else
                 {
@@ -105,7 +103,12 @@ namespace szAPI.Controllers
                 }
             }
 
-            return "會員資料修改成功!";
+            return "成功修改該筆會員的背包資料!";
+        }
+
+        private bool BagExists(int id)
+        {
+            throw new NotImplementedException();
         }
 
         //新增用戶資料
