@@ -25,7 +25,7 @@ namespace szAPI.Controllers
         //查詢所有的背包資料
         // GET: api/Bags
         [HttpGet]
-        public async Task<IEnumerable<BagDTO>> GetBags() //藉由使用者ID去列出所有背包資料
+        public async Task<IEnumerable<BagDTO>> GetBags() //藉由使用者ID排序去列出所有背包資料
         {
             return _context.Bags
                 .Include(b => b.GachaProduct)
