@@ -1,4 +1,4 @@
-﻿@model IEnumerable<gacha.Models.exchangeRecord>
+﻿@model IEnumerable<exchangeRecord_ViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -15,27 +15,33 @@
 }
 
 <h1>Index</h1>
+<h3>交換紀錄</h3>
 
-<p>
+@*DO NOT USE
+    <p>
     <a asp-action="Create">Create New</a>
-</p>
+</p> 
+DO NOT USE*@
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.exchangeDate)
+                @Html.DisplayNameFor(model => model.id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.gachaIdFromNavigation)
+                @Html.DisplayNameFor(model => model.UserName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.gachaIdToNavigation)
+                @Html.DisplayNameFor(model => model.UserNameTo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.userIdFromNavigation)
+                @Html.DisplayNameFor(model => model.GachaNameFrom)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.userIdToNavigation)
+                @Html.DisplayNameFor(model => model.GachaNameTo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExchangeDate)
             </th>
             <th></th>
         </tr>
@@ -44,24 +50,29 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.exchangeDate)
+                    @Html.DisplayFor(modelItem => item.id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.gachaIdFromNavigation.productName)
+                    @Html.DisplayFor(modelItem => item.UserName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.gachaIdToNavigation.productName)
+                    @Html.DisplayFor(modelItem => item.UserNameTo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.userIdFromNavigation.email)
+                    @Html.DisplayFor(modelItem => item.GachaNameFrom)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.userIdToNavigation.email)
+                    @Html.DisplayFor(modelItem => item.GachaNameTo)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExchangeDate)
+                </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+               @*  DO NOT USE
+                    <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a> 
+                    DO NOT USE *@
+                    <a asp-action="Details" asp-route-id="@item.id">Details</a> 
             </td>
         </tr>
 }

@@ -5,8 +5,9 @@ namespace gacha.ViewModels
 {
     public class trackingList_ViewModel
     {
-        
+        [Display(Name = "會員ID")]
         public int UserId { get; set; }
+        [Display(Name = "扭蛋機台ID")]
         public int GachaMachineId { get; set; }
         [Display(Name = " 追蹤日期")]
         public DateTime? TrackingDate { get; set; }

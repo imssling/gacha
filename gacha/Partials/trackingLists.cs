@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 namespace gacha.Models;
-[ModelMetadataType(typeof(trackingListMetaData))]
+//[ModelMetadataType(typeof(trackingListMetaData))]
 
     public partial class trackingList
     {

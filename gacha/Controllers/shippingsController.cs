@@ -81,7 +81,7 @@ namespace gacha.Controllers
             {
                 return NotFound();
             }
-            ViewData["userId"] = new SelectList(_context.userInfo, "id", "email", shipping.userId);
+            ViewData["userId"] = new SelectList(_context.userInfo, "id", "id", shipping.userId);
             return View(shipping);
         }
 

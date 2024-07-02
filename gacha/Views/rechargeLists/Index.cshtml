@@ -1,4 +1,5 @@
-﻿@model IEnumerable<gacha.Models.rechargeList>
+﻿@model IEnumerable<rechargeList_ViewModel>
+@* @model rechargeList_ViewModel *@
 
 @{
     ViewData["Title"] = "Index";
@@ -15,6 +16,7 @@
 }
 
 <h1>Index</h1>
+<h3>儲值紀錄</h3>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -32,10 +34,10 @@
                 @Html.DisplayNameFor(model => model.paymentMode)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.rechargePlan)
+                @Html.DisplayNameFor(model => model.rechargePlanId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.user)
+                @Html.DisplayNameFor(model => model.userId)
             </th>
             <th></th>
         </tr>
@@ -53,10 +55,10 @@
                 @Html.DisplayFor(modelItem => item.paymentMode)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.rechargePlan.name)
+                    @Html.DisplayFor(modelItem => item.rechargePlanId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.user.email)
+                    @Html.DisplayFor(modelItem => item.userId)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |

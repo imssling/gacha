@@ -14,10 +14,10 @@
     </style>
 }
 <h1>Index</h1>
-
-<p>
+<h3>權限</h3>
+@* DO NOT USE <p>
     <a asp-action="Create">Create New</a>
-</p>
+</p> DO NOT USE *@
 <table class="table">
     <thead>
         <tr>
@@ -40,9 +40,9 @@
                 @Html.DisplayFor(modelItem => item.permissionDesc)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                <a asp-action="Details" asp-route-id="@item.id">Details</a>
+               @* DO NOT USE <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |                 
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>| DO NOT USE*@
             </td>
         </tr>
 }

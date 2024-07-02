@@ -16,10 +16,11 @@
 }
 
 <h1>Index</h1>
+<h3>追蹤清單</h3>
 
-<p>
+@* DO NOT USE <p>
     <a asp-action="Create">Create New</a>
-</p>
+</p> DO NOT USE *@
 <table class="table">
     <thead>
         <tr>
@@ -54,9 +55,9 @@
                     @Html.DisplayFor(modelItem => item.UserEmail)
             </td>
             <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.UserId, mId = item.GachaMachineId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.UserId, mId = item.GachaMachineId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.UserId, mId = item.GachaMachineId })
+                @Html.ActionLink("Details", "Details", new { id = item.UserId, mId = item.GachaMachineId }) 
+                @*DO NOT USE @Html.ActionLink("Edit", "Edit", new { id = item.UserId, mId = item.GachaMachineId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.UserId, mId = item.GachaMachineId }) DO NOT USE*@
             </td>
         </tr>
 }

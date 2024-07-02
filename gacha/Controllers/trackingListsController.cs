@@ -31,9 +31,6 @@ namespace gacha.Controllers
                     NoteStatus = t.noteStatus,
                     GachaMachineName=t.gachaMachine.machineName,
                     UserEmail=t.user.email
-
-
-                
                 });
             return View(await gachaContext.ToListAsync());
         }

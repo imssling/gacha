@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using gacha.Models;
+using gacha.ViewModels;
 
 namespace gacha.Controllers
 {
@@ -21,8 +22,33 @@ namespace gacha.Controllers
         // GET: exchangeRecords
         public async Task<IActionResult> Index()
         {
-            var gachaContext = _context.exchangeRecord.Include(e => e.gachaIdFromNavigation).Include(e => e.gachaIdToNavigation).Include(e => e.userIdFromNavigation).Include(e => e.userIdToNavigation);
-            return View(await gachaContext.ToListAsync());
+            //var gachaContext = _context.exchangeRecord.Include(e => e.id).Include(e => e.userIdFrom).Include(e => e.userIdTo).Include(e => e.gachaIdFrom).Include(e=>e.gachaIdTo).Include(e=>e.exchangeDate)
+            //    .Select(e => new exchangeRecord_ViewModel
+            //    {
+            //        id = e.id,
+            //        UserIdFrom = e.userIdFrom,
+            //        UserIdTo = e.userIdTo,
+            //        GachaIdFrom = e.gachaIdFrom,
+            //        GachaIdTo = e.gachaIdTo,
+            //        ExchangeDate =  e.exchangeDate 
+
+            //    });
+            //return View(await gachaContext.ToListAsync());
+
+
+
+            var gachaContext = _context.exchangeRecord
+                .Select(e => new exchangeRecord_ViewModel
+                {
+                    id = e.id,
+                    UserName = e.userIdFromNavigation.userName,
+                    UserNameTo = e.userIdToNavigation.userName,
+                    GachaNameFrom = e.gachaIdFromNavigation.productName, 
+                    GachaNameTo = e.gachaIdToNavigation.productName,
+                    ExchangeDate = e.exchangeDate
+
+                });
+            return View(gachaContext);
         }
 
         // GET: exchangeRecords/Details/5
@@ -32,6 +58,17 @@ namespace gacha.Controllers
             {
                 return NotFound();
             }
+
+            //var exchangeRecord = await _context.exchangeRecord
+            //    .Include(e => e.gachaIdFromNavigation)
+            //    .Include(e => e.gachaIdToNavigation)
+            //    .Include(e => e.userIdFromNavigation)
+            //    .Include(e => e.userIdToNavigation)
+            //    .FirstOrDefaultAsync(m => m.id == id);
+            //if (exchangeRecord == null)
+            //{
+            //    return NotFound();
+            //}
 
             var exchangeRecord = await _context.exchangeRecord
                 .Include(e => e.gachaIdFromNavigation)
@@ -44,7 +81,18 @@ namespace gacha.Controllers
                 return NotFound();
             }
 
-            return View(exchangeRecord);
+            exchangeRecord_ViewModel exchangeRecView = new exchangeRecord_ViewModel()
+            {
+                id = exchangeRecord.id,
+                UserName = exchangeRecord.userIdFromNavigation.userName,
+                UserNameTo = exchangeRecord.userIdToNavigation.userName,
+                GachaNameFrom = exchangeRecord.gachaIdFromNavigation.productName,
+                GachaNameTo = exchangeRecord.gachaIdToNavigation.productName,
+                ExchangeDate = exchangeRecord.exchangeDate
+
+            };
+
+            return View(exchangeRecView);
         }
 
         // GET: exchangeRecords/Create
@@ -90,6 +138,7 @@ namespace gacha.Controllers
             {
                 return NotFound();
             }
+
             ViewData["gachaIdFrom"] = new SelectList(_context.gachaProduct, "id", "productName", exchangeRecord.gachaIdFrom);
             ViewData["gachaIdTo"] = new SelectList(_context.gachaProduct, "id", "productName", exchangeRecord.gachaIdTo);
             ViewData["userIdFrom"] = new SelectList(_context.userInfo, "id", "email", exchangeRecord.userIdFrom);

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using gacha.Models;
+using gacha.ViewModels;
 
 namespace gacha.Controllers
 {
@@ -21,7 +22,19 @@ namespace gacha.Controllers
         // GET: rechargeLists
         public async Task<IActionResult> Index()
         {
-            var gachaContext = _context.rechargeList.Include(r => r.rechargePlan).Include(r => r.user);
+            //var gachaContext = _context.rechargeList.Include(r => r.rechargePlan).Include(r => r.user);
+            //return View(await gachaContext.ToListAsync());
+            var gachaContext = _context.rechargeList.Include(t => t.rechargePlan).Include(t => t.user)
+                .Select(t => new rechargeList_ViewModel
+                {
+                    id = t.id,
+                    quantity = t.quantity,
+                    amount = t.amount,
+                    paymentMode = t.paymentMode,
+                    rechargePlanId = t.rechargePlanId,
+                    userId = t.userId
+
+                });
             return View(await gachaContext.ToListAsync());
         }
 
