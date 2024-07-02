@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using gacha.Models;
+using gacha.ViewModels;
 
 namespace gacha.Controllers
 {
@@ -21,12 +22,24 @@ namespace gacha.Controllers
         // GET: trackingLists
         public async Task<IActionResult> Index()
         {
-            var gachaContext = _context.trackingList.Include(t => t.gachaMachine).Include(t => t.user);
+            var gachaContext = _context.trackingList.Include(t => t.gachaMachine).Include(t => t.user)
+                .Select(t=> new trackingList_ViewModel 
+                {
+                    UserId = t.userId,
+                    GachaMachineId = t.gachaMachineId,
+                    TrackingDate= t.trackingDate,
+                    NoteStatus = t.noteStatus,
+                    GachaMachineName=t.gachaMachine.machineName,
+                    UserEmail=t.user.email
+
+
+                
+                });
             return View(await gachaContext.ToListAsync());
         }
 
         // GET: trackingLists/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, int? mId)
         {
             if (id == null)
             {

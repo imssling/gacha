@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using gacha.Models;
+using gacha.ViewModel;
 
 namespace gacha.Controllers
 {
@@ -16,12 +17,14 @@ namespace gacha.Controllers
         public userInfoesController(gachaContext context)
         {
             _context = context;
+            
         }
 
         // GET: userInfoes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.userInfo.ToListAsync());
+           
+            return View(_context.userInfo);
         }
 
         // GET: userInfoes/Details/5

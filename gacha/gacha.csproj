@@ -27,7 +27,6 @@
 
   <ItemGroup>
     <Folder Include="DTOs\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
 
 </Project>

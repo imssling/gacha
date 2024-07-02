@@ -39,9 +39,9 @@
 </div>
 <div>
     @* @Html.ActionLink("Edit", "Edit", new { id = Model.PrimaryKey }) | *@
-    <a asp-action="Edit" asp-route-id="@Model?.userId">Edit</a>|
+    @* <a asp-action="Edit" asp-route-id="@Model?.userId" asp-route-id2="@Model?.id2">Edit</a>| *@
    
-    <a asp-action="Edit" asp-route-id=" @Model?.gachaMachineId">Machine Edit</a>|
-@*     @Html.ActionLink("Edit", "Edit", new { id = model.userId, mId = model.gachaMachineId }) | *@
+    
+    @Html.ActionLink("Edit", "Edit", new { id = Model?.userId, mId = Model?.gachaMachineId }) |
     <a asp-action="Index">Back to List</a>
 </div>

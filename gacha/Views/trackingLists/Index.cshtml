@@ -1,4 +1,5 @@
-﻿@model IEnumerable<gacha.Models.trackingList>
+﻿
+@model IEnumerable<trackingList_ViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -23,16 +24,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.trackingDate)
+                @Html.DisplayNameFor(model => model.TrackingDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.noteStatus)
+                @Html.DisplayNameFor(model => model.NoteStatus)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.gachaMachine)
+                @Html.DisplayNameFor(model => model.GachaMachineName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.user)
+                @Html.DisplayNameFor(model => model.UserEmail)
             </th>
             <th></th>
         </tr>
@@ -41,21 +42,21 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.trackingDate)
+                    @Html.DisplayFor(modelItem => item.TrackingDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.noteStatus)
+                    @Html.DisplayFor(modelItem => item.NoteStatus)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.gachaMachine.machineName)
+                    @Html.DisplayFor(modelItem => item.GachaMachineName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.user.email)
+                    @Html.DisplayFor(modelItem => item.UserEmail)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.userId, mId= item.gachaMachineId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.userId, mId = item.gachaMachineId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.userId, mId = item.gachaMachineId })
+                    @Html.ActionLink("Edit", "Edit", new { id = item.UserId, mId = item.GachaMachineId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.UserId, mId = item.GachaMachineId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.UserId, mId = item.GachaMachineId })
             </td>
         </tr>
 }
