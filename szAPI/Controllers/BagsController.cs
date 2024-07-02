@@ -98,7 +98,7 @@ namespace szAPI.Controllers
             }
 
             // 更新背包中的資料
-            //existingBag.GachaProductId = bagDTO.gachaProductId;
+            existingBag.GachaProductId = bagDTO.gachaProductId;
             existingBag.GachaProduct.ProductName = bagDTO.productName; 
             existingBag.GachaProduct.Machine.MachineName = bagDTO.machineName; 
             existingBag.GachaProduct.Machine.Theme.ThemeName = bagDTO.themeName; 
@@ -129,7 +129,7 @@ namespace szAPI.Controllers
             throw new NotImplementedException();
         }
 
-
+        // 新增會員的背包資料
         // POST: api/Bags/user/{userId}
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("user/{userId}")]
@@ -148,6 +148,7 @@ namespace szAPI.Controllers
             return $"成功新增會員背包資料，該會員編號為:{userId}";
         }
 
+        //刪除指定會員裡的特定背包資料
         // DELETE: api/Bags/user/{userId}/bag/{bagId}
         [HttpDelete("user/{userId}/bag/{bagId}")]
         public async Task<string> DeleteBag(int userId, int bagId)
