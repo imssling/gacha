@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewData["Title"] = "testActivityTypeFetchApi";
+}
+
+<h1>testActivityTypeFetchApi</h1>
+
+
+<button class="btn btn-primary" id="fetchGetAll">FetchGetAll</button>
+
+<button class="btn btn-primary" id="fetchPost">FetchPost</button>
+
+<div id="result"></div>
+
+
+
+
+@section Scripts{
+
+    <script>
+
+        window.onload = function () {
+
+            var baseAddress = "https://localhost:7164";
+
+            $("#fetchGetAll").on("click", async function () {
+                // alert("test");
+                // $("#result").text("test");
+
+                fetch(`${baseAddress}/api/ActivityTypes`, {
+
+                    method: "GET"
+
+
+                }).then(result => {
+
+                    alert(result);
+
+                    if (result.ok) { 
+                        return result.text();
+                    }
+
+
+                }).then(data => {
+
+                    $("#result").text(data);
+
+                }).catch(err => {
+
+                    alert(err);
+
+                });
+
+            });
+
+
+
+            $("#fetchPost").on("click", async function () {
+                // alert("test");
+                // $("#result").text("test");
+
+                var typeName = "活動";
+
+                var jsonToPost = {
+                    Name: typeName
+                };
+
+                fetch(`${baseAddress}/api/ActivityTypes`, {
+
+                    method: "POST",
+                    body : JSON.stringify(jsonToPost),
+                    headers: { "Content-Type" : "application/json"}
+
+
+                }).then(result => {
+
+                    alert(result);
+
+                    if (result.ok) {
+                        return result.text();
+                    }
+
+
+                }).then(data => {
+
+                    $("#result").text(data);
+
+                }).catch(err => {
+
+                    alert(err);
+
+                });
+
+            });
+
+
+
+        };
+
+
+    </script>
+}

@@ -4,6 +4,17 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 
+var MyAllowSpecificOrigins = "AllowAny";
+
+builder.Services.AddCors(option =>
+{
+    option.AddPolicy(
+            name: MyAllowSpecificOrigins,
+            policy => policy.WithOrigins("https://localhost:7273").WithHeaders("*").WithMethods("*")
+
+        );
+});
+
 builder.Services.AddDbContext<gachaContext>(option => {
     option.UseSqlServer(builder.Configuration.GetConnectionString("gacha"));
 });
@@ -23,6 +34,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseHttpsRedirection();
 
