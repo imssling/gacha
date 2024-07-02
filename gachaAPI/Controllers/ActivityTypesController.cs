@@ -37,10 +37,8 @@ namespace gachaAPI.Controllers
 
         // GET: api/ActivityTypes/5
         [HttpGet("{id}")]
-        public async Task<ActivityType> GetActivityType(int id)
+        public async Task<ActivityTypeDTO> GetActivityType(int id)
         {
-
-
 
 
             var activityType = await _context.ActivityTypes.FindAsync(id);
@@ -50,7 +48,13 @@ namespace gachaAPI.Controllers
                 return null;
             }
 
-            return activityType;
+            ActivityTypeDTO activityTypeDTO = new ActivityTypeDTO()
+            {
+                Id = activityType.Id,
+                Name = activityType.Name
+            };
+
+            return activityTypeDTO;
         }
 
         // PUT: api/ActivityTypes/5

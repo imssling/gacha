@@ -8,6 +8,8 @@
 
 <button class="btn btn-primary" id="fetchGetAll">FetchGetAll</button>
 
+<button class="btn btn-primary" id="fetchGetOne">FetchGetOne</button>
+
 <button class="btn btn-primary" id="fetchPost">FetchPost</button>
 
 <div id="result"></div>
@@ -37,6 +39,39 @@
                     alert(result);
 
                     if (result.ok) { 
+                        return result.text();
+                    }
+
+
+                }).then(data => {
+
+                    $("#result").text(data);
+
+                }).catch(err => {
+
+                    alert(err);
+
+                });
+
+            });
+
+
+            $("#fetchGetOne").on("click", async function () {
+                // alert("test");
+                // $("#result").text("test");
+
+                var typeId = 4;
+
+                fetch(`${baseAddress}/api/ActivityTypes/${typeId}`, {
+
+                    method: "GET"
+
+
+                }).then(result => {
+
+                    alert(result);
+
+                    if (result.ok) {
                         return result.text();
                     }
 
