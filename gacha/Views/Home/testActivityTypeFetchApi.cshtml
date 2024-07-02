@@ -12,6 +12,10 @@
 
 <button class="btn btn-primary" id="fetchPost">FetchPost</button>
 
+<button class="btn btn-primary" id="fetchPut">FetchPut</button>
+
+<button class="btn btn-primary" id="fetchDelete">FetchDelete</button>
+
 <div id="result"></div>
 
 
@@ -128,6 +132,78 @@
 
             });
 
+
+            $("#fetchPut").on("click", async function () {
+                // alert("test");
+                // $("#result").text("test");
+
+                var typeId = 8;
+                var typeName = "測試";
+
+                var jsonToPut = {
+                    Id : 8,
+                    Name: typeName
+                };
+
+                fetch(`${baseAddress}/api/ActivityTypes/${typeId}`, {
+
+                    method: "PUT",
+                    body: JSON.stringify(jsonToPut),
+                    headers: { "Content-Type": "application/json" }
+
+
+                }).then(result => {
+
+                    alert(result);
+
+                    if (result.ok) {
+                        return result.text();
+                    }
+
+
+                }).then(data => {
+
+                    $("#result").text(data);
+
+                }).catch(err => {
+
+                    alert(err);
+
+                });
+
+            });
+
+            $("#fetchDelete").on("click", async function () {
+                // alert("test");
+                // $("#result").text("test");
+
+                var typeId = 8;
+
+                fetch(`${baseAddress}/api/ActivityTypes/${typeId}`, {
+
+                    method: "DELETE"
+
+
+                }).then(result => {
+
+                    alert(result);
+
+                    if (result.ok) {
+                        return result.text();
+                    }
+
+
+                }).then(data => {
+
+                    $("#result").text(data);
+
+                }).catch(err => {
+
+                    alert(err);
+
+                });
+
+            });
 
 
         };
