@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.PortableExecutable;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,28 @@ namespace szAPI.Controllers
             _context = context;
         }
 
+        // 找出符合ID的機台照片
+        // GET: api/GachaMachines/GetPicture/{id}
+        [HttpGet("GetPicture/{id}")]
+        public async Task<IActionResult> GetPicture(int id)
+        {
+            var gachaMachine = await _context.GachaMachines.FindAsync(id);
+            if (gachaMachine == null || string.IsNullOrEmpty(gachaMachine.MachinePictureName))
+            {
+                return NotFound();
+            }
+
+            var path = Path.Combine("images", gachaMachine.MachinePictureName);
+            if (!System.IO.File.Exists(path))
+            {
+                return NotFound();
+            }
+
+            var image = System.IO.File.OpenRead(path);
+            return File(image, "image/jpeg");
+        }
+
+        // 找出所有機台資料
         // GET: api/GachaMachines
         [HttpGet]
         public async Task<IEnumerable<GachaMachineDTO>> GetGachaMachines()
@@ -40,18 +63,56 @@ namespace szAPI.Controllers
             
         }
 
-        // GET: api/GachaMachines/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<GachaMachine>> GetGachaMachine(int id)
+        // 透過主題名稱搜尋機台
+        // GET: api/GachaMachines/theme/{themename}
+        [HttpGet("theme/{themename}")]
+        public async Task<ActionResult<IEnumerable<GachaMachineDTObyTheme>>> GetGachaMachineByTheme(string themename)
         {
-            var gachaMachine = await _context.GachaMachines.FindAsync(id);
+            var machines = await _context.GachaMachines
+                .Include(gm => gm.Theme)
+                .Where(gm => gm.Theme.ThemeName == themename)
+                .Select(gmt => new GachaMachineDTObyTheme
+                {
+                    id = gmt.Id,
+                    themeName = gmt.Theme.ThemeName,
+                    machineName = gmt.MachineName,
+                    machineDescription = gmt.MachineDescription,
+                    machinePictureName= gmt.MachinePictureName,
+                    price = gmt.Price
+                })
+                .ToListAsync();
 
-            if (gachaMachine == null)
+            if (machines == null)
             {
-                return NotFound();
+                return null;
             }
 
-            return gachaMachine;
+            return machines;
+        }
+
+        // 透過價錢搜尋機台
+        // GET: api/GachaMachines/{price}
+        [HttpGet("{price}")]
+        public async Task<ActionResult<IEnumerable<GachaMachineDTO>>> GetGachaMachineByPrice(int price)
+        {
+            var machines = await _context.GachaMachines
+                .Where(gm => gm.Price == price)
+                .Select(gmt => new GachaMachineDTO
+                {
+                    id = gmt.Id,
+                    machineName = gmt.MachineName,
+                    machineDescription = gmt.MachineDescription,
+                    machinePictureName = gmt.MachinePictureName,
+                    price = gmt.Price
+                })
+                .ToListAsync();
+
+            if (machines == null)
+            {
+                return null;
+            }
+
+            return machines;
         }
 
         // PUT: api/GachaMachines/5

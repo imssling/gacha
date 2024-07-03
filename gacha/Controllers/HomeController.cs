@@ -22,7 +22,7 @@ namespace gacha.Controllers
         {
             return View();
         }
-        public IActionResult GetPiture()
+        public IActionResult GetPicture()
         {
             return View();
         }
