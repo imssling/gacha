@@ -1,4 +1,5 @@
-﻿@model gacha.Models.rechargeList
+﻿@model gacha.ViewModels.rechargeList_ViewModel
+
 
 @{
     ViewData["Title"] = "Delete";
@@ -10,7 +11,28 @@
 <div>
     <h4>rechargeList</h4>
     <hr />
+ 
     <dl class="row">
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.rechargePlanId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.rechargePlanId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.rechargePlan)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.rechargePlan)
+        </dd>
+
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.quantity)
         </dt>
@@ -30,16 +52,16 @@
             @Html.DisplayFor(model => model.paymentMode)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.rechargePlan)
+            @Html.DisplayNameFor(model => model.userId)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.rechargePlan.name)
+            @Html.DisplayFor(model => model.userId)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.user)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.userName)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.user.email)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.userName)
         </dd>
     </dl>
     

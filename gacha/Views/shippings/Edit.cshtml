@@ -15,7 +15,7 @@
             <input type="hidden" asp-for="id" />
             <div class="form-group">
                 <label asp-for="userId" class="control-label"></label>
-                <select asp-for="userId" class="form-control" asp-items="ViewBag.userId"></select>
+                <input asp-for="userId" class="form-control" readonly="readonly" />
                 <span asp-validation-for="userId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -46,8 +46,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="shippingFee" class="control-label"></label>
-                <input asp-for="shippingFee" class="form-control" min="0" max="1000"/>
-                <span asp-validation-for="shippingFee" class="text-danger"></span>
+                @* <input asp-for="shippingFee" class="form-control" min="0" max="1000"/>
+                <span asp-validation-for="shippingFee" class="text-danger"></span> *@
+                <select asp-for="shippingFee" class="form-control" asp-items="ViewBag.shippingFee"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -61,5 +62,36 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var shippingMethodDropdown = document.querySelector('select[name="shippingMethod"]');
+            var shippingFeeDropdown = document.querySelector('select[name="shippingFee"]');
+
+            var shippingFees = {
+                '宅配': '100',
+                '超商-711': '70'
+            };
+
+            shippingMethodDropdown.addEventListener('change', function () {
+                var selectedMethod = shippingMethodDropdown.value;
+                var fee = shippingFees[selectedMethod] || '';
+
+                // Clear the existing options
+                shippingFeeDropdown.innerHTML = '';
+
+                // Add the new option
+                var option = document.createElement('option');
+                option.value = fee;
+                option.text = '$' + fee;
+                shippingFeeDropdown.add(option);
+            });
+
+            // Trigger change event on page load to set the initial fee
+            var event = new Event('change');
+            shippingMethodDropdown.dispatchEvent(event);
+        });
+    </script>
 }

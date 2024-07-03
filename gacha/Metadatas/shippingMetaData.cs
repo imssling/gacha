@@ -15,8 +15,9 @@ namespace gacha.Metadatas
 
         [Display(Name = "出貨日期")]
         [Required(ErrorMessage = "出貨日期必填")]
-
         public DateTime? shippingDate { get; set; }
+
+
         [Display(Name = "出貨狀態")]
         [Required(ErrorMessage = "出貨狀態必填")]
         [StringLength(10)]

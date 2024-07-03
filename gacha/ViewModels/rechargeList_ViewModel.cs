@@ -8,6 +8,9 @@ namespace gacha.ViewModels
         [Display(Name = "儲值紀錄ID")]
         public int id { get; set; }
 
+        [Display(Name = "儲值方案")]
+        public string? rechargePlan { get; set; }
+
         [Display(Name = "數量")]
         [Required(ErrorMessage = ("數量必填"))]
         public int quantity { get; set; }
@@ -23,5 +26,8 @@ namespace gacha.ViewModels
 
         [Display(Name = "會員ID")]
         public int userId { get; set; }
+
+        [Display(Name = "會員名稱")]
+        public string userName { get; set; }
     }
 }

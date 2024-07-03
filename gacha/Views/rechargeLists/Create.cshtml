@@ -1,4 +1,5 @@
-﻿@model gacha.Models.rechargeList
+﻿@model gacha.ViewModels.rechargeList_ViewModel
+
 
 @{
     ViewData["Title"] = "Create";
@@ -29,12 +30,20 @@
             </div>
             <div class="form-group">
                 <label asp-for="rechargePlanId" class="control-label"></label>
-                <select asp-for="rechargePlanId" class ="form-control" asp-items="ViewBag.rechargePlanId"></select>
+                <select asp-for="rechargePlanId" class="form-control" asp-items="ViewBag.rechargePlanId"></select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="rechargePlan" class="control-label"></label>
+                <select asp-for="rechargePlan" class="form-control" asp-items="ViewBag.rechargePlan"></select>
             </div>
             <div class="form-group">
                 <label asp-for="userId" class="control-label"></label>
                 <select asp-for="userId" class ="form-control" asp-items="ViewBag.userId"></select>
             </div>
+            <label asp-for="userName" class="control-label"></label>
+            <input asp-for="userName" class="form-control" />
+            <span asp-validation-for="userName" class="text-danger"></span>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

@@ -4,7 +4,7 @@ namespace gacha.ViewModels
 {
     public class exchangeRecord_ViewModel
     {
-        [Display(Name = "交換紀錄ID")]
+        [Display(Name = "交換紀錄ID")]  
         public int id { get; set; }
 
         [Display(Name = "發起交換用戶")]

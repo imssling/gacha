@@ -1,4 +1,5 @@
-﻿@model gacha.Models.rechargeList
+﻿@model gacha.ViewModels.rechargeList_ViewModel
+
 
 @{
     ViewData["Title"] = "Edit";
@@ -12,7 +13,19 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="id" />
+            <div class="form-group">
+                <label asp-for="id" class="control-label"></label>
+                <input asp-for="id" class="form-control" readonly="readonly" />
+                <span asp-validation-for="id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="rechargePlanId" class="control-label"></label>
+                <select asp-for="rechargePlanId" class="form-control" asp-items="ViewBag.rechargePlanId"></select>
+            </div>
+            @* <div class="form-group">
+                <label asp-for="rechargePlan" class="control-label"></label>
+                <select asp-for="rechargePlan" class="form-control" asp-items="ViewBag.rechargePlan"></select>
+            </div> *@
             <div class="form-group">
                 <label asp-for="quantity" class="control-label"></label>
                 <input asp-for="quantity" class="form-control" />
@@ -27,19 +40,19 @@
                 <label asp-for="paymentMode" class="control-label"></label>
                 <input asp-for="paymentMode" class="form-control" />
                 <span asp-validation-for="paymentMode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="rechargePlanId" class="control-label"></label>
-                <select asp-for="rechargePlanId" class="form-control" asp-items="ViewBag.rechargePlanId"></select>
-                <span asp-validation-for="rechargePlanId" class="text-danger"></span>
-            </div>
+            </div> 
             <div class="form-group">
                 <label asp-for="userId" class="control-label"></label>
-                <select asp-for="userId" class="form-control" asp-items="ViewBag.userId"></select>
+                <input asp-for="userId" class="form-control" readonly="readonly" />
                 <span asp-validation-for="userId" class="text-danger"></span>
             </div>
+            @* <div class="form-group">
+                <label asp-for="userName" class="control-label"></label>
+                <input asp-for="userName" class="form-control" readonly="readonly" />
+                <span asp-validation-for="userName" class="text-danger"></span>
+            </div> *@
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
