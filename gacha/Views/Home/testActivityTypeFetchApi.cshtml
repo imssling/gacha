@@ -17,6 +17,7 @@
 <button class="btn btn-primary" id="fetchDelete">FetchDelete</button>
 
 <div id="result"></div>
+@* <img src="~/imgs/CrayonShin-chan5.jpg" alt="Alternate Text" /> *@
 
 
 
@@ -63,6 +64,7 @@
             $("#fetchGetOne").on("click", async function () {
                 // alert("test");
                 // $("#result").text("test");
+                var imgName = "CrayonShin-chan5.jpg";
 
                 var typeId = 4;
 
@@ -83,6 +85,7 @@
                 }).then(data => {
 
                     $("#result").text(data);
+                    $("#result").append(`<img src='/imgs/${imgName}' alt='Alternate Text' />`);
 
                 }).catch(err => {
 
