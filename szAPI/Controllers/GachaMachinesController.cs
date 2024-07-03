@@ -115,6 +115,31 @@ namespace szAPI.Controllers
             return machines;
         }
 
+        // 透過模糊搜尋關鍵字搜尋機台
+        // GET: api/GachaMachines/search/{keyword}
+        [HttpGet("search/{keyword}")]
+        public async Task<ActionResult<IEnumerable<GachaMachineDTO>>> GetGachaMachineByKeyword(string keyword)
+        {
+            var machines = await _context.GachaMachines
+                .Where(gm => gm.MachineName.Contains(keyword) || gm.MachineDescription.Contains(keyword))
+                .Select(gmt => new GachaMachineDTO
+        {
+                    id = gmt.Id,
+                    machineName = gmt.MachineName,
+                    machineDescription = gmt.MachineDescription,
+                    machinePictureName = gmt.MachinePictureName,
+                    price = gmt.Price
+                })
+                .ToListAsync();
+
+            if (machines == null)
+            {
+                return null;
+            }
+
+            return machines;
+        }
+
         // PUT: api/GachaMachines/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

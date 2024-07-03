@@ -76,34 +76,41 @@ namespace szAPI.Controllers
             return bags;
         }
 
-        // 修改特定會員的所有背包資料
-        // PUT: api/Bags/user/{userId}/{id}
-        [HttpPut("user/{userId}/{id}")]
-        public async Task<string> PutBag(int userId, int id, BagDTO bagDTO)
+        // 修改特定會員的特定背包資料
+        // PUT: api/Bags/user/{userId}/bag/{bagId}
+        [HttpPut("user/{userId}/bag/{bagId}")]
+        public async Task<string> PutBag(int userId, int bagId, BagDTO bagDTO)
         {
-            if (id != bagDTO.id || userId != bagDTO.userId)
+            if (bagId != bagDTO.id || userId != bagDTO.userId)
             {
-                return "會員資料錯誤!";
+                return "會員及背包資料錯誤!";
             }
 
             var existingBag = await _context.Bags
                 .Include(b => b.GachaProduct)
                     .ThenInclude(gp => gp.Machine)
                         .ThenInclude(gm => gm.Theme)
-                .FirstOrDefaultAsync(b => b.Id == id && b.UserId == userId);
+                .FirstOrDefaultAsync(b => b.Id == bagId && b.UserId == userId);
 
             if (existingBag == null)
             {
                 return "找無該筆會員的背包資料!";
             }
 
+            // 確認要更新的GachaProduct存在
+            var gachaProductExists = await _context.GachaProducts.AnyAsync(gp => gp.Id == bagDTO.gachaProductId);
+            if (!gachaProductExists)
+            {
+                return "商品ID不存在!";
+            }
+
             // 更新背包中的資料
             existingBag.GachaProductId = bagDTO.gachaProductId;
-            existingBag.GachaProduct.ProductName = bagDTO.productName; 
-            existingBag.GachaProduct.Machine.MachineName = bagDTO.machineName; 
-            existingBag.GachaProduct.Machine.Theme.ThemeName = bagDTO.themeName; 
             existingBag.GachaStatus = bagDTO.gachaStatus;
             existingBag.Date = bagDTO.date;
+            existingBag.GachaProduct.ProductName = bagDTO.productName;
+            existingBag.GachaProduct.Machine.MachineName = bagDTO.machineName;
+            existingBag.GachaProduct.Machine.Theme.ThemeName = bagDTO.themeName;
 
             try
             {
@@ -111,7 +118,7 @@ namespace szAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BagExists(id))
+                if (!BagExists(bagId))
                 {
                     return "找無該筆會員的背包資料!";
                 }
@@ -126,7 +133,7 @@ namespace szAPI.Controllers
 
         private bool BagExists(int id)
         {
-            throw new NotImplementedException();
+            return _context.Bags.Any(e => e.Id == id);
         }
 
         // 新增會員的背包資料
