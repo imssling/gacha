@@ -60,6 +60,36 @@ namespace gacha.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (Request.Form.Files["productPictureName"] != null)
+                {
+                    // 取得照片欄位名稱
+                    var pictureFile = Request.Form.Files["productPictureName"];
+
+                    // 新增存圖檔路徑
+                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img");
+                    // 確保目標目錄存在
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        // 如果路徑不在則創建
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
+                    // 生成唯一的文件名以避免重名
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + pictureFile.FileName;
+
+                    // 目標文件的完整路徑
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    // 將文件保存到指定路徑(合併檔名和路徑)
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await pictureFile.CopyToAsync(fileStream);
+                    }
+
+                    // 更新圖片路徑
+                    gachaProduct.productPictureName = uniqueFileName;
+                }
+
                 _context.Add(gachaProduct);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -90,19 +120,71 @@ namespace gacha.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,machineId,productName,stock,productPictureName,createTime")] gachaProduct gachaProduct)
+        public async Task<IActionResult> Edit(int id, [Bind("id,machineId,productName,stock,productPictureName")] gachaProduct gachaProduct)
         {
-            if (id != gachaProduct.id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(gachaProduct);
-                    await _context.SaveChangesAsync();
+                    // 取出原先所有資料
+                    gachaProduct p = await _context.gachaProduct.FindAsync(gachaProduct.id);
+
+                    // 設置 createTime 為原來的值
+                    gachaProduct.createTime = p.createTime;
+
+                    // 判斷是否有上傳檔案
+                    if (Request.Form.Files["productPictureName"] != null)
+                    {
+                        // 取得照片欄位名稱
+                        var pictureFile = Request.Form.Files["productPictureName"];
+
+                        // 新增存圖檔路徑
+                        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img");
+                        // 確保目標目錄存在
+                        if (!Directory.Exists(uploadsFolder))
+                        {
+                            // 如果路徑不在則創建
+                            Directory.CreateDirectory(uploadsFolder);
+                        }
+
+                        // 生成唯一的文件名以避免重名
+                        var uniqueFileName = Guid.NewGuid().ToString() + "_" + pictureFile.FileName;
+
+                        // 目標文件的完整路徑
+                        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                        // 將文件保存到指定路徑(合併檔名和路徑)
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await pictureFile.CopyToAsync(fileStream);
+                        }
+
+
+                        // 更新圖片路徑
+                        gachaProduct.productPictureName = uniqueFileName;
+                    }
+                    else
+                    {
+                        // 放入原先資料
+                        gachaProduct.productPictureName = p.productPictureName;
+                    }
+                        // 解除追蹤
+                        _context.Entry(p).State = EntityState.Detached;
+                        _context.Update(gachaProduct);
+                        await _context.SaveChangesAsync();
+                        // 刪除舊圖片文件（如果有）
+                        // 判斷是否原有圖片
+                        if (!string.IsNullOrEmpty(p.productPictureName))
+                        {
+                            // 取得當前目錄,圖片存放路徑, 去掉路徑開頭的 / 符號，以防止路徑不正確
+                            var oldFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", p.productPictureName.TrimStart('/'));
+                            // 檢查舊圖片文件是否存在
+                            if (System.IO.File.Exists(oldFilePath))
+                            {
+                                // 存在則刪除照片
+                                System.IO.File.Delete(oldFilePath);
+                            }
+                        }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -151,6 +233,19 @@ namespace gacha.Controllers
                 _context.gachaProduct.Remove(gachaProduct);
             }
 
+            // 刪除舊圖片文件（如果有）
+            // 判斷是否原有圖片
+            if (!string.IsNullOrEmpty(gachaProduct.productPictureName))
+            {
+                // 取得當前目錄,圖片存放路徑, 去掉路徑開頭的 / 符號，以防止路徑不正確
+                var oldFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", gachaProduct.productPictureName.TrimStart('/'));
+                // 檢查舊圖片文件是否存在
+                if (System.IO.File.Exists(oldFilePath))
+                {
+                    // 存在則刪除照片
+                    System.IO.File.Delete(oldFilePath);
+                }
+            }
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

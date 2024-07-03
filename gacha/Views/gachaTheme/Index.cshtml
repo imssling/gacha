@@ -10,7 +10,7 @@
 <h1>主題管理</h1>
 
 <p>
-    <a asp-action="Create" class="btn button">新增主題</a>
+    <a asp-action="Create" class="btn button"><i class="fa-solid fa-plus"></i></a>
 </p>
 <table class="table">
     <thead>
@@ -34,9 +34,9 @@
                 @Html.DisplayFor(modelItem => item.themeName)
             </td>
             <td>
-                <a class="button" asp-action="Edit" asp-route-id="@item.id">編輯</a>
-                <a class="button" asp-action="Details" asp-route-id="@item.id">查看</a>
-                <a class="button" asp-action="Delete" asp-route-id="@item.id">刪除</a>
+                    <a class="button" asp-action="Edit" asp-route-id="@item.id"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a class="button" asp-action="Details" asp-route-id="@item.id"><i class="fa-solid fa-list"></i></a>
+                    <a class="button" asp-action="Delete" asp-route-id="@item.id"><i class="fa-solid fa-trash"></i></a>
             </td>
         </tr>
 }
@@ -48,21 +48,13 @@
     <script>
         $(document).ready(function () {
             $('table').DataTable({
-                pageLength: '2',//預設為'10'，若需更改初始每頁顯示筆數，才需設定
                 fixedHeader: {
                     header: true,
                 },
                 language: {
                     url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/zh-HANT.json',
                 },
-                responsive: true,
-                columnDefs: [
-                    {
-                        targets: "_all",
-                        width: "20%", // 設定寬度
-                        className: "text-center",// 新增class...等其他參數
-                    }
-                ],
+
             });
         });
     </script>

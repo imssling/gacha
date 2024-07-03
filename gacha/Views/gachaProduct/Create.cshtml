@@ -3,18 +3,19 @@
 @{
     ViewData["Title"] = "Create";
 }
+@section Styles {
+    <link href="~/css/datatables.min.css" rel="stylesheet" />
+}
 
-<h1>Create</h1>
-
-<h4>gachaProduct</h4>
+<h4>新增商品</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="machineId" class="control-label"></label>
-                <select asp-for="machineId" class ="form-control" asp-items="ViewBag.machineId"></select>
+                <select class ="form-select" asp-for="machineId" class="form-control" asp-items="ViewBag.machineId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="productName" class="control-label"></label>
@@ -28,20 +29,52 @@
             </div>
             <div class="form-group">
                 <label asp-for="productPictureName" class="control-label"></label>
-                <input asp-for="productPictureName" class="form-control" />
-                <span asp-validation-for="productPictureName" class="text-danger"></span>
+                <img src="~/img/no-photo.png" title="待上傳" style="width:320px;height:240px" />
+                <input asp-for="productPictureName" type="file" accept="image/*" class="form-control" required />
             </div>
+
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="儲存" class="btn button" id="submit"/>
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn button" asp-action="Index"><i class="fa-solid fa-backward"></i></a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            // 綁定文件輸入元素的 change 事件
+            $('#productPictureName').on('change', function () {
+                var allowType = "image.*";
+                var file = this.files[0];
+
+                if (file.type.match(allowType)) {
+                    // 預覽圖片
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        // 檔案讀取完成，設置圖片預覽
+                        $('#productPictureName').prev().attr("src", e.target.result);
+                        $('#productPictureName').prev().attr("title", file.name);
+                        
+                    }
+                    // 檔案讀取
+                    reader.readAsDataURL(file);
+                    // 啟用提交按鈕
+                    $('.btn').prop('disabled', false);
+                } else {
+                    alert("不支援的檔案上傳類型");
+                    // 禁用提交按鈕
+                    $('.btn').prop('disabled', true);
+                }
+            });
+        });
+
+    </script>
 }

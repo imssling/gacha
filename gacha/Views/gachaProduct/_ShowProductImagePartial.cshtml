@@ -1,0 +1,9 @@
+﻿@model gachaProduct
+@if (Model.productPictureName == null)
+{
+    <img src="~/img/no-photo.png" title="尚無圖案" style="width:320px;height:240px" class="my-3" />
+}
+else
+{
+    <img src="~/img/@Html.DisplayFor(model => model.productPictureName)" title="@Html.DisplayFor(model => model.productPictureName)" style="width:320px;height:240px" class="my-3" />
+}

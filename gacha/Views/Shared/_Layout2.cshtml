@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - My Application</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/gacha.styles.css" asp-append-version="true" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/layout.min.css" rel="stylesheet" />
+    <link href="~/lib/fontawesome-iconpicker/css/fontawesome-iconpicker.min.css" rel="stylesheet" />
+    <style>
+
+    </style>
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <a class="btn btn-primary" id="sidebarToggle">控制</a>
+
+        <a href="#homeCollapse" data-toggle="collapse" aria-expanded="false" aria-controls="homeCollapse">扭蛋管理</a>
+        <div class="collapse" id="homeCollapse">
+            <a class="pl-4" asp-controller="gachaTheme" asp-action="Index">主題</a>
+            <a class="pl-4" asp-controller="gachaMachine" asp-action="Index">機台</a>
+            <a class="pl-4" asp-controller="gachaProduct" asp-action="Index">商品</a>
+        </div>
+        <a asp-controller="rechargePlan" asp-action="Index">儲值後台</a>
+        <a href="#clients">客戶</a>
+        <a href="#contact">聯繫</a>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">後台管理</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">登出</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <div class="container content">
+        <!-- Content -->
+        @RenderBody()
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="~/lib/fontawesome-iconpicker/js/fontawesome-iconpicker.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        $(document).ready(function () {
+            $('#sidebarToggle').on('click', function () {
+                $('.sidebar').toggleClass('active');
+            });
+        });
+    </script>
+
+</body>
+
+
+</html>
+
+
+

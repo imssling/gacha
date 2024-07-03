@@ -8,14 +8,17 @@
     <link href="~/css/datatables.css" rel="stylesheet" />
 
 }
-<h1>商品管理</h1>
 
+<h1>商品管理</h1>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn button"><i class="fa-solid fa-plus"></i></a>
 </p>
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.productName)
             </th>
@@ -38,13 +41,17 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                    @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.productName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.stock)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.productPictureName)
+                <partial name="_ShowProductImagePartial" model="item" />
+                @* @Html.DisplayFor(modelItem => item.productPictureName) *@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.createTime)
@@ -53,9 +60,9 @@
                 @Html.DisplayFor(modelItem => item.machine.machineName)
             </td>
              <td>
-                <a class="button" asp-action="Edit" asp-route-id="@item.id">Edit</a>
-                <a class="button" asp-action="Details" asp-route-id="@item.id">Details</a>
-                <a class="button" asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                    <a class="button" asp-action="Edit" asp-route-id="@item.id"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a class="button" asp-action="Details" asp-route-id="@item.id"><i class="fa-solid fa-list"></i></a>
+                    <a class="button" asp-action="Delete" asp-route-id="@item.id"><i class="fa-solid fa-trash"></i></a>
             </td>
         </tr>
 }
@@ -67,21 +74,13 @@
     <script>
         $(document).ready(function () {
             $('table').DataTable({
-                pageLength: '2',//預設為'10'，若需更改初始每頁顯示筆數，才需設定
+                // pageLength: '2',//預設為'10'，若需更改初始每頁顯示筆數，才需設定
                 fixedHeader: {
                     header: true,
                 },
                 language: {
                     url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/zh-HANT.json',
                 },
-                responsive: true,
-                columnDefs: [
-                    {
-                        targets: "_all",
-                        width: "20%", // 設定寬度
-                        className: "text-center",// 新增class...等其他參數
-                    }
-                ],
             });
         });
     </script>

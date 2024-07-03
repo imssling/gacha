@@ -3,19 +3,24 @@
 @{
     ViewData["Title"] = "Edit";
 }
+@section Styles {
+    <link href="~/css/datatables.min.css" rel="stylesheet" />
+}
 
-<h1>Edit</h1>
-
-<h4>gachaMachine</h4>
+<h4>修改機台</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="id" />
+            <div class="form-group">
+                <label asp-for="id" class="control-label"></label>
+                <input asp-for="id" class="form-control" readonly="readonly" />
+                <span asp-validation-for="id" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="themeId" class="control-label"></label>
-                <select asp-for="themeId" class="form-control" asp-items="ViewBag.themeId"></select>
+                <select class="form-select" asp-for="themeId" class="form-control" asp-items="ViewBag.themeId"></select>
                 <span asp-validation-for="themeId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -23,35 +28,42 @@
                 <input asp-for="machineName" class="form-control" />
                 <span asp-validation-for="machineName" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="machineDescription" class="control-label"></label>
-                <input asp-for="machineDescription" class="form-control" />
+                <textarea asp-for="machineDescription" class="form-control" rows="3"></textarea>
                 <span asp-validation-for="machineDescription" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="machinePictureName" class="control-label"></label>
-                <partial name="_ShowImagePartial">
-                <input asp-for="machinePictureName" type="file" accept="image/*" class="form-control" />
+                <partial name="_ShowMachineImagePartial">
+                    <input asp-for="machinePictureName" type="file" accept="image/*" class="form-control" />
+                    <span asp-validation-for="machinePictureName" class="text-danger"></span>
             </div>
-@*             <div class="form-group">
-                <label asp-for="createTime" class="control-label"></label>
-                <input asp-for="createTime" class="form-control" />
-                <span asp-validation-for="createTime" class="text-danger"></span>
-            </div> *@
-            <div class="form-group">
+            <div class="form-group mb-3">
+                <label asp-for="price" class="control-label"></label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input asp-for="price" class="form-control">
+                </div>
+                    <span asp-validation-for="price" class="text-danger"></span>
+            </div>
+
+            @* <div class="form-group">
                 <label asp-for="price" class="control-label"></label>
                 <input asp-for="price" class="form-control" />
                 <span asp-validation-for="price" class="text-danger"></span>
-            </div>
+            </div> *@
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="儲存" class="btn button" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn button" asp-action="Index"><i class="fa-solid fa-backward"></i></a>
 </div>
 
 @section Scripts {
