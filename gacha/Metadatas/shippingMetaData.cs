@@ -34,7 +34,8 @@ namespace gacha.Metadatas
         [StringLength(10)]
         public string shippingMethod { get; set; }
         [Display(Name = "運費")]
-        [Required(ErrorMessage = "運費必填")]
+        [Range(0,1000)]
+        [Required(ErrorMessage = "運費必填,最低免運!")]
         public int shippingFee { get; set; }
     }
 }
