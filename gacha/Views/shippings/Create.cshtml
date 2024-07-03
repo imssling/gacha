@@ -19,7 +19,7 @@
             <div class="form-group">
                 <label asp-for="shippingStatus" class="control-label"></label>
                 @* <input asp-for="shippingStatus" class="form-control" placeholder="待處理/已發貨/已取消/已完成" /> *@
-                <select asp-for="shippingStatus" class="form-control" asp-items="ViewBag.shippingStatus"></select>
+                <select asp-for="shippingStatus" class="form-control" asp-items="ViewBag.shippingStatus"></select> @* 變成select list *@
                @*  <span asp-validation-for="shippingStatus" class="text-danger"></span> *@
             </div>
             <div class="form-group">

@@ -48,6 +48,12 @@ namespace gacha.Controllers
         // GET: userInfoes/Create
         public IActionResult Create()
         {
+            //增加userInfo Gender的select選項
+            ViewBag.gender = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "女", Text = "女" },
+                new SelectListItem { Value = "男", Text = "男" }
+            }, "Value", "Text");
             return View();
         }
 
@@ -64,6 +70,14 @@ namespace gacha.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+
+            //增加userInfo Gender的select選項
+            ViewBag.gender = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "女", Text = "女" },
+                new SelectListItem { Value = "男", Text = "男" }
+            });
             return View(userInfo);
         }
 
@@ -80,6 +94,14 @@ namespace gacha.Controllers
             {
                 return NotFound();
             }
+
+            //增加userInfo Gender的select選項
+            ViewBag.gender = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "女", Text = "女" },
+                new SelectListItem { Value = "男", Text = "男" }
+            }, "Value", "Text");
+
             return View(userInfo);
         }
 
@@ -115,6 +137,13 @@ namespace gacha.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            //增加userInfo Gender的select選項
+            ViewBag.gender = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "女", Text = "女" },
+                new SelectListItem { Value = "男", Text = "男" }
+            });
+
             return View(userInfo);
         }
 

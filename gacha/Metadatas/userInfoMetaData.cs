@@ -8,7 +8,7 @@ namespace gacha.Metadatas
         public int id { get; set; }
 
         [Required(ErrorMessage = "使用者名稱必填")]
-        [Display(Name = "使用者")]
+        [Display(Name = "名稱")]
         [StringLength(15)]
         public string userName { get; set; }
 

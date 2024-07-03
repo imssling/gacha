@@ -40,8 +40,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="shippingMethod" class="control-label"></label>
-                <input asp-for="shippingMethod" class="form-control" />
-                <span asp-validation-for="shippingMethod" class="text-danger"></span>
+                @* <input asp-for="shippingMethod" class="form-control" />
+                <span asp-validation-for="shippingMethod" class="text-danger"></span> *@
+                <select asp-for="shippingMethod" class="form-control" asp-items="ViewBag.shippingMethod"></select>
             </div>
             <div class="form-group">
                 <label asp-for="shippingFee" class="control-label"></label>

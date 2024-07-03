@@ -47,7 +47,7 @@ namespace gacha.Controllers
         // GET: shippings/Create
         public IActionResult Create()
         {
-            ViewData["userId"] = new SelectList(_context.userInfo, "id", "email");
+            ViewData["userId"] = new SelectList(_context.userInfo, "id", "id");
             
             //增加shipping status的select選項
             ViewBag.shippingStatus = new SelectList(new List<SelectListItem>
@@ -115,6 +115,22 @@ namespace gacha.Controllers
                 return NotFound();
             }
             ViewData["userId"] = new SelectList(_context.userInfo, "id", "id", shipping.userId);
+
+            //增加shipping status的select選項
+            ViewBag.shippingStatus = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "待處理", Text = "待處理" },
+                new SelectListItem { Value = "已發貨", Text = "已發貨" },
+                new SelectListItem { Value = "已取消", Text = "已取消" },
+                new SelectListItem { Value = "已完成", Text = "已完成" }
+            }, "Value", "Text");
+            //增加shipping fee的select選項
+            ViewBag.shippingMethod = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "宅配", Text = "宅配" },
+                new SelectListItem { Value = "超商-711", Text = "超商-711" }
+            }, "Value", "Text");
+
             return View(shipping);
         }
 
@@ -151,6 +167,21 @@ namespace gacha.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["userId"] = new SelectList(_context.userInfo, "id", "email", shipping.userId);
+
+            //增加shipping status的select選項
+            ViewBag.shippingStatus = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "待處理", Text = "待處理" },
+                new SelectListItem { Value = "已發貨", Text = "已發貨" },
+                new SelectListItem { Value = "已取消", Text = "已取消" },
+                new SelectListItem { Value = "已完成", Text = "已完成" }
+            });
+            //增加shipping fee的select選項
+            ViewBag.shippingMethod = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "宅配", Text = "宅配" },
+                new SelectListItem { Value = "超商-711", Text = "超商-711" }
+            });
             return View(shipping);
         }
 
