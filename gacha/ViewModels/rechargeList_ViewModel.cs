@@ -33,8 +33,11 @@ namespace gacha.ViewModels
         [Required(ErrorMessage = ("會員ID必填"))]
         public int userId { get; set; }
 
+        [Display(Name = "日期")]
+        public DateTime? rechargeDate { get; set; }
+
         //[Display(Name = "會員名稱")]
         //public string userName { get; set; }
-       
+
     }
 }

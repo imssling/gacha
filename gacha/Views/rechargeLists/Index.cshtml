@@ -42,6 +42,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.userId)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.rechargeDate)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -67,6 +70,10 @@
             <td>
                     @Html.DisplayFor(modelItem => item.userId)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.rechargeDate)
+                </td>
+                
             <td>
                 @*< a asp-action="Edit" asp-route-id="@item.id">Edit</a> | *@
                 <a asp-action="Details" asp-route-id="@item.id">Details</a> 

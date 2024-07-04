@@ -80,6 +80,7 @@ namespace gacha.Controllers
                 rechargePlanId = rechargeList.rechargePlanId,
                 //rechargePlan = rechargeList.rechargePlan?.name,
                 userId = rechargeList.userId,
+                rechargeDate = rechargeList.rechargeDate
                 //userName = rechargeList.user?.userName
             };
             ViewBag.rechargeName = rechargeList.rechargePlan.name;
