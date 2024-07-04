@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using szAPI.DTO;
 using szAPI.Models;
 
 namespace szAPI.Controllers
@@ -20,22 +21,73 @@ namespace szAPI.Controllers
             _context = context;
         }
 
-        // GET: api/GachaProducts
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<GachaProduct>>> GetGachaProducts()
+        // 找出符合機台ID的扭蛋照片
+        // GET: api/GachaProducts/GetPicture/{id}
+        [HttpGet("GetPicture/{machineId}")]
+        public async Task<IActionResult> GetPicture(int machineId)
         {
-            return await _context.GachaProducts.ToListAsync();
+            var gachaProduct = await _context.GachaProducts
+                .Include(gp => gp.Machine)
+                .FirstOrDefaultAsync(gp => gp.Machine.Id == machineId);
+
+            if (gachaProduct == null || string.IsNullOrEmpty(gachaProduct.ProductPictureName))
+            {
+                return NotFound();
+            }
+
+            var path = Path.Combine("images", gachaProduct.ProductPictureName);
+            if (!System.IO.File.Exists(path))
+            {
+                return NotFound();
+            }
+
+            var image = System.IO.File.OpenRead(path);
+            return File(image, "image/jpeg");
         }
 
-        // GET: api/GachaProducts/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<GachaProduct>> GetGachaProduct(int id)
+        // 找出所有扭蛋資料(不包含機台照片)
+        // GET: api/GachaProducts
+        [HttpGet]
+        public async Task<IEnumerable<GachaProductDTO>> GetGachaProducts()
         {
-            var gachaProduct = await _context.GachaProducts.FindAsync(id);
+            return _context.GachaProducts
+                .Include(gp => gp.Machine)
+                .Select(GachaProduct => new GachaProductDTO
+                {
+                    id = GachaProduct.Id,
+                    machineName = GachaProduct.Machine.MachineName,
+                    productName = GachaProduct.ProductName,
+                    machineDescription = GachaProduct.Machine.MachineDescription,
+                    price = GachaProduct.Machine.Price,
+                    stock = GachaProduct.Stock,
+                    productPictureName = GachaProduct.ProductPictureName
+                });
+        }
+
+        //透過machineId找出其扭蛋資料(含機台照片)
+        // GET: api/GachaProducts/machine
+        [HttpGet("machine/{machineId}")]
+        public async Task<ActionResult<IEnumerable<GachaProductDTObyMachineId>>> GetGachaProductByMachineId(int machineId)
+        {
+            var gachaProduct = await _context.GachaProducts
+                .Include(gp => gp.Machine)
+                .Where(gp => gp.Machine.Id == machineId)
+                .Select(gpbm => new GachaProductDTObyMachineId
+                {
+                    machineId = gpbm.Machine.Id,
+                    machineName = gpbm.Machine.MachineName,
+                    machinePictureName = gpbm.Machine.MachinePictureName,
+                    productName = gpbm.ProductName,
+                    machineDescription = gpbm.Machine.MachineDescription,
+                    price = gpbm.Machine.Price,
+                    stock = gpbm.Stock,
+                    productPictureName = gpbm.ProductPictureName
+                })
+                .ToListAsync();
 
             if (gachaProduct == null)
             {
-                return NotFound();
+                return null ;
             }
 
             return gachaProduct;
