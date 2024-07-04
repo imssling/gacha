@@ -81,6 +81,8 @@ public partial class gachaContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.UseCollation("Chinese_Taiwan_Stroke_90_CS_AS");
+
         modelBuilder.Entity<achievement>(entity =>
         {
             entity.HasKey(e => e.id).HasName("PK__achievem__3213E83F2A1C663F");

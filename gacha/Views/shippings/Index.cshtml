@@ -1,0 +1,106 @@
+﻿@model IEnumerable<gacha.Models.shipping>
+
+@{
+    ViewData["Title"] = "Index";
+}
+@section Styles {
+    <link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" asp-append-version="true" />
+    @* REMEBER TO USE "asp-append-version" FOR A QUICKER VERSION *@
+    <style>
+        thead {
+            background-color: #F6EEA2;
+            color: BLACK;
+        }
+    </style>
+}
+
+<h1>Index</h1>
+<h3>出貨表</h3>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.userId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.shippingDate)
+            </th>
+            @* <th>
+                @Html.DisplayNameFor(model => model.shippingDate)
+            </th> *@
+            <th>
+                @Html.DisplayNameFor(model => model.shippingStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.shippingAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.contactPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.shippingMethod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.shippingFee)
+            </th>
+            @* <th>
+                @Html.DisplayNameFor(model => model.user)
+            </th> *@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+               @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+               @Html.DisplayFor(modelItem => item.userId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.shippingDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.shippingStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.shippingAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.contactPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.shippingMethod)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.shippingFee)
+            </td>
+           @*  <td>
+                @Html.DisplayFor(modelItem => item.user.email)
+            </td> *@
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@section Scripts {
+    <script src="~/lib/datatables/js/jquery.datatables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // alert("love you tate");
+            $('table').DataTable();
+        });
+    </script>
+}

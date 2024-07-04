@@ -1,0 +1,54 @@
+﻿@model gacha.Models.exchangeRecord
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>exchangeRecord</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="id" />
+            <div class="form-group">
+                <label asp-for="userIdFrom" class="control-label"></label>
+                <select asp-for="userIdFrom" class="form-control" asp-items="ViewBag.userIdFrom"></select>
+                <span asp-validation-for="userIdFrom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="userIdTo" class="control-label"></label>
+                <select asp-for="userIdTo" class="form-control" asp-items="ViewBag.userIdTo"></select>
+                <span asp-validation-for="userIdTo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="gachaIdFrom" class="control-label"></label>
+                <select asp-for="gachaIdFrom" class="form-control" asp-items="ViewBag.gachaIdFrom"></select>
+                <span asp-validation-for="gachaIdFrom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="gachaIdTo" class="control-label"></label>
+                <select asp-for="gachaIdTo" class="form-control" asp-items="ViewBag.gachaIdTo"></select>
+                <span asp-validation-for="gachaIdTo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="exchangeDate" class="control-label"></label>
+                <input asp-for="exchangeDate" class="form-control" />
+                <span asp-validation-for="exchangeDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
