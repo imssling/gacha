@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Create";
+    var address = ViewData["shippingAddress"] as SelectList;
 }
 
 <h1>Create</h1>
@@ -30,8 +31,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="shippingAddress" class="control-label"></label>
-                <input asp-for="shippingAddress" class="form-control" />
-                <span asp-validation-for="shippingAddress" class="text-danger"></span>
+                <select asp-for="shippingAddress" class="form-control" asp-items="address"></select>
+                @*<span asp-validation-for="shippingAddress" class="text-danger"></span>*@
+                @* <input asp-for="shippingAddress" class="form-control" /> *@
             </div>
             <div class="form-group">
                 <label asp-for="contactPhone" class="control-label"></label>
@@ -88,6 +90,13 @@
                 option.text = '$' + fee;
                 shippingFeeDropdown.add(option);
             });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var userIdDropDown = document.querySelector('select[name="userIdDropDown"]');
+            var shippingAddressDropDown = document.querySelector('select[name="shippingAddressDropDown"]');
+             //alert("love you tate");
+
         });
     </script>
 }

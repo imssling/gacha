@@ -48,7 +48,8 @@ namespace gacha.Controllers
         public IActionResult Create()
         {
             ViewData["userId"] = new SelectList(_context.userInfo, "id", "id");
-            
+            ViewData["shippingAddress"] = new SelectList(_context.userInfo, "id", "address");
+
             //增加shipping status的select選項
             ViewBag.shippingStatus = new SelectList(new List<SelectListItem>
             {
