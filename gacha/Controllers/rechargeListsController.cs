@@ -78,11 +78,13 @@ namespace gacha.Controllers
                 amount = rechargeList.amount,
                 paymentMode = rechargeList.paymentMode,
                 rechargePlanId = rechargeList.rechargePlanId,
-                rechargePlan = rechargeList.rechargePlan?.name,
+                //rechargePlan = rechargeList.rechargePlan?.name,
                 userId = rechargeList.userId,
-                userName = rechargeList.user?.userName
+                //userName = rechargeList.user?.userName
             };
-
+            ViewBag.rechargeName = rechargeList.rechargePlan.name;
+            ViewBag.rechargeTotalPrice = rechargeList.quantity * rechargeList.amount;
+            
             return View(rechargeListV);
         }
 
@@ -95,8 +97,24 @@ namespace gacha.Controllers
 
             ViewBag.rechargePlanId = new SelectList(_context.rechargePlan, "id", "name");
             ViewBag.userId = new SelectList(_context.userInfo, "id", "id");
-            ViewBag.userName = new SelectList(_context.userInfo, "id", "userName");
+            //ViewBag.userName = new SelectList(_context.userInfo, "id", "userName");
 
+            //增加rechargePlan paymentMode的select選項
+            ViewBag.paymentMode = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "信用卡", Text = "信用卡" },
+            }, "Value", "Text");
+
+            //增加rechargePlan amount的select選項
+            ViewBag.amount = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "100", Text = "$100" },
+                new SelectListItem { Value = "200", Text = "$200" },
+                new SelectListItem { Value = "500", Text = "$500" },
+                new SelectListItem { Value = "1000", Text = "$1000" },
+                new SelectListItem { Value = "2000", Text = "$2000" },
+                new SelectListItem { Value = "500", Text = "$5000" }
+            }, "Value", "Text");
             //增加rechargePlan的select選項
             ViewBag.rechargePlan = new SelectList(new List<SelectListItem>
             {
@@ -116,9 +134,25 @@ namespace gacha.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,quantity,amount,paymentMode,rechargePlanId, rechargePlan,userId, userName")] rechargeList_ViewModel rechargeListVM)
+        public async Task<IActionResult> Create([Bind("quantity,amount,paymentMode,rechargePlanId, userId")] rechargeList_ViewModel rechargeListVM)
         {
 
+            //增加rechargePlan paymentMode的select選項
+            ViewBag.paymentMode = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "信用卡", Text = "信用卡" },
+            }, "Value", "Text");
+
+            //增加rechargePlan amount的select選項
+            ViewBag.amount = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "100", Text = "$100" },
+                new SelectListItem { Value = "200", Text = "$200" },
+                new SelectListItem { Value = "500", Text = "$500" },
+                new SelectListItem { Value = "1000", Text = "$1000" },
+                new SelectListItem { Value = "2000", Text = "$2000" },
+                new SelectListItem { Value = "500", Text = "$5000" }
+            }, "Value", "Text");
             //增加rechargePlan的select選項
             ViewBag.rechargePlan = new SelectList(new List<SelectListItem>
             {
@@ -138,9 +172,7 @@ namespace gacha.Controllers
                     amount = rechargeListVM.amount,
                     paymentMode = rechargeListVM.paymentMode,
                     rechargePlanId = rechargeListVM.rechargePlanId,
-                    userId = rechargeListVM.userId,
-
-                    
+                    userId = rechargeListVM.userId  
                 };
 
                 _context.Add(rechargeList);
@@ -169,25 +201,23 @@ namespace gacha.Controllers
             {
                 return NotFound();
             }
-
-            var rechargeListVM = new rechargeList_ViewModel
-            {
-                id = rechargeList.id,
-                quantity = rechargeList.quantity,
-                amount = rechargeList.amount,
-                paymentMode = rechargeList.paymentMode,
-                rechargePlanId = rechargeList.rechargePlanId,
-                userId = rechargeList.userId
-            };
-
             ViewData["rechargePlanId"] = new SelectList(_context.rechargePlan, "id", "name", rechargeList.rechargePlanId);
-            ViewData["userId"] = new SelectList(_context.userInfo, "id", "email", rechargeListVM.userId);
-
-
-            ViewBag.rechargePlanId = new SelectList(_context.rechargePlan, "id", "name");
-            ViewBag.userId = new SelectList(_context.userInfo, "id", "id");
-            ViewBag.userName = new SelectList(_context.userInfo, "id", "userName");
-
+            ViewData["userId"] = new SelectList(_context.userInfo, "id", "email", rechargeList.userId);
+            //增加rechargePlan paymentMode的select選項
+            ViewBag.paymentMode = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "信用卡", Text = "信用卡" },
+            }, "Value", "Text");
+            //增加rechargePlan amount的select選項
+            ViewBag.amount = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "100", Text = "$100" },
+                new SelectListItem { Value = "200", Text = "$200" },
+                new SelectListItem { Value = "500", Text = "$500" },
+                new SelectListItem { Value = "1000", Text = "$1000" },
+                new SelectListItem { Value = "2000", Text = "$2000" },
+                new SelectListItem { Value = "500", Text = "$5000" }
+            }, "Value", "Text");
             //增加rechargePlan的select選項
             ViewBag.rechargePlan = new SelectList(new List<SelectListItem>
             {
@@ -199,6 +229,25 @@ namespace gacha.Controllers
                 new SelectListItem { Value = "皇后方案", Text = "皇后方案" }
             }, "Value", "Text");
 
+            var rechargeListVM = new rechargeList_ViewModel
+            {
+                id = rechargeList.id,
+                quantity = rechargeList.quantity,
+                amount = rechargeList.amount,
+                paymentMode = rechargeList.paymentMode,
+                rechargePlanId = rechargeList.rechargePlanId,
+                userId = rechargeList.userId
+            };
+
+
+
+
+            ViewBag.rechargePlanId = new SelectList(_context.rechargePlan, "id", "name");
+            ViewBag.userId = new SelectList(_context.userInfo, "id", "id");
+            ViewBag.userName = new SelectList(_context.userInfo, "id", "userName");
+
+            
+
             return View(rechargeListVM);
         }
 
@@ -207,8 +256,35 @@ namespace gacha.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,quantity,amount,paymentMode,rechargePlanId,userId")] rechargeList_ViewModel rechargeListVM)
+        public async Task<IActionResult> Edit(int id, [Bind("id,quantity,amount,paymentMode,rechargePlanId, rechargePlan,userId, userName")] rechargeList_ViewModel rechargeListVM)
         {
+            //增加rechargePlan paymentMode的select選項
+            ViewBag.paymentMode = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "信用卡", Text = "信用卡" },
+            }, "Value", "Text");
+            //增加rechargePlan amount的select選項
+            ViewBag.amount = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "100", Text = "$100" },
+                new SelectListItem { Value = "200", Text = "$200" },
+                new SelectListItem { Value = "500", Text = "$500" },
+                new SelectListItem { Value = "1000", Text = "$1000" },
+                new SelectListItem { Value = "2000", Text = "$2000" },
+                new SelectListItem { Value = "500", Text = "$5000" }
+            }, "Value", "Text");
+            //增加rechargePlan的select選項
+            ViewBag.rechargePlan = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "正五品方案", Text = "正五品方案" },
+                new SelectListItem { Value = "正四品方案", Text = "正四品方案" },
+                new SelectListItem { Value = "正三品方案", Text = "正三品方案" },
+                new SelectListItem { Value = "正二品方案", Text = "正二品方案" },
+                new SelectListItem { Value = "正一品方案", Text = "正一品方案" },
+                new SelectListItem { Value = "皇后方案", Text = "皇后方案" }
+            }, "Value", "Text");
+
+
             if (id != rechargeListVM.id)
             {
                 return NotFound();
@@ -270,12 +346,12 @@ namespace gacha.Controllers
                 amount = rechargeList.amount,
                 paymentMode = rechargeList.paymentMode,
                 rechargePlanId = rechargeList.rechargePlanId,
-                rechargePlan = rechargeList.rechargePlan?.name,
-                userId = rechargeList.userId,
-                userName = rechargeList.user?.userName
+                //rechargePlan = rechargeList.rechargePlan?.name,
+                userId = rechargeList.userId
+                //userName = rechargeList.user?.userName
             };
 
-            return View(rechargeList);
+            return View(rechargeListVM);
         }
 
         // POST: rechargeLists/Delete/5

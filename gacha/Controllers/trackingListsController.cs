@@ -47,12 +47,50 @@ namespace gacha.Controllers
                 .Include(t => t.gachaMachine)
                 .Include(t => t.user)
                 .FirstOrDefaultAsync(m => m.userId == id);
+            var gachaMachine = _context.gachaMachine.Where(g => g.id == trackingList.gachaMachineId);
             if (trackingList == null)
             {
                 return NotFound();
             }
 
-            return View(trackingList);
+            var x = await (from t in _context.trackingList
+                    join u in _context.userInfo
+                    on t.userId equals u.id
+                    join g in _context.gachaMachine
+                    on t.gachaMachineId equals g.id
+                    where t.userId == id
+                    select new trackingList_ViewModel
+                    {
+                        UserId = t.userId,
+                        GachaMachineId = g.id,
+                        TrackingDate = DateTime.Now,
+                        NoteStatus = t.noteStatus,
+                        GachaMachineName = g.machineName,
+                        UserEmail = u.email
+                    }).FirstOrDefaultAsync();
+
+
+
+            //select userId, gachaMachineId, trackingDate, noteStatus, email, gachaMachine
+            //from trackingList t
+            //join userInfo u
+            //on t.userId = u.id
+            //join gachaMachine g
+            //on t.gachaMachineId = g.id
+
+
+            //trackingList_ViewModel trackingListV = new trackingList_ViewModel()
+            //{
+            //    userId = trackingList.userId,
+            //    GachaMachineId = trackingList.gachaMachineId,
+            //    TrackingDate = trackingList.trackingDate,
+            //    NoteStatus = trackingList.noteStatus,
+            //    //GachaMachineName= trackingList.gachaMachine,
+            //    //UserEmail = trackingList.UserEmail
+
+            //};
+
+            return View(x);
         }
 
         // GET: trackingLists/Create

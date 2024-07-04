@@ -26,11 +26,17 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.rechargePlanId)
         </dd>
-        <dt class = "col-sm-2">
+       @*  <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.rechargePlan)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.rechargePlan)
+        </dd> *@
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.userId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.userId)
         </dd>
 
         <dt class = "col-sm-2">
@@ -51,18 +57,12 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.paymentMode)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.userId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.userId)
-        </dd>
-        <dt class="col-sm-2">
+        @* <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.userName)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.userName)
-        </dd>
+        </dd> *@
     </dl>
     
     <form asp-action="Delete">
