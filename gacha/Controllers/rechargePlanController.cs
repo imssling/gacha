@@ -98,7 +98,7 @@ namespace gacha.Controllers
                 {
                     rechargePlan r = await _context.rechargePlan.FindAsync(rechargePlan.id);
                     rechargePlan.createdAt = r.createdAt;
-                    re8
+                    rechargePlan.updatedAt = DateTime.Now;
                     _context.Entry(r).State = EntityState.Detached;
                     _context.Update(rechargePlan);
                     await _context.SaveChangesAsync();

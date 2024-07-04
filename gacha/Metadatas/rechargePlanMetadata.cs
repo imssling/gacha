@@ -14,13 +14,14 @@ namespace gacha.Matadatas
         [Display(Name = "詳細資料")]
         public string description { get; set; }
 
-        [Display(Name = "點數")]
-        [Required(ErrorMessage = "點數欄位必填")]
-        public int point { get; set; }
-
+        [Range(1, 5000, ErrorMessage = "範圍為1-5000")]
         [Display(Name = "價錢")]
         [Required(ErrorMessage = "價錢欄位必填")]
         public int price { get; set; }
+
+        [Display(Name = "點數")]
+        [Required(ErrorMessage = "點數欄位必填")]
+        public int point { get; set; }
 
         [Display(Name = "啟用")]
         public bool status { get; set; }

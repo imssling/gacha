@@ -24,6 +24,7 @@ namespace gacha.Metadatas
         [Display(Name = "創建時間")]
         public DateTime? createTime { get; set; }
 
+        [Range(1, 5000, ErrorMessage = "範圍為1-5000")]
         [Display(Name = "價錢")]
         [Required(ErrorMessage = "價錢必填")]
         public int price { get; set; }

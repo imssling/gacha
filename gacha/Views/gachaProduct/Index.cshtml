@@ -81,6 +81,18 @@
                 language: {
                     url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/zh-HANT.json',
                 },
+                columnDefs: [
+                    {
+                        targets: '_all',
+                        className: 'text-center',
+                    }
+                ],
+            });
+            // 換頁時回到最上面
+            $('table').on('page.dt', function () {
+                $('html, body').animate({
+                    scrollTop: $(".dataTables_wrapper").offset().top
+                }, 50);
             });
         });
     </script>

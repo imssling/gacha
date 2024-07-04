@@ -18,6 +18,7 @@ namespace gacha.Metadatas
         [Required(ErrorMessage = "商品名稱必填")]
         public string productName { get; set; }
 
+        [Range(1, 5000, ErrorMessage = "範圍為1-1000")]
         [Display(Name = "庫存")]
         [Required(ErrorMessage = "庫存必填")]
         public int stock { get; set; }
