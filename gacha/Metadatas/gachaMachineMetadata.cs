@@ -31,5 +31,8 @@ namespace gacha.Metadatas
 
         [Display(Name = "主題")]
         public virtual gachaTheme theme { get; set; }
+
+        [Display(Name = "啟用")]
+        public bool status { get; set; }
     }
 }

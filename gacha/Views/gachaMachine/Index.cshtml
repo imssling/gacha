@@ -30,6 +30,9 @@
                 @Html.DisplayNameFor(model => model.machinePictureName)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.status)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.createTime)
             </th>
             <th>
@@ -55,6 +58,9 @@
             </td>
             <td>
                     <partial name="_ShowMachineImagePartial" model="item" />
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.status)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.createTime)
