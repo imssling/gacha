@@ -16,6 +16,8 @@
 
 <button class="btn btn-primary" id="fetchDelete">FetchDelete</button>
 
+<button class="btn btn-primary" id="fetchGetImage">FetchGetImage</button>
+
 <div id="result"></div>
 @* <img src="~/imgs/CrayonShin-chan5.jpg" alt="Alternate Text" /> *@
 
@@ -207,6 +209,49 @@
                 });
 
             });
+
+
+            $("#fetchGetImage").on("click", async function () {
+                // alert("test");
+                // $("#result").text("test");
+                var imgName = "CrayonShin-chan5.jpg";
+
+                var productId = 5;
+
+                fetch(`${baseAddress}/api/GachaProducts/machine/${productId}`, {
+
+                    method: "GET"
+
+
+                }).then(result => {
+
+                    // alert(result);
+
+                    if (result.ok) {
+                        return result.text();
+                    }
+
+
+                }).then(data => {
+
+                    var jsonObj = JSON.parse(data);
+
+
+                    // alert(jsonObj.productPictureName);
+                    alert(jsonObj[0].productPictureName);
+
+
+                    $("#result").text(jsonObj);
+                    $("#result").append(`<img src='/imgs/${jsonObj[0].productPictureName}' alt='Alternate Text' />`);
+
+                }).catch(err => {
+
+                    alert(err);
+
+                });
+
+            });
+
 
 
         };
