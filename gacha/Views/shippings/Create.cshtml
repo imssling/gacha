@@ -15,12 +15,12 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="userId" class="control-label"></label>
-                <select asp-for="userId" class="form-control" asp-items="ViewBag.userId"></select>
+                <select asp-for="userId" class="form-control" asp-items="ViewBag.userId" id="userIdDropDown"></select>
             </div>
             <div class="form-group">
                 <label asp-for="shippingStatus" class="control-label"></label>
                 @* <input asp-for="shippingStatus" class="form-control" placeholder="待處理/已發貨/已取消/已完成" /> *@
-                <select asp-for="shippingStatus" class="form-control" asp-items="ViewBag.shippingStatus"></select> 
+                <select asp-for="shippingStatus" class="form-control" asp-items="ViewBag.shippingStatus" id="shippingAddressDropDown"></select>
                 @* 變成select list *@
                @*  <span asp-validation-for="shippingStatus" class="text-danger"></span> *@
             </div>
@@ -93,9 +93,31 @@
         });
 
         document.addEventListener('DOMContentLoaded', function () {
-            var userIdDropDown = document.querySelector('select[name="userIdDropDown"]');
-            var shippingAddressDropDown = document.querySelector('select[name="shippingAddressDropDown"]');
-             //alert("love you tate");
+            var userIdDropDown = document.getElementById('userIdDropDown');
+            var getElementById = document.querySelector('shippingAddressDropDown');
+
+            userIdDropDown.addEventListener('change', function () {
+                var userId = userIdDropDown.value;
+             //fetch shipping addres from  所選擇的userId
+                fetch('/shippings/GetShippingAddresses?')
+                    .then(response => response.json()) //parse JSON的回應
+                    .then(data => {
+                     shippingAddressDropDown.innerHTML = '';//清空既有的選項
+                        //自動增加dropdown fetched下來的address
+                        data.forEach(newaddress => {
+                            alert("love you tate");
+
+                            var option = document.createElement('option');
+                            option.value = newaddress.address;
+                            option.text = newaddress.address;
+                            shippingAddressDropDown.add(option);
+                        });
+
+
+                    })
+                    .catch(error => console.error('讀取地址有誤', error));
+                
+            });
 
         });
     </script>

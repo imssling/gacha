@@ -18,6 +18,18 @@ namespace gacha.Controllers
             _context = context;
         }
 
+        //增加一個 Api Endpoint
+        [HttpGet]
+        public JsonResult GetShippingAddresses(int userId)
+        {
+            var addresses = _context.userInfo
+                .Where(u => u.id == userId)
+                .Select(u => new { u.address })
+                .ToList();
+            return Json(addresses);
+        }
+
+
         // GET: shippings
         public async Task<IActionResult> Index()
         {
