@@ -75,7 +75,7 @@ namespace szAPI.Controllers
             if (pointList.RechargeListId != null)
             {
                 // 根據儲值方案計算新增點數
-                var rechargePoints = pointList.RechargeList.RechargePlan.Point;
+                var rechargePoints = (pointList.RechargeList.RechargePlan.Point)*(pointList.RechargeList.Amount);
                 return rechargePoints;
             }
             else if (pointList.BagId != null)
