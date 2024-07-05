@@ -18,12 +18,260 @@
 
 <button class="btn btn-primary" id="fetchGetImage">FetchGetImage</button>
 
+<button class="btn btn-primary" id="fetchGetAllImage">FetchGetAllImage</button>
+
+<button class="btn btn-primary" id="fetchGetImageForTable">fetchGetImageForTable</button>
+
 <div id="result"></div>
 @* <img src="~/imgs/CrayonShin-chan5.jpg" alt="Alternate Text" /> *@
 
 
 
 
+<!-- exchange start -->
+<div class="container-fluid mb-2">
+    <div class="row">
+
+        <div class="col-1"></div>
+
+        <div class="col-12 col-md-4">
+
+            <div class="mt-5">name</div>
+
+            <!-- table.table.table-bordered.border-primary.mt-5>tbody>tr*4>td*4>img[src="./imgs/Frieren-Beyond-Journey's-End-3.jpg"].ratio.ratio-1x1 -->
+
+            <table class="table table-bordered border-primary mt-5">
+                <tbody class="">
+                    <tr class="bagRow1">
+                        <td>
+                            <a href="#">
+
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#">
+
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#">
+
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#">
+
+                            </a>
+                        </td>
+                    </tr>
+                    <!-- tr*3>td*4>img[src="./imgs/Frieren-Beyond-Journey's-End-3.jpg"].ratio.ratio-1x1 -->
+                    <tr>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#">
+                                 
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-center text-size-5">
+                <button class="btn btn-primary btn-lg">確認交換</button>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-2 d-flex justify-align-center align-items-center">
+            <table class="table table-bordered border-primary mt-5 me-4">
+                <tbody>
+                    <tr class="">
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-bordered border-primary mt-5">
+                <tbody>
+                    <tr class="">
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-12 col-md-4">
+
+            <div class="mt-5 text-end">name</div>
+
+
+            <table class="table table-bordered border-primary mt-5">
+
+                <tbody>
+                    <tr>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#">
+                                
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-primary btn-lg">確認交換</button>
+            </div>
+
+        </div>
+
+        <div class="col-1"></div>
+
+    </div>
+</div>
+
+<!-- exchange end -->
 @section Scripts{
 
     <script>
@@ -252,8 +500,160 @@
 
             });
 
+            $("#fetchGetAllImage").on("click", async function () {
+                // alert("test");
+                // $("#result").text("test");
+                var imgName = "CrayonShin-chan5.jpg";
+
+                var productId = 5;
+
+                fetch(`${baseAddress}/api/GachaProducts`, {
+
+                    method: "GET"
 
 
+                }).then(result => {
+
+                    // alert(result);
+
+                    if (result.ok) {
+                        return result.text();
+                    }
+
+
+                }).then(data => {
+
+                    var jsonObj = JSON.parse(data);
+
+                    var strJsonData = "";
+
+
+                    for(var i in jsonObj) { 
+                        strJsonData += jsonObj[i].productPictureName;
+                        $("#result").append(`<img src='/imgs/${jsonObj[i].productPictureName}' alt='Alternate Text' />`);
+                    }
+
+                    alert(strJsonData);
+
+                    // $("#result").text(jsonObj);
+                    // $("#result").append(`<img src='/imgs/${jsonObj[1].productPictureName}' alt='Alternate Text' />`);
+
+
+                }).catch(err => {
+
+                    alert(err);
+
+                });
+
+            });
+
+            $("#fetchGetImageForTable").on("click", async function () {
+                // alert("test");
+                // $("#result").text("test");
+                var imgName = "CrayonShin-chan5.jpg";
+
+                var productId = 5;
+
+                fetch(`${baseAddress}/api/GachaProducts`, {
+
+                    method: "GET"
+
+
+                }).then(result => {
+
+                    // alert(result);
+
+                    if (result.ok) {
+                        return result.text();
+                    }
+
+
+                }).then(data => {
+
+                    var jsonObj = JSON.parse(data);
+
+
+                    // alert(jsonObj.productPictureName);
+                    alert(jsonObj[0].productPictureName);
+
+
+                    $("#result").text(jsonObj);
+                    // $("#result").append(`<img src='/imgs/${jsonObj[0].productPictureName}' alt='Alternate Text' />`);
+
+
+
+                    // var $imgElement = $("<img>");
+                    // $imgElement.attr("src", `/imgs/${imgName}`);
+                    // $imgElement.addClass("ratio ratio-1x1");
+
+                    // var $imgElement2 = $("<img>");
+                    // $imgElement2.attr("src", `/imgs/${imgName}`);
+                    // $imgElement2.addClass("ratio ratio-1x1");
+
+                    // var $imgElement3 = $("<img>");
+                    // $imgElement3.attr("src", `/imgs/${imgName}`);
+                    // $imgElement3.addClass("ratio ratio-1x1");
+
+                    // var $imgElement4 = $("<img>");
+                    // $imgElement4.attr("src", `/imgs/${imgName}`);
+                    // $imgElement4.addClass("ratio ratio-1x1");
+
+                    $("#result").append($imgElement);
+
+                    // var tempA = $("#")
+
+                    var strNum = 0;
+
+                    // $(`.bagRow1 > td > a:eq(${strNum})`).append($imgElement);
+
+                    // $(".bagRow1 > td > a:eq(1)").append($imgElement2);
+
+                    // $(".bagRow1 > td > a:eq(2)").append($imgElement3);
+
+                    // $(".bagRow1 > td > a:eq(3)").append($imgElement4);
+
+                    var strJsonData = "";
+
+                    var $imgElement = $("<img>");
+
+
+                    function addImageToElement(imageName, targetElement) {
+                        var $imgElement = $("<img>");
+                        $imgElement.attr("src", `/imgs/${imageName}`);
+                        $imgElement.addClass("ratio ratio-1x1");
+                        $(targetElement).append($imgElement);
+                    }
+
+                    var columnNum = 4;
+                    var rowNum = 0;
+
+                    for (var i in jsonObj) {
+
+                        strJsonData += jsonObj[i].productPictureName;
+
+                        for (var j = 0; j < columnNum; j++) {
+
+                            var targetElement = `.bagRow1 > td:eq(${rowNum}) > a:eq(${i})`;
+                            addImageToElement(jsonObj[i].productPictureName, targetElement);
+                        
+
+                        }
+
+                        rowNum++;
+
+                        // $("#result").append(`<img src='/imgs/${jsonObj[i].productPictureName}' alt='Alternate Text' />`);
+                    
+                    }
+
+                    alert(strJsonData);
+
+                }).catch(err => {
+
+                    alert(err);
+
+                });
+
+            });
         };
 
 
