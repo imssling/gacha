@@ -1,4 +1,5 @@
-﻿using gachaAPI.Models;
+﻿using gachaAPI.DTO;
+using gachaAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,28 @@ namespace gachaAPI.Controllers
         public ExchangeController(gachaContext context)
         {
             _context = context;
+        }
+
+
+        [HttpGet("GetUserBag/{id}")]
+        public async Task<IEnumerable<UserBagDTO>> GetUserBag(int id)
+        {
+            IEnumerable<UserBagDTO> userBagDTO = _context.Bags.Where(b => b.UserId == id).Select(b => new UserBagDTO
+            {
+                GachaProductId = b.GachaProductId,
+                ProductPictureName = b.GachaProduct.ProductPictureName
+            });
+
+            if (userBagDTO == null)
+            {
+                return null;
+            }
+
+            else
+            {
+                return userBagDTO;
+            }
+
         }
 
 
