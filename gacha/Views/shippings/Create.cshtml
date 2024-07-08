@@ -20,7 +20,7 @@
             <div class="form-group">
                 <label asp-for="shippingStatus" class="control-label"></label>
                 @* <input asp-for="shippingStatus" class="form-control" placeholder="待處理/已發貨/已取消/已完成" /> *@
-                <select asp-for="shippingStatus" class="form-control" asp-items="ViewBag.shippingStatus" id="shippingAddressDropDown"></select>
+                <select asp-for="shippingStatus" class="form-control" asp-items="ViewBag.shippingStatus"></select>
                 @* 變成select list *@
                @*  <span asp-validation-for="shippingStatus" class="text-danger"></span> *@
             </div>
@@ -31,7 +31,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="shippingAddress" class="control-label"></label>
-                <select asp-for="shippingAddress" class="form-control" asp-items="address"></select>
+                <select asp-for="shippingAddress" class="form-control" asp-items="address" id="shippingAddressDropDown"></select>
                 @*<span asp-validation-for="shippingAddress" class="text-danger"></span>*@
                 @* <input asp-for="shippingAddress" class="form-control" /> *@
             </div>
@@ -93,13 +93,13 @@
         });
 
         document.addEventListener('DOMContentLoaded', function () {
-            var userIdDropDown = document.getElementById('userIdDropDown');
-            var getElementById = document.querySelector('shippingAddressDropDown');
+            var userIdDropDown = document.querySelector('#userIdDropDown');
+            var shippingAddressDropDown = document.querySelector('#shippingAddressDropDown');
 
             userIdDropDown.addEventListener('change', function () {
-                var userId = userIdDropDown.value;
+            var userId = userIdDropDown.value;
              //fetch shipping addres from  所選擇的userId
-                fetch('/shippings/GetShippingAddresses?')
+                fetch(`/shippings/GetShippingAddresses?userId=${userId}`)
                     .then(response => response.json()) //parse JSON的回應
                     .then(data => {
                      shippingAddressDropDown.innerHTML = '';//清空既有的選項
