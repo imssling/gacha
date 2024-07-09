@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <Folder Include="DTOs\" />
+    <Folder Include="Web_Api_Controller\" />
   </ItemGroup>
 
 </Project>
