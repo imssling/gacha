@@ -115,7 +115,7 @@ namespace szAPI.Controllers
         // POST: api/UserInfoes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<string> PostUserInfo(UserInfoDTO userInfoDTO)
+        public async Task<string> PostUserInfo(UserInfoDTO userInfoDTO,UserPassword userPassword)
         {
             UserInfo userInfo = new UserInfo
             {
@@ -123,9 +123,13 @@ namespace szAPI.Controllers
                 PhoneNumber = userInfoDTO.phoneNumber,
                 Email = userInfoDTO.email,
                 Address = userInfoDTO.address,
-                Gender = userInfoDTO.gender
+                Gender = userInfoDTO.gender,
             };
 
+            UserPassword password = new UserPassword
+            {
+                UserPassword1 = userInfoDTO.password
+            };
 
             _context.UserInfos.Add(userInfo);
             await _context.SaveChangesAsync();
