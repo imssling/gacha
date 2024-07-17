@@ -22,6 +22,8 @@
 
 <button class="btn btn-primary" id="fetchGetImageForTable">fetchGetImageForTable</button>
 
+<button class="btn btn-primary" id="axiosGetAllImage">AxiosGetAllImage</button>
+
 <div id="result"></div>
 @* <img src="~/imgs/CrayonShin-chan5.jpg" alt="Alternate Text" /> *@
 
@@ -271,8 +273,39 @@
     </div>
 </div>
 
+<div id="app">
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-6" v-for="item in GachaProducts">
+
+
+
+            </div>
+
+            <div class="col-6">
+
+
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
 <!-- exchange end -->
 @section Scripts{
+
+    <script src="https://unpkg.com/vue@3.4.31/dist/vue.global.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js"
+            integrity="sha512-JSCFHhKDilTRRXe9ak/FJ28dcpOJxzQaCd3Xg8MyF6XFjODhy/YMCM8HW0TFDckNHWUewW+kfvhin43hKtJxAw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
 
@@ -654,6 +687,51 @@
                 });
 
             });
+
+            
+
+            var vueApp = {
+
+                data() {
+                    return {
+
+                        gachaProducts:[]
+
+                    }
+                },
+
+                mounted: function() {
+
+                    let _this = this;
+
+                    _this.getProducts();
+
+                },
+
+                methods: {
+
+                    getProducts:function(){
+
+                        let _this = this;
+
+                        // alert("getProducts");
+                        axios.get(`${baseAddress}/api/GachaProducts`).then(response => {
+                            // alert(response.data);
+                            _this.gachaProducts = response.data;
+                            alert(_this.gachaProducts[0].productPictureName);
+                        }).catch(error => {
+                            alert(error);
+                        });
+
+                    }
+
+                }
+
+            };
+
+
+            var app = Vue.createApp(vueApp).mount("#app");
+
         };
 
 
