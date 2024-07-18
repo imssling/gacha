@@ -4,83 +4,136 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - gacha</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/gacha.styles.css" asp-append-version="true" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
+    <link href="~/css/style.css" rel="stylesheet" />
+    <style>
+        i {
+            font-size: 10px;
+        }
+    </style>
 
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">gacha</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+    <div class="wrapper">
+        <aside id="sidebar" class="js-sidebar">
+            <!-- Content For Sidebar 開始-->
+            <div class="h-100">
+                <div class="sidebar-logo">
+                    <a asp-controller="Home" asp-action="Index">Gacha Shop</a>
+                </div>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-header">
+                        Member
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" asp-area="" asp-controller="userInfoes" asp-action="Index">
+                            <i class="fa-solid fa-list pe-2"></i>
+                            會員基本資料
+                        </a>
+                        <a class="sidebar-link" asp-area="" asp-controller="exchangeRecords" asp-action="Index">
+                            <i class="fa-solid fa-list pe-2"></i>
+                            扭蛋交換紀錄
+                        </a>
+                        <a class="sidebar-link" asp-area="" asp-controller="rechargeLists" asp-action="Index">
+                            <i class="fa-solid fa-list pe-2"></i>
+                            儲值紀錄
+                        </a>
+                        <a class="sidebar-link" asp-area="" asp-controller="trackingLists" asp-action="Index">
+                            <i class="fa-solid fa-list pe-2"></i>
+                            追蹤清單紀錄
+                        </a>
+                        <a class="sidebar-link" asp-area="" asp-controller="shippings" asp-action="Index">
+                            <i class="fa-solid fa-list pe-2"></i>
+                            出貨紀錄
+                        </a>
+                    </li>
+
+                    <li class="sidebar-header">
+                        Shop
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" asp-area="" asp-controller="rechargePlan" asp-action="Index">
+                            <i class="fa-solid fa-list pe-2"></i>
+                            儲值方案管理
+                        </a>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link collapsed" data-bs-target="#pages" data-bs-toggle="collapse"
+                           aria-expanded="false">
+                            <i class="fa-solid fa-file-lines pe-2"></i>
+                            商品管理
+                        </a>
+                        <ul id="pages" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" asp-controller="gachaTheme" asp-action="Index">主題</a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" asp-controller="gachaMachine" asp-action="Index">機台</a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" asp-controller="gachaProduct" asp-action="Index">扭蛋</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-header">
+                        Admin
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" asp-area="" asp-controller="permissions" asp-action="Index">
+                            <i class="fa-solid fa-list pe-2"></i>
+                            權限管理
+                        </a>
+
+                    </li>
+
+                    </li>
+                </ul>
+            </div>
+            <!-- Content For Sidebar 結束-->
+        </aside>
+
+        <div class="main">
+            <!-- 導覽開始 -->
+            <nav class="navbar navbar-expand px-3 border-bottom">
+                <button class="btn" id="sidebar-toggle" type="button">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                <div class="navbar-collapse navbar">
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a href="#" data-bs-toggle="dropdown" class="nav-icon pe-md-0">
+                                <img src="~/img/dog.jpg" style="object-fit:inherit " class="avatar img-fluid rounded" alt="" />
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a href="#" class="dropdown-item">個人資料</a>
+                                <a href="#" class="dropdown-item">設定</a>
+                                <a href="#" class="dropdown-item">登出</a>
+                            </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li>
-                        <a class="nav-link text-dark" asp-area="" asp-controller="userInfoes" asp-action="Index">會員基本資料</a>
-                        </li>
-                        <li>
-                        <a class="nav-link text-dark" asp-area="" asp-controller="shippings" asp-action="Index">出貨表</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="permissions" asp-action="Index">權限表</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="exchangeRecords" asp-action="Index">交換紀錄表</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="rechargeLists" asp-action="Index">儲值紀錄表</a>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="rechargePlan" asp-action="Index">儲值後台</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="trackingLists" asp-action="Index">追蹤清單表</a>
-                        </li>
-                        
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                扭蛋管理
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item" asp-controller="gachaTheme" asp-action="Index">主題</a></li>
-                                <li><a class="dropdown-item" asp-controller="gachaMachine" asp-action="Index">機台</a></li>
-                                <li><a class="dropdown-item" asp-controller="gachaProduct" asp-action="Index">商品</a></li>
-                            </ul>
-                        </div>
-
-
                     </ul>
-                    <partial name="_LoginPartial" />
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+            </nav>
+            <!-- 導覽結束 -->
+            <!-- 內頁開始 -->
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - gacha - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+            <main class="content px-3 py-2">
+                <div class="container-fluid">
+                    <div class="mb-3">
+                        @RenderBody()
+                    </div>
+                </div>
+            </main>
+
+            <script src="~/lib/jquery/dist/jquery.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="~/js/site.js" asp-append-version="true"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script src="~/js/script.js"></script>
+            @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

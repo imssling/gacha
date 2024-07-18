@@ -1,14 +1,14 @@
 ﻿thead {
-    background-color: lightsteelblue;
+    background-color: #F6EEA2;
     color: black;
 }
 
 .button {
     display: inline-block;
-    padding: 10px 20px;
-    font-size: 16px;
-    color: white;
-    background-color: darkblue;
+    padding: 6px 12px; 
+    font-size: 14px; 
+    color: #333;
+    background-color: #F0E1A1;
     border: none;
     border-radius: 5px;
     text-align: center;
@@ -16,6 +16,7 @@
     cursor: pointer;
 }
 
-.button:hover {
-        background-color: lightblue;
-}
+    .button:hover {
+        background-color: #D4B84A; 
+        color: #fff; 
+    }

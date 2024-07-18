@@ -1,4 +1,4 @@
-﻿@model gacha.Models.gachaMachine
+﻿@* @model gacha.Models.gachaMachine
 
 @{
     ViewData["Title"] = "Edit";
@@ -59,11 +59,6 @@
                 <input class="form-check-input" type="checkbox" asp-for="status" id="statusSwitch" />
             </div>
 
-            @* <div class="form-group">
-                <label asp-for="price" class="control-label"></label>
-                <input asp-for="price" class="form-control" />
-                <span asp-validation-for="price" class="text-danger"></span>
-            </div> *@
             <div class="form-group">
                 <input type="submit" value="儲存" class="btn button" />
             </div>
@@ -105,6 +100,110 @@
                     alert("不支援的檔案上傳類型");
                     // 鎖定按鈕
                     $('.btn').prop("disabled", true);
+                }
+            });
+        });
+    </script>
+}
+ *@
+
+ @model gacha.Models.gachaMachine
+
+@{
+    ViewData["Title"] = "Edit";
+}
+@section Styles {
+    <link href="~/css/datatables.min.css" rel="stylesheet" />
+}
+
+<h4>修改機台</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group mb-3">
+                <label asp-for="id" class="control-label"></label>
+                <input asp-for="id" class="form-control" readonly="readonly" />
+                <span asp-validation-for="id" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="themeId" class="control-label"></label>
+                <select class="form-select" asp-for="themeId" asp-items="ViewBag.themeId">
+                </select>
+                <span asp-validation-for="themeId" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="machineName" class="control-label"></label>
+                <input asp-for="machineName" class="form-control" />
+                <span asp-validation-for="machineName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="machineDescription" class="control-label"></label>
+                <textarea asp-for="machineDescription" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="machineDescription" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="price" class="control-label"></label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input asp-for="price" class="form-control">
+                </div>
+                <span asp-validation-for="price" class="text-danger"></span>
+            </div>
+
+            <div class="form-group form-check form-switch mb-3">
+                <label class="form-check-label" for="statusSwitch">
+                    @Html.DisplayNameFor(model => model.status)
+                </label>
+                <input class="form-check-input" type="checkbox" asp-for="status" id="statusSwitch" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="儲存" class="btn btn-primary" />
+                <a class="btn btn-secondary" asp-action="Index"><i class="fa-solid fa-backward"></i></a>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4 offset-md-2 text-center">
+        <partial name="_ShowMachineImagePartial">
+            <div class="mb-3">
+                <img id="machineImage" src="@Url.Content("~/images/default.png")" alt="機台圖片" class="img-thumbnail" />
+            </div>
+            <div class="form-group">
+                <input asp-for="machinePictureName" type="file" accept="image/*" class="form-control" />
+                <span asp-validation-for="machinePictureName" class="text-danger"></span>
+            </div>
+        </partial>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            $('#machinePictureName').on("change", function () {
+                // 允許的副檔名
+                var allowType = "image.*";
+                // 上傳的第一個檔案
+                var file = this.files[0];
+                // 抓取檔案的型態是否為allowType的格式
+                if (file.type.match(allowType)) {
+                    // 讀取圖片
+                    var reader = new FileReader();
+                    // 檔案讀取完成的事件
+                    reader.onload = function (e) {
+                        // 修改圖片的src屬性
+                        $('#machineImage').attr("src", e.target.result);
+                    }
+                    // 用圖片的URL讀取圖片
+                    reader.readAsDataURL(file);
+                } else {
+                    alert("不支援的檔案上傳類型");
                 }
             });
         });

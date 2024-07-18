@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using gacha.Models;
+using gacha.ViewModels;
 
 namespace gacha.Controllers
 {
@@ -21,8 +22,42 @@ namespace gacha.Controllers
         // GET: shippings
         public async Task<IActionResult> Index()
         {
+            //計算四種出貨狀態的數量並丟給shippings/index呈現
             var gachaContext = _context.shipping.Include(s => s.user);
+            var shipping_count = _context.shipping.Where(s => s.shippingStatus == "已發貨").Count();
+            var await_count = _context.shipping.Where(s => s.shippingStatus == "待處理").Count();
+            var cancel_count = _context.shipping.Where(s => s.shippingStatus == "已取消").Count();
+            var done_count = _context.shipping.Where(s => s.shippingStatus == "已完成").Count();
+            var all_count = _context.shipping.Count();
+
+            ViewBag.all_count = all_count;
+            ViewBag.shipping_count = shipping_count;
+            ViewBag.await_count = await_count;
+            ViewBag.cancel_count = cancel_count;
+            ViewBag.done_count = done_count;
+
+            //以商品id做分類,相同id為一項
+            //var a = await (from s in _context.shipping
+            //               join sd in _context.shippingDetail
+            //               on s.id equals sd.shippingId
+            //               join b in _context.bag
+            //               on sd.bagId equals b.id
+            //               join p in _context.gachaProduct
+            //               on b.gachaProductId equals p.id
+            //               //where s.id == id
+            //               group sd by new { p.id, p.productName, ShippingId = s.id } into grouped
+            //               select new shipping_vm
+            //               {
+            //                   id = grouped.Key.ShippingId,
+            //                   myquantity = grouped.Count(),
+            //                   productName = grouped.Key.productName,
+            //                   productId = grouped.Key.id,
+
+            //               }).ToListAsync();
+
+
             return View(await gachaContext.ToListAsync());
+            
         }
 
         // GET: shippings/Details/5

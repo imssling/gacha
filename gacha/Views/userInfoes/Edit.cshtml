@@ -3,19 +3,46 @@
 @{
     ViewData["Title"] = "Edit";
 }
+@section Styles {
+    <style>
+        .city, .town {
+            width: 100%;
+        }
 
+        .county {
+            float: left;
+            margin-left: 5px;
+            margin-right: 5px;
+            width: calc(15% - 10px)
+        }
+
+        .district {
+            float: left;
+            margin-left: 5px;
+            margin-right: 5px;
+            width: calc(20% - 10px)
+        }
+
+        .road {
+            float: left;
+            margin-left: 5px;
+            margin-right: 5px;
+            width: calc(65% - 10px)
+        }
+    </style>
+}
 <h1>Edit</h1>
 
 <h4>userInfo</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+    <div class="col-md-8">
+        <form asp-controller="userInfoes" asp-action="Edit" id="editForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="id" />
             <div class="form-group">
-                <input asp-for="userName" class="form-control"/>
                 <label asp-for="userName" class="control-label"></label>
+                <input asp-for="userName" class="form-control"/>
                 <span asp-validation-for="userName" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -28,11 +55,22 @@
                 <input asp-for="email" class="form-control" />
                 <span asp-validation-for="email" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+            
+            <label asp-for="address" class="control-label"></label>
+            <div id="twzipcode" class="form-group">
+                <div class="county" data-role="county"></div>
+                <div class="district" data-role="district"></div>
+                <input type="text" class="road form-control"  />
+                <input type="hidden" asp-for="address" id="fullAddress" />
+            </div>
+
+           @*  <div class="form-group">
                 <label asp-for="address" class="control-label"></label>
                 <input asp-for="address" class="form-control" />
                 <span asp-validation-for="address" class="text-danger"></span>
-            </div>
+            </div> *@
+
             <div class="form-group">
                 <label asp-for="gender" class="control-label"></label>
                 @* <input asp-for="gender" class="form-control" />
@@ -51,5 +89,41 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.15-rc1/jquery.twzipcode.min.js"></script>
+   
+
+    <script>
+        $(document).ready(function () {
+            $("#twzipcode").twzipcode({
+                // countySel: "臺北市", // 城市預設值, 字串一定要用繁體的 "臺", 否則抓不到資料
+                // districtSel: "大安區", // 地區預設值
+                zipcodeIntoDistrict: true, // 郵遞區號自動顯示在地區
+                css: ["city form-control", "town form-control"], // 自訂 "城市"、"地區" class 名稱
+                countyName: "city", // 自訂城市 select 標籤的 name 值
+                districtName: "town" // 自訂地區 select 標籤的 name 值
+            });
+
+
+            $('#editForm').on('submit', function (e) {
+                e.preventDefault(); // 防止表單立即提交
+
+                let county = $('.county select').val();
+                let district = $('.district select').val();
+                let road = $('.road').val();
+                let fullAddress = county + district + road;
+                // console.log(fullAddress);
+
+                $('#fullAddress').val(fullAddress); // 將完整地址設置到隱藏輸入欄位
+                // 提交表單
+                this.submit(); 
+
+            });
+        });
+       
+
+    </script>
 }

@@ -1,0 +1,63 @@
+﻿@model int // ID
+@inject gachaContext _context //DI內資料庫物件
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@{
+    var a = (from s in _context.shipping
+             join sd in _context.shippingDetail
+             on s.id equals sd.shippingId
+             join b in _context.bag
+             on sd.bagId equals b.id
+             join p in _context.gachaProduct
+             on b.gachaProductId equals p.id
+             where s.id == Model
+             group sd by new { p.id, p.productName, ShippingId = s.id } into grouped
+             select new shipping_vm
+                     {
+                         id = grouped.Key.ShippingId,
+                         myquantity = grouped.Count(),
+                         productName = grouped.Key.productName,
+                         productId = grouped.Key.id,
+
+                     }).ToList();
+
+    // var a = (from s in _context.shipping
+    //          join sd in _context.shippingDetail
+    //          on s.id equals sd.shippingId
+    //          join b in _context.bag
+    //          on sd.bagId equals b.id
+    //          join p in _context.gachaProduct
+    //          on b.gachaProductId equals p.id
+    //          where s.id == Model
+    //          select new shipping_vm
+    //                  {
+    //                      id = s.id,                      
+    //                      productName = p.productName,
+    //                      productId = p.id,
+
+    //                  }).ToList();
+}
+
+@* <h3>出貨明細單</h3> *@
+@foreach (var item in a)
+{
+    <div>
+        <div class="row">
+            <div class="col-sm-2">
+                <strong>@Html.DisplayNameFor(modelItem => item.productId):</strong> @Html.DisplayFor(modelItem => item.productId)
+            </div>
+            <div class="col-sm-6">
+                <strong>@Html.DisplayNameFor(modelItem => item.productName):</strong> @Html.DisplayFor(modelItem => item.productName)
+            </div>
+            <div class="col-sm-4">
+                <strong>@Html.DisplayNameFor(modelItem => item.myquantity):</strong> @Html.DisplayFor(modelItem => item.myquantity)
+            </div>
+        </div>
+    </div>
+       
+}
+

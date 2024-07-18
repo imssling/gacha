@@ -1,0 +1,245 @@
+﻿/* 從 Google Fonts 導入 'Poppins' 字體 */
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+/* 設置所有元素及其偽元素的盒子模型為 border-box，確保內邊距和邊框都包含在元素的總寬度和高度中 */
+*,
+::after,
+::before {
+    box-sizing: border-box;
+}
+
+/* 全局樣式設置 */
+body {
+    font-family: 'Poppins', sans-serif;
+    /* 設置字體為 'Poppins'，如果不可用則使用 sans-serif */
+    font-size: 0.875rem;
+    /* 設置字體大小為 0.875rem (14px) */
+    opacity: 1;
+    /* 設置元素的透明度為 1（完全不透明） */
+    overflow-y: scroll;
+    /* 設置垂直方向的滾動條總是可見 */
+    margin: 0;
+    /* 移除默認的外邊距 */
+    overflow-x: hidden;
+}
+
+/* 鏈接樣式設置 */
+a {
+    cursor: pointer;
+    /* 將光標設置為指針樣式 */
+    text-decoration: none;
+    /* 移除默認的下劃線 */
+    font-family: 'Poppins', sans-serif;
+    /* 設置字體為 'Poppins'，如果不可用則使用 sans-serif */
+}
+
+/* 列表項樣式設置 */
+li {
+    list-style: none;
+    /* 移除默認的列表項標記 */
+}
+
+/* 標題樣式設置 */
+h4 {
+    font-family: 'Poppins', sans-serif;
+    /* 設置字體為 'Poppins'，如果不可用則使用 sans-serif */
+    font-size: 1.275rem;
+    /* 設置字體大小為 1.275rem (約20.4px) */
+    color: var(--bs-emphasis-color);
+    /* 使用 CSS 變數設置文字顏色 */
+}
+
+/* 管理儀表板布局骨架樣式 */
+.wrapper {
+    align-items: stretch;
+    /* 設置子元素沿交叉軸（垂直）的對齊方式為拉伸 */
+    display: flex;
+    /* 設置為彈性盒布局 */
+    width: 100%;
+    /* 設置寬度為 100% */
+}
+
+#sidebar {
+    max-width: 264px;
+    /* 設置最大寬度為 264px */
+    min-width: 264px;
+    /* 設置最小寬度為 264px */
+    background: var(--bs-dark);
+    /* 使用 CSS 變數設置背景色 */
+    transition: all 0.35s ease-in-out;
+    /* 設置所有屬性的過渡效果，持續 0.35 秒，並使用 ease-in-out 過渡函數 */
+}
+
+.main {
+    display: flex;
+    /* 設置為彈性盒布局 */
+    flex-direction: column;
+    /* 設置子元素沿主軸（垂直）排列 */
+    min-height: 100vh;
+    /* 設置最小高度為 100vh（視窗高度） */
+    min-width: 0;
+    /* 設置最小寬度為 0 */
+    overflow: hidden;
+    /* 隱藏超出內容 */
+    transition: all 0.35s ease-in-out;
+    /* 設置所有屬性的過渡效果，持續 0.35 秒，並使用 ease-in-out 過渡函數 */
+    width: 100%;
+    /* 設置寬度為 100% */
+    background: var(--bs-dark-bg-subtle);
+    /* 使用 CSS 變數設置背景色 */
+}
+
+/* 側邊欄元素樣式 */
+.sidebar-logo {
+    padding: 1.15rem;
+    /* 設置內邊距為 1.15rem */
+}
+
+    .sidebar-logo a {
+        color: #e9ecef;
+        /* 設置文字顏色為 #e9ecef */
+        font-size: 1.15rem;
+        /* 設置字體大小為 1.15rem (約18.4px) */
+        font-weight: 600;
+        /* 設置字體粗細為 600 */
+    }
+
+.sidebar-nav {
+    list-style: none;
+    /* 移除默認的列表項標記 */
+    margin-bottom: 0;
+    /* 設置底部外邊距為 0 */
+    padding-left: 0;
+    /* 移除左邊內邊距 */
+    margin-left: 0;
+    /* 移除左邊外邊距 */
+}
+
+.sidebar-header {
+    color: #e9ecef;
+    /* 設置文字顏色為 #e9ecef */
+    font-size: .75rem;
+    /* 設置字體大小為 .75rem (12px) */
+    padding: 1.5rem 1.5rem .375rem;
+    /* 設置內邊距：上 1.5rem，右 1.5rem，下 .375rem，左 1.5rem */
+}
+
+a.sidebar-link {
+    padding: .625rem 1.625rem;
+    /* 設置內邊距：上/下 .625rem，左/右 1.625rem */
+    color: #e9ecef;
+    /* 設置文字顏色為 #e9ecef */
+    position: relative;
+    /* 設置定位方式為相對定位 */
+    display: block;
+    /* 設置為塊級元素 */
+    font-size: 0.875rem;
+    /* 設置字體大小為 0.875rem (14px) */
+}
+
+/* 側邊欄折疊箭頭樣式 */
+.sidebar-link[data-bs-toggle="collapse"]::after {
+    border: solid;
+    /* 設置邊框樣式為實線 */
+    border-width: 0 .075rem .075rem 0;
+    /* 設置邊框寬度：上 0，右 .075rem，下 .075rem，左 0 */
+    content: "";
+    /* 設置內容為空 */
+    display: inline-block;
+    /* 設置為行內塊元素 */
+    padding: 2px;
+    /* 設置內邊距為 2px */
+    position: absolute;
+    /* 設置定位方式為絕對定位 */
+    right: 1.5rem;
+    /* 設置右邊距為 1.5rem */
+    top: 1.4rem;
+    /* 設置頂部邊距為 1.4rem */
+    transform: rotate(-135deg);
+    /* 旋轉 -135 度 */
+    transition: all .2s ease-out;
+    /* 設置所有屬性的過渡效果，持續 .2 秒，並使用 ease-out 過渡函數 */
+}
+
+.sidebar-link[data-bs-toggle="collapse"].collapsed::after {
+    transform: rotate(45deg);
+    /* 折疊狀態下，旋轉 45 度 */
+    transition: all .2s ease-out;
+    /* 設置所有屬性的過渡效果，持續 .2 秒，並使用 ease-out 過渡函數 */
+}
+
+/* 头像样式 */
+.avatar {
+    height: 40px;
+    /* 設置高度為 40px */
+    width: 40px;
+    /* 設置寬度為 40px */
+}
+
+/* 將導航欄項目向右對齊 */
+.navbar-expand .navbar-nav {
+    margin-left: auto;
+    /* 設置左邊外邊距為 auto，使其向右對齊 */
+}
+
+/* 內容區域樣式 */
+.content {
+    flex: 1;
+    /* 設置彈性比例為 1，填滿剩餘空間 */
+    max-width: 100vw;
+    /* 設置最大寬度為 100vw */
+    width: 100vw;
+    /* 設置寬度為 100vw */
+}
+
+/* 在桌面設備上調整內容區域寬度 */
+@media (min-width:768px) {
+    .content {
+        max-width: auto;
+        /* 設置最大寬度為 auto */
+        width: auto;
+        /* 設置寬度為 auto */
+        flex: 1;
+    }
+}
+
+
+/* 插圖樣式 */
+.illustration {
+    background-color: var(--bs-primary-bg-subtle);
+    /* 使用 CSS 變數設置背景色 */
+    color: var(--bs-emphasis-color);
+    /* 使用 CSS 變數設置文字顏色 */
+}
+
+.illustration-img {
+    max-width: 150px;
+    /* 設置最大寬度為 150px */
+    width: 100%;
+    /* 設置寬度為 100% */
+}
+
+/* 側邊欄折疊樣式 */
+#sidebar.collapsed {
+    margin-left: -264px;
+    /* 設置左邊外邊距為 -264px，隱藏側邊欄 */
+}
+
+/* 移動設備上的導航欄和頁腳樣式 */
+@media (max-width:767.98px) {
+    .js-sidebar {
+        margin-left: -264px;
+        /* 設置左邊外邊距為 -264px，隱藏側邊欄 */
+    }
+
+    #sidebar.collapsed {
+        margin-left: 0;
+        /* 設置左邊外邊距為 0，顯示側邊欄 */
+    }
+
+    .navbar,
+    footer {
+        width: 100vw;
+        /* 設置寬度為 100vw */
+    }
+}
