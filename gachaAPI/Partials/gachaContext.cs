@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace gachaAPI.Models
+namespace gacha.Models
 {
     public partial class gachaContext : DbContext
     {
@@ -8,11 +8,12 @@ namespace gachaAPI.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
-
-                optionsBuilder.UseSqlServer(configuration.GetConnectionString("gacha"));
+                IConfiguration Config = new ConfigurationBuilder()
+                    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+                optionsBuilder.UseSqlServer(Config.GetConnectionString("gacha"));
             }
         }
-
     }
 }
