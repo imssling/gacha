@@ -11,5 +11,7 @@ public partial class gachaTheme
 
     public string themeName { get; set; }
 
+    public bool status { get; set; }
+
     public virtual ICollection<gachaMachine> gachaMachine { get; set; } = new List<gachaMachine>();
 }
