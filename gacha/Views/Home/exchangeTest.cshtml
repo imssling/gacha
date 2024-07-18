@@ -7,6 +7,10 @@
 @section Styles {
 
     <style>
+        body {
+            background-color: #F6EEA2;
+        }
+
         .hidden-radioButton {
             display: none;
         }
@@ -20,12 +24,20 @@
             border: 2px solid blue;
         }
 
-        img {
+        td {
             width: 100px;
+            height: 100px;
+            border: 1px solid gray;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        td{
-            border:1px solid gray;
+        img {
+            width: 100%
+        }
+
+        button{
+            background-color:#99D3FF
         }
     </style>
 
@@ -39,17 +51,19 @@
 
 <div id="app">
 
-    <div class="container">
+    <div class="container-fluid mb-2">
 
         <div class="row">
-            <div class="col-6">
+
+
+            <div class="col-5">
 
                 <h1>我的背包</h1>
                 <form>
                     <table class="table">
                         <tr v-for="(row, rowIndex) in chunk(gachaProducts, 4)" :key="rowIndex">
                             <td v-for="gachaProduct in row" :key="gachaProduct.id" class="">
-                                <input type="radio" :id=`user2:${gachaProduct.id}` name="gachaProduct" :value=`user2:${gachaProduct.id}` v-model="selectedGachaProduct" class="hidden-radioButton">
+                                <input type="radio" :id=`user2:${gachaProduct.id}` name="gachaProduct" :value=`user2:${gachaProduct.id}` v-model="selectedGachaProduct" class="hidden-radioButton" v-model="selectedGachaProduct">
                                 <label :for=`user2:${gachaProduct.id}` class="image-label">
                                     <div class="gachaProduct">
                                         <img :src=`/imgs/${gachaProduct.productPictureName}` :alt="gachaProduct.productName">
@@ -58,32 +72,72 @@
                             </td>
                         </tr>
                     </table>
-                    <button type="submit" class="submit-btn">提交選擇</button>
+                    <div class="d-flex justify-content-center text-size-5">
+                        <button class="btn btn-primary btn-lg">確認交換</button>
+                    </div>
                 </form>
 
             </div>
 
-            <div class="col-6">
 
-                <h1>我的背包</h1>
+            <div class="col-2 d-flex justify-align-center align-items-center">
+                <table class="table mt-5">
+                    
+                        <tr class="">
+                            <td>
+                                <button href="#">
+                                <img class="" src="/imgs/SoloLeveling-3.jpg"
+                                         alt="">
+                                </button>
+                            </td>
+                        </tr>
+
+                </table>
+                <table class="table mt-5">
+
+                        <tr class="">
+                            <td>
+                                <button href="#">
+                                <img class="" :src="getSelectedProductImage()"
+                                     alt="">
+                                </button>
+                            </td>
+                        </tr>
+
+                </table>
+            </div>
+
+
+            <div class="col-5">
+
+                <div class="mt-5 text-end"><h3>{{userName}}</h3></div>
                 <form>
                     <table class="table">
                         <tr v-for="(row, rowIndex) in chunk(gachaProducts, 4)" :key="rowIndex">
                             <td v-for="gachaProduct in row" :key="gachaProduct.id" class="">
-                                <input type="radio" :id="gachaProduct.id" name="gachaProduct" :value="gachaProduct.id" v-model="selectedGachaProduct" class="hidden-radioButton">
-                                <label :for="gachaProduct.id" class="image-label">
-                                    <div class="gachaProduct">
-                                        <img :src=`/imgs/${gachaProduct.productPictureName}` :alt="gachaProduct.productName">
-                                    </div>
-                                </label>
+
+                                <div v-if="!isEmpty(gachaProduct.productPictureName)">
+                                    <input type="radio" :id="gachaProduct.bagId" name="gachaProduct" :value="gachaProduct.bagId" v-model="selectedGachaProduct" class="hidden-radioButton">
+                                    <label :for="gachaProduct.bagId" class="image-label">
+                                        <div class="gachaProduct">
+                                            <img :src=`/imgs/${gachaProduct.productPictureName}` :alt="gachaProduct.productName" :title="gachaProduct.productPictureName" class="img-fluid">
+                                        </div>
+                                    </label>
+                                </div>
+
                             </td>
                         </tr>
                     </table>
-                    <button type="submit" class="submit-btn">提交選擇</button>
+                    <div class="d-flex justify-content-center text-size-5">
+                        <button class="btn btn-primary btn-lg">確認交換</button>
+                    </div>
                 </form>
 
             </div>
-        </div>
+
+
+        </div>      
+
 
     </div>
 
@@ -109,54 +163,6 @@
         window.onload = function () {
 
 
-            // var vueApp = {
-
-            //     data() {
-            //         return {
-
-            //             gachaProducts: [],
-            //             tr:[],
-            //             td:[],
-            //             img:[],
-            //             label:[],
-            //             radio:[]
-
-            //         }
-            //     },
-
-            //     mounted: function () {
-
-            //         let _this = this;
-
-            //         _this.getProducts();
-
-            //     },
-
-            //     methods: {
-
-            //         getProducts: function () {
-
-            //             let _this = this;
-
-            //             // alert("getProducts");
-            //             axios.get(`${baseAddress}/api/GachaProducts`).then(response => {
-            //                 // alert(response.data);
-            //                 _this.gachaProducts = response.data;
-            //                 alert(_this.gachaProducts[0].productPictureName);
-            //             }).catch(error => {
-            //                 alert(error);
-            //             });
-
-            //         }
-
-            //     }
-
-            // };
-
-
-            // var app = Vue.createApp(vueApp).mount("#app");
-
-
             var vueApp = {
 
                 data() {
@@ -165,7 +171,9 @@
 
                         baseAddress: "https://localhost:7164",
                         gachaProducts: [],
-                        selectedGachapon: null
+                        selectedGachapon: null,
+                        userName:"",
+                        selectedGachaProduct:null
 
                     }
 
@@ -190,16 +198,24 @@
                         let _this = this;
 
                         // alert("getProducts");
-                        axios.get(`${_this.baseAddress}/api/GachaProducts`).then(response => {
+                        axios.get(`${_this.baseAddress}/api/Exchange/GetUserBag/1`).then(response => {
                             // alert(response.data);
                             _this.gachaProducts = response.data;
-                            alert(_this.gachaProducts[0].productPictureName);
+                            // alert(_this.gachaProducts[0].productPictureName);
+                            _this.userName = _this.gachaProducts[0].userName;
                         }).catch(error => {
                             alert(error);
                         });
 
                     },
                     chunk: function (array, size) {
+
+                        if (array.length % size != 0) {
+                            for (let i = 0; i < (array.length % size); i++) {
+                                array.push(0);
+                            }
+                        }
+
                         const chunked_arr = [];
                         for (let i = 0; i < array.length; i += size) {
                             chunked_arr.push(array.slice(i, i + size));
@@ -209,6 +225,13 @@
                     submitForm: function () {
                         // 你可以在這裡處理表單提交，例如發送到後端
                         console.log('Selected GachaProduct:', this.selectedGachaProduct);
+                    },
+                    isEmpty: function (productPictureName) {
+                        return !productPictureName;
+                    },
+                    getSelectedProductImage: function () {
+                        const selectedProduct = this.gachaProducts.find(product => product.bagId === this.selectedGachaProduct);
+                        return selectedProduct ? `/imgs/${selectedProduct.productPictureName}` : '';
                     }
 
                 }

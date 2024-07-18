@@ -2,6 +2,8 @@
 {
     public class UserBagDTO
     {
+        public string UserName { get; set; }
+        
         public string ProductName { get; set; }
         
         public int BagId { get; set; }

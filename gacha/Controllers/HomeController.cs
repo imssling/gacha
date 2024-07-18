@@ -28,7 +28,7 @@ namespace gacha.Controllers
             return View();
         }
 
-        public IActionResult bagTest()
+        public IActionResult exchangeTest()
         {
             return View();
         }
