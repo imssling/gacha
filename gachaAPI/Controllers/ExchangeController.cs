@@ -26,6 +26,8 @@ namespace gachaAPI.Controllers
         {
             IEnumerable<UserBagDTO> userBagDTO = _context.Bags.Where(b => b.UserId == id).Select(b => new UserBagDTO
             {
+                ProductName = b.GachaProduct.ProductName,
+                BagId = b.Id,
                 GachaProductId = b.GachaProductId,
                 ProductPictureName = b.GachaProduct.ProductPictureName
             });

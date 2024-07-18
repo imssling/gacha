@@ -1,0 +1,183 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+@section Styles {
+
+    <style>
+        body{
+            background-color:#F6EEA2;
+        }
+
+        .hidden-radioButton {
+            display: none;
+        }
+
+        .image-label {
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .hidden-radioButton:checked + .image-label {
+            border: 2px solid blue;
+        }
+
+        td {
+            width: 100px;
+            height: 100px;
+            border: 1px solid gray;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        img{
+            width:100%
+        }
+ 
+
+    </style>
+
+}
+
+
+
+
+
+<div id="app">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-3"></div>
+
+            <div class="col-6">
+
+                <h1>我的背包</h1>
+                <form>
+                    <table class="table">
+                        <tr v-for="(row, rowIndex) in chunk(gachaProducts, 4)" :key="rowIndex">
+                            <td v-for="gachaProduct in row" :key="gachaProduct.bagId" class="">
+
+                                <div v-if="!isEmpty(gachaProduct.productPictureName)">
+                                    @* <input type="radio" :id="gachaProduct.bagId" name="gachaProduct" :value="gachaProduct.bagId" v-model="selectedGachaProduct" class="hidden-radioButton"> *@
+                                    <label :for="gachaProduct.bagId" class="image-label">
+                                        <div class="gachaProduct">
+                                            <img :src=`/imgs/${gachaProduct.productPictureName}` :alt="gachaProduct.productName" :title="gachaProduct.productPictureName" class="img-fluid">
+                                        </div>
+                                    </label>
+                                </div>
+
+                          
+                                
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+
+            </div>
+
+            <div class="col-3"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+@section Scripts {
+
+    <script src="https://unpkg.com/vue@3.4.31/dist/vue.global.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js"
+            integrity="sha512-JSCFHhKDilTRRXe9ak/FJ28dcpOJxzQaCd3Xg8MyF6XFjODhy/YMCM8HW0TFDckNHWUewW+kfvhin43hKtJxAw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+    <script>
+
+        window.onload = function () {
+
+            var vueApp = {
+
+                data() {
+
+                    return {
+
+                        baseAddress: "https://localhost:7164",
+                        gachaProducts: [],
+                        selectedGachapon: null,
+                        test: false
+                    }
+
+                },
+
+                created() {
+
+                    this.axiosGetGachaProducts();
+
+                },
+
+                methods: {
+
+                    axiosGetGachaProducts: function () {
+                        // 假設API返回的JSON數據結構如下：
+                        // [
+                        //     { id: 1, name: '扭蛋1', img: 'gachapon1.jpg' },
+                        //     { id: 2, name: '扭蛋2', img: 'gachapon2.jpg' },
+                        //     ...
+                        // ]
+
+                        let _this = this;
+
+                        // alert("getProducts");
+                        axios.get(`${_this.baseAddress}/api/Exchange/GetUserBag/1`).then(response => {
+                            // alert(response.data);
+                            _this.gachaProducts = response.data;
+                            // alert(_this.gachaProducts[0].productPictureName);
+                        }).catch(error => {
+                            alert(error);
+                        });
+
+                    },
+                    chunk: function (array, size) {
+                        if (array.length % size != 0) {
+                            for (let i = 0; i < (array.length % size); i++) {
+                                array.push(0);
+                            }
+                        }
+
+                        const chunked_arr = [];
+
+                        for (let i = 0; i < array.length; i += size) {
+
+                            chunked_arr.push(array.slice(i, i + size));
+                        }
+                        return chunked_arr;
+                    },
+                    submitForm: function () {
+                        // 你可以在這裡處理表單提交，例如發送到後端
+                        console.log('Selected GachaProduct:', this.selectedGachaProduct);
+                    },
+                    isEmpty: function (productPictureName) {
+                        return !productPictureName;
+                    }
+
+                }
+
+            };
+
+            var app = Vue.createApp(vueApp).mount("#app");
+
+
+        };
+
+    </script>
+
+}
