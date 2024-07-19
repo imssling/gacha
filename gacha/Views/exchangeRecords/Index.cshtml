@@ -134,13 +134,14 @@ DO NOT USE*@
 
         $(document).ready(function () {
             $('table').DataTable();
-
             google.charts.load('current', { 'packages': ['sankey'] });
             google.charts.setOnLoadCallback(drawChart);
         });
+
         @{
             var exchangeRecords = Model as List<exchangeRecord>;
         }
+
 
 
             function drawChart() {
@@ -164,24 +165,34 @@ DO NOT USE*@
                     // ['經典蛋包飯', '怪獸電力公司系列-毛怪', 2],
                     // ['蠟筆小新烤肉系列-小新和肉', '紅色外星人NarabuWiener', 1],
                     // ['蠟筆小新烤肉系列-小新和肉', 'RED紅豆麵包櫻花餡 & 小禮盒', 1],
-        @foreach (var record in exchangeRecords)
-        {
-            @:['@record.gachaIdFrom', '@record.gachaIdTo', @record.exchangeDate],
-        }
-        ]);
 
-                // Replace this with your logic to populate data from Model
-                data.addRows(Model.Select(item => [
-                    item.GachaNameFrom,
-                    item.GachaNameTo,
-                    1 // Replace with your logic for exchange times (e.g., random number)
-                ]).Concat( // Simulate creating new exchange records
-                    Array.from({ length: 5 }, () => [ // Generate 5 random exchange records
-                        GenerateRandomProductName(),
-                        GenerateRandomProductName(),
-                        Math.floor(Math.random() * 3) + 1 // Random exchange times (1-3)
-                    ])
-                ));
+        @foreach (var record in exchangeRecords.ToList())
+        {
+           
+            @:['@record.gachaIdFrom', '@record.gachaIdTo', @record.exchangeDate]
+        }
+                // ]);
+                var options = {
+                    title: 'Exchange Records',
+                    hAxis: { title: 'From', titleTextStyle: { color: '#333' } },
+                    vAxis: { minValue: 0 }
+                };
+
+                var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+                chart.draw(data, options);
+
+                // // Replace this with your logic to populate data from Model
+                // data.addRows(Model.Select(item => [
+                //     item.GachaNameFrom,
+                //     item.GachaNameTo,
+                //     1 // Replace with your logic for exchange times (e.g., random number)
+                // ]).Concat( // Simulate creating new exchange records
+                //     Array.from({ length: 5 }, () => [ // Generate 5 random exchange records
+                //         GenerateRandomProductName(),
+                //         GenerateRandomProductName(),
+                //         Math.floor(Math.random() * 3) + 1 // Random exchange times (1-3)
+                //     ])
+                // ));
 
 
                 // Sets chart options.
