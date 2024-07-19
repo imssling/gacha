@@ -39,5 +39,7 @@ namespace gacha.ViewModels
         //[Display(Name = "會員名稱")]
         //public string userName { get; set; }
 
+        [Display(Name = "總價錢")]
+        public int rechargeTotalPrice { get; set; }
     }
 }

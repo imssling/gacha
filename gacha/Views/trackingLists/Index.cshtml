@@ -1,5 +1,4 @@
-﻿
-@model IEnumerable<trackingList_ViewModel>
+﻿@model IEnumerable<trackingList_ViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -24,43 +23,77 @@
 <table class="table">
     <thead>
         <tr>
+
             <th>
-                @Html.DisplayNameFor(model => model.TrackingDate)
+                @Html.DisplayNameFor(model => model.UserId)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GachaMachineId)
+            </th>
+          @*   <th>
+                @Html.DisplayNameFor(model => model.TrackingDate)
+            </th> *@
             <th>
                 @Html.DisplayNameFor(model => model.NoteStatus)
             </th>
-            <th>
+            @* <th>
                 @Html.DisplayNameFor(model => model.GachaMachineName)
-            </th>
-            <th>
+            </th> *@
+           @*  <th>
                 @Html.DisplayNameFor(model => model.UserEmail)
-            </th>
+            </th> *@
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GachaMachineId)
+                </td>
+               @*  <td>
                     @Html.DisplayFor(modelItem => item.TrackingDate)
-            </td>
-            <td>
+                </td> *@
+                <td>
                     @Html.DisplayFor(modelItem => item.NoteStatus)
-            </td>
-            <td>
+                </td>
+               @*  <td>
                     @Html.DisplayFor(modelItem => item.GachaMachineName)
-            </td>
-            <td>
+                </td> *@
+                @* <td>
                     @Html.DisplayFor(modelItem => item.UserEmail)
-            </td>
-            <td>
-                @Html.ActionLink("Details", "Details", new { id = item.UserId, mId = item.GachaMachineId }) 
-                @*DO NOT USE @Html.ActionLink("Edit", "Edit", new { id = item.UserId, mId = item.GachaMachineId }) |
+                </td> *@
+                <td>
+                    @* @Html.ActionLink("Details", "Details", new { id = item.UserId, mId = item.GachaMachineId }) *@
+                    @*DO NOT USE @Html.ActionLink("Edit", "Edit", new { id = item.UserId, mId = item.GachaMachineId }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.UserId, mId = item.GachaMachineId }) DO NOT USE*@
-            </td>
-        </tr>
-}
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#trackingListModal-@item.UserId-@item.GachaMachineId">
+                        Detail
+                    </button>
+                </td>
+            </tr>
+            <div class="modal fade" id="trackingListModal-@item.UserId-@item.GachaMachineId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            @* <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> *@
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <partial name="_trackingLists_Partial" model="item" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            @* <button type="button" class="btn btn-primary">Save changes</button> *@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
     </tbody>
 </table>
 @section Scripts {

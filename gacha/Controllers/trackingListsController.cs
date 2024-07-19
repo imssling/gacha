@@ -22,7 +22,7 @@ namespace gacha.Controllers
         // GET: trackingLists
         public async Task<IActionResult> Index()
         {
-            var gachaContext = _context.trackingList.Include(t => t.gachaMachine).Include(t => t.user)
+            var gachaContext =await  _context.trackingList.Include(t => t.gachaMachine).Include(t => t.user)
                 .Select(t=> new trackingList_ViewModel 
                 {
                     UserId = t.userId,
@@ -31,8 +31,8 @@ namespace gacha.Controllers
                     NoteStatus = t.noteStatus,
                     GachaMachineName=t.gachaMachine.machineName,
                     UserEmail=t.user.email
-                });
-            return View(await gachaContext.ToListAsync());
+                }).ToListAsync();
+            return View(gachaContext);
         }
 
         // GET: trackingLists/Details/5

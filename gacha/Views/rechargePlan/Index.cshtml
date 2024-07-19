@@ -46,47 +46,81 @@
     </thead>
 
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.point)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.createdAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.updatedAt)
-            </td>
-            <td>  
-                    <a class="button" asp-action="Edit" asp-route-id="@item.id"><i class="fa-solid fa-pen-to-square"></i></a>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.point)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.createdAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.updatedAt)
+                </td>
+                <td>
+                    @*  <a class="button" asp-action="Edit" asp-route-id="@item.id"><i class="fa-solid fa-pen-to-square"></i></a> *@
                     <a class="button" asp-action="Details" asp-route-id="@item.id"><i class="fa-solid fa-list"></i></a>
-                    <a class="button" asp-action="Delete" asp-route-id="@item.id"><i class="fa-solid fa-trash"></i></a>
-            </td>
-        </tr> 
-}
+                    <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-danger" onclick="return Confirm(this)">Delete</a>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#rechargePlanEditModal-@item.id">
+                        Edit
+                    </button>
+
+                </td>
+            </tr>
+            @* Edit Start *@
+            <div class="modal fade" id="rechargePlanEditModal-@item.id" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true" >
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button id="close" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModal(@item.id)"></button>
+                        </div>
+                        <div class="modal-body">
+                            <partial name="_rechargePlanEdit_Partial" model="@item">
+                        </div>
+                        @* <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div> *@
+                    </div>
+                </div>
+            </div>
+        }
     </tbody>
 </table>
 
 @section Scripts {
     <script src="~/lib/datatables/js/jquery.datatables.min.js" asp-append-version="true"></script>
     <script src="//cdn.datatables.net/fixedheader/3.3.1/js/dataTables.fixedHeader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+
+
     <script>
+        var a = 0;
+        
         $(document).ready(function () {
+
+            $('.modal').on('hidden.bs.modal', function (e) {
+                $(this).find('form').get(0).reset();
+            });
+
             $('table').DataTable({
                 fixedHeader: {
                     header: true,
@@ -107,6 +141,64 @@
                     scrollTop: $(".dataTables_wrapper").offset().top
                 }, 50);
             });
+            $(document).on('shown.bs.modal', function (e) {
+                var modal = $(e.target); // Get the modal that is opened
+                var priceInput = modal.find('#price');
+                var pointInput = modal.find('#point');
+                priceInput.on('input', function () {
+                    pointInput.val(priceInput.val());
+
+
+                });
+
+                    $("#close").on("click", function () {
+                        $("#price").val(priceInput);
+                        $("#point").val(priceInput);
+                    });
+            });
+            
         });
+        function Confirm(element) {
+            // 使用 SweetAlert2 來顯示確認對話框
+            Swal.fire({
+                title: "是否確認要刪除?",
+                icon: "warning",
+                showDenyButton: true, // 顯示「否」按鈕
+                confirmButtonText: "是", // 「是」按鈕的文字
+                denyButtonText: "否", // 「否」按鈕的文字
+                confirmButtonColor: '#d33', // 設置「是」按鈕為紅色
+                denyButtonColor: '#3085d6', // 設置「否」按鈕為藍色
+            }).then((result) => {
+                // 判斷用戶選擇的按鈕
+                if (result.isConfirmed) {
+                    // 用戶選擇了「是」，繼續刪除操作，導航到新的URL
+                    window.location.href = element.href;
+                } else if (result.isDenied) {
+                }
+                // 如果用戶選擇了「取消」，什麼都不做
+            });
+            return false; // 防止 a 標籤的預設行為
+        }
+
+
+        $(document).on('hidden.bs.modal', function (e) {
+            if (!saveButtonClicked) {
+                var modal = $(e.target);
+                var form = modal.find('form')[0];
+                if (form) {
+                    form.reset();
+                }
+            }
+            saveButtonClicked = false;
+        });
+      
+
+            //a = modal.find('#price');
+       
+
+          
+        
+
+        
     </script>
 }

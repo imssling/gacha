@@ -45,7 +45,7 @@ namespace gacha.Controllers
         // GET: activityType/Create
         public IActionResult Create()
         {
-            return View();
+            return PartialView();
         }
 
         // POST: activityType/Create
@@ -118,19 +118,28 @@ namespace gacha.Controllers
         // GET: activityType/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //var activityType = await _context.activityType
+            //    .FirstOrDefaultAsync(m => m.id == id);
+            //if (activityType == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //return View(activityType);
+
+            var activityType = await _context.activityType.FindAsync(id);
+            if (activityType != null)
             {
-                return NotFound();
+                _context.activityType.Remove(activityType);
             }
 
-            var activityType = await _context.activityType
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (activityType == null)
-            {
-                return NotFound();
-            }
-
-            return View(activityType);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: activityType/Delete/5
