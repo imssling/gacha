@@ -7,9 +7,9 @@ namespace gacha.Models;
 
 public partial class admin
 {
-    public int id { get; set; }
-
     public string account { get; set; }
+
+    public string name { get; set; }
 
     public int roleId { get; set; }
 
