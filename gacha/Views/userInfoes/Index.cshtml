@@ -16,7 +16,7 @@
             float: left;
             margin-left: 5px;
             margin-right: 5px;
-            width: calc(15% - 10px)
+            width: calc(20% - 10px)
         }
 
         .district {
@@ -87,13 +87,16 @@
                 @Html.DisplayFor(modelItem => item.gender)
             </td>
             <td>
-                 <a class="button" href="" data-bs-toggle="modal" data-bs-target="#editModal-@item.id"><i class="fa-solid fa-pen-to-square"></i></a>
-                <a class="button" asp-action="Details" asp-route-id="@item.id"><i class="fa-solid fa-list"></i></a>
-                <a class="button" asp-action="Delete" asp-route-id="@item.id"><i class="fa-solid fa-trash"></i></a>
+                <a class="button" href="" data-bs-toggle="modal" data-bs-target="#editModal-@item.id"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a class="button" asp-action="Details" asp-route-id="@item.id"><i class="fa-solid fa-list"></i></a>
+                    <a asp-action="Delete" asp-route-id="@item.id" class="button delete" onclick="return Confirm(this)">
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
+               
             </td>
         </tr>
 
-            <!-- Modal -->
+            <!-- Edit Modal -->
             <div class="modal fade modal-lg" id="editModal-@item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -102,20 +105,21 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <partial name="_userInfoes_partial" model="@item">
-
-                        </div>
-                       
+                            <partial name="_userInfoes_edit_partial" model="@item">
+                        </div>                    
                     </div>
                 </div>
             </div>
 }
     </tbody>
 </table>
+
+
 @section Scripts {
     <script src="~/lib/datatables/js/jquery.datatables.min.js"></script>
     <script src="~/js/datatables.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.15-rc1/jquery.twzipcode.min.js"></script>
+    <script src="~/js/delete_function_sweetalert.js"></script>
     <script>
 
         $(document).ready(function () {
@@ -142,7 +146,7 @@
                 // 提交表單
                 this.submit();
 
-            });
+            });        
         });
     </script>
 }

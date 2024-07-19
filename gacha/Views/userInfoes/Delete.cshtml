@@ -3,10 +3,6 @@
 @{
     ViewData["Title"] = "Delete";
 }
-
-<h3>刪除會員資料</h3>
-
-<div>
     <h4>userInfo</h4>
     <hr />
     <dl class="row">
@@ -44,8 +40,8 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="id" />
-        <input type="submit" value="Delete" class="btn btn-danger delete" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Delete" class="btn btn-danger delete button" />
+    <a asp-action="Index"><i class="fa-solid fa-backward"></i></a>
     </form>
 </div>
 @section Scripts {

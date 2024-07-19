@@ -1,9 +1,10 @@
-﻿@model IEnumerable<gacha.Models.shippingDetail>
+﻿@model IEnumerable<gacha.Models.role>
 
 @{
     ViewData["Title"] = "Index";
 }
 
+<h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -12,10 +13,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.bag)
+                @Html.DisplayNameFor(model => model.id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.shipping)
+                @Html.DisplayNameFor(model => model.title)
             </th>
             <th></th>
         </tr>
@@ -24,10 +25,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.bag.gachaStatus)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.shipping.contactPhone)
+                @Html.DisplayFor(modelItem => item.title)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |

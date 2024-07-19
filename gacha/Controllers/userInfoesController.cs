@@ -150,19 +150,14 @@ namespace gacha.Controllers
         // GET: userInfoes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            var userInfo = await _context.userInfo.FindAsync(id);
+            if (userInfo != null)
             {
-                return NotFound();
+                _context.userInfo.Remove(userInfo);
             }
 
-            var userInfo = await _context.userInfo
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (userInfo == null)
-            {
-                return NotFound();
-            }
-
-            return View(userInfo);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: userInfoes/Delete/5
