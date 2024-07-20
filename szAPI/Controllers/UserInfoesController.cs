@@ -30,14 +30,17 @@ namespace szAPI.Controllers
         [HttpGet]
         public async Task<IEnumerable<UserInfoDTO>> GetUserInfos()
         {
+            UserPassword userPassword = new UserPassword();
             return _context.UserInfos.Select(UserInfos => new UserInfoDTO
             {
+
                 id = UserInfos.Id,
                 userName = UserInfos.UserName,
                 phoneNumber = UserInfos.PhoneNumber,
                 email = UserInfos.Email,
                 address = UserInfos.Address,
                 gender = UserInfos.Gender,
+                password = userPassword.UserPassword1
             });
         }
 
@@ -115,7 +118,7 @@ namespace szAPI.Controllers
         // POST: api/UserInfoes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<string> PostUserInfo(UserInfoDTO userInfoDTO,UserPassword userPassword)
+        public async Task<string> PostUserInfo(UserInfoDTO userInfoDTO)
         {
             UserInfo userInfo = new UserInfo
             {
@@ -124,11 +127,6 @@ namespace szAPI.Controllers
                 Email = userInfoDTO.email,
                 Address = userInfoDTO.address,
                 Gender = userInfoDTO.gender,
-            };
-
-            UserPassword password = new UserPassword
-            {
-                UserPassword1 = userInfoDTO.password
             };
 
             _context.UserInfos.Add(userInfo);
