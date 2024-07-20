@@ -29,6 +29,7 @@ namespace szAPI.Controllers
         }
 
         // GET: api/GachaDetailLists/user/{userId}
+        //現在三個ID都有值，等修改過後再檢查一下
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<IEnumerable<GachaDetailListDTO>>> GetGachaDetailListByUserId(int userId)
         {
@@ -50,9 +51,9 @@ namespace szAPI.Controllers
                 return new GachaDetailListDTO
                 {
                     id = gdl.Id,
-                    gachaProductName = gdl.Bag.GachaProduct.ProductName,
+                    gachaProductName = gdl.Bag.GachaProduct.ProductName ?? "未知商品",
                     status = ConfirmStatus(gdl),
-                    quantity = 1, //數量怎寫
+                    //quantity = 1, //數量怎寫
                     updateTime = ConfirmUpdateTime(gdl),
                 };
             }).ToList();
@@ -85,18 +86,15 @@ namespace szAPI.Controllers
         {
             if (gachaDetailList.BagId != null)
             {
-                var BagTime = gachaDetailList.Bag.Date;
-                return BagTime;
+                return gachaDetailList.Bag?.Date ?? DateTime.MinValue;
             }
             else if (gachaDetailList.ExchangeRecordId != null)
             {
-                var ExchangeTime = gachaDetailList.ExchangeRecord.ExchangeDate;
-                return (DateTime)ExchangeTime;
+                return gachaDetailList.ExchangeRecord.ExchangeDate ?? DateTime.MinValue;
             }
             else if (gachaDetailList.UploadRecordId != null)
             {
-                var UploadTime = gachaDetailList.UploadRecord.UploadDate;
-                return (DateTime)UploadTime;
+                return gachaDetailList.UploadRecord.UploadDate ?? DateTime.MinValue;
             }
             return DateTime.MinValue;
         }

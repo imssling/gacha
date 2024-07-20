@@ -38,10 +38,10 @@ namespace szAPI.Controllers
                 .Where(tl => tl.UserId == userId)
                 .Select(tl => new TrackingListDTO
                 {
-                   userId = tl.UserId,
-                   gachaMachineId = tl.GachaMachineId,
-                   gachaMachineName = tl.GachaMachine.MachineName,
-                   price = tl.GachaMachine.Price,
+                    userId = tl.UserId,
+                    gachaMachineId = tl.GachaMachineId,
+                    gachaMachineName = tl.GachaMachine.MachineName,
+                    price = tl.GachaMachine.Price,
                 })
                .ToListAsync();
 
@@ -54,7 +54,7 @@ namespace szAPI.Controllers
         }
 
         // PUT: api/TrackingLists/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // To protect from overposting attacks, see <https://go.microsoft.com/fwlink/?linkid=2123754>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTrackingList(int id, TrackingList trackingList)
         {
@@ -85,7 +85,7 @@ namespace szAPI.Controllers
         }
 
         // POST: api/TrackingLists
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // To protect from overposting attacks, see <https://go.microsoft.com/fwlink/?linkid=2123754>
         [HttpPost]
         public async Task<ActionResult<string>> PostTrackingList(TrackingListDTO trackingListDTO)
         {
@@ -118,7 +118,7 @@ namespace szAPI.Controllers
 
         // DELETE: api/TrackingLists/{userId}/{gachaMachineId}
         [HttpDelete("{userId}/{gachaMachineId}")]
-        public async Task<string> DeleteTrackingList(int userId,int gachaMachineId)
+        public async Task<string> DeleteTrackingList(int userId, int gachaMachineId)
         {
             var trackingList = await _context.TrackingLists
                 .Where(tl => tl.UserId == userId && tl.GachaMachineId == gachaMachineId)
