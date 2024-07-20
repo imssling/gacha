@@ -26,20 +26,35 @@ namespace gacha.Controllers
         {
             //var gachaContext = _context.activity.Include(a => a.activityType);
 
-            var gachaContext = _context.activity
-                .Select(activityV => new activity_ViewModel 
-                {
-                    id= activityV.id,
-                    title = activityV.title,
-                    description = activityV.description,
-                    status = activityV.status,
-                    activityTypeId = activityV.activityTypeId,
-                    createdAt = activityV.createdAt,
-                    activityStart = activityV.activityStart,
-                    activityEnd = activityV.activityEnd
+            var gachaContext = from activity in _context.activity
+                               join activityType in _context.activityType
+                               on activity.activityTypeId equals activityType.id
+                               select new activity_ViewModel
+                               {
+                                   id = activity.id,
+                                   title = activity.title,
+                                   description = activity.description,
+                                   status = activity.status,
+                                   createdAt = activity.createdAt,
+                                   activityStart = activity.activityStart,
+                                   activityEnd = activity.activityEnd,
+                                   activityTypeId = activity.activityTypeId,
+                                   activityTypeName = activityType.name
+                               };
+                                 return View(await gachaContext.ToListAsync());
+            //.Select(activityV => new activity_ViewModel 
+            //{
+            //    id= activityV.id,
+            //    title = activityV.title,
+            //    description = activityV.description,
+            //    status = activityV.status,
+            //    activityTypeId = activityV.activityTypeId,
+            //    createdAt = activityV.createdAt,
+            //    activityStart = activityV.activityStart,
+            //    activityEnd = activityV.activityEnd
 
-                });
-            return View(gachaContext);
+            //});
+
         }
 
         // GET: activity/Details/5
@@ -98,8 +113,28 @@ namespace gacha.Controllers
             {
                 return NotFound();
             }
+
+            var activityType = await _context.activityType.FindAsync(activity.activityTypeId);
+            if (activityType == null)
+            {
+                return NotFound();
+            }
+
             ViewData["activityTypeId"] = new SelectList(_context.activityType, "id", "name", activity.activityTypeId);
-            return View(activity);
+            var activityVM = new activity_ViewModel
+            {
+                id = activity.id,
+                title = activity.title,
+                description = activity.description,
+                status = activity.status,
+                createdAt = activity.createdAt,
+                activityStart = activity.activityStart,
+                activityEnd = activity.activityEnd,
+                activityTypeId = activity.activityTypeId,
+                activityTypeName = activityType.name
+            };
+
+            return View(activityVM);
         }
 
         // POST: activity/Edit/5

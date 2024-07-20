@@ -19,6 +19,9 @@ namespace gacha.ViewModels
         [Display(Name = "活動類型ID")]
         public int activityTypeId { get; set; }
 
+        [Display(Name = "活動類型名稱")]
+        public string activityTypeName { get; set; }
+
         [Display(Name = "活動創建日")]
         public DateTime? createdAt { get; set; }
 
