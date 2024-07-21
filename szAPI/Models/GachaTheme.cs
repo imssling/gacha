@@ -11,5 +11,7 @@ public partial class GachaTheme
 
     public string ThemeName { get; set; }
 
+    public bool Status { get; set; }
+
     public virtual ICollection<GachaMachine> GachaMachines { get; set; } = new List<GachaMachine>();
 }

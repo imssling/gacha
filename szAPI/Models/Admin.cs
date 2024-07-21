@@ -7,9 +7,9 @@ namespace szAPI.Models;
 
 public partial class Admin
 {
-    public int Id { get; set; }
-
     public string Account { get; set; }
+
+    public string Name { get; set; }
 
     public int RoleId { get; set; }
 

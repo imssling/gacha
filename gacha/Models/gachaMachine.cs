@@ -21,6 +21,8 @@ public partial class gachaMachine
 
     public int price { get; set; }
 
+    public bool status { get; set; }
+
     public virtual ICollection<gachaProduct> gachaProduct { get; set; } = new List<gachaProduct>();
 
     public virtual gachaTheme theme { get; set; }

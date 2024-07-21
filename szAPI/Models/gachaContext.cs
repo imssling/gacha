@@ -81,18 +81,15 @@ public partial class gachaContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.UseCollation("Chinese_Taiwan_Stroke_CI_AS");
-
         modelBuilder.Entity<Achievement>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__achievem__3213E83FF32E459F");
+            entity.HasKey(e => e.Id).HasName("PK__achievem__3213E83FB8FF15EA");
 
             entity.ToTable("achievement");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.AchievementType)
                 .HasMaxLength(50)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("achievementType");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
@@ -100,19 +97,17 @@ public partial class gachaContext : DbContext
                 .HasColumnName("createdAt");
             entity.Property(e => e.Description)
                 .HasMaxLength(500)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("description");
             entity.Property(e => e.Name)
                 .IsRequired()
                 .HasMaxLength(100)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("name");
             entity.Property(e => e.Target).HasColumnName("target");
         });
 
         modelBuilder.Entity<AchievementProgress>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__achievem__3213E83F1F6AFA98");
+            entity.HasKey(e => e.Id).HasName("PK__achievem__3213E83F4C305089");
 
             entity.ToTable("achievementProgress");
 
@@ -125,17 +120,17 @@ public partial class gachaContext : DbContext
             entity.HasOne(d => d.Achievement).WithMany(p => p.AchievementProgresses)
                 .HasForeignKey(d => d.AchievementId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__achieveme__achie__10566F31");
+                .HasConstraintName("FK__achieveme__achie__1332DBDC");
 
             entity.HasOne(d => d.User).WithMany(p => p.AchievementProgresses)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__achieveme__userI__0F624AF8");
+                .HasConstraintName("FK__achieveme__userI__123EB7A3");
         });
 
         modelBuilder.Entity<Activity>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__activity__3213E83F5F6BB813");
+            entity.HasKey(e => e.Id).HasName("PK__activity__3213E83FD6BD5F10");
 
             entity.ToTable("activity");
 
@@ -153,7 +148,6 @@ public partial class gachaContext : DbContext
                 .HasColumnName("createdAt");
             entity.Property(e => e.Description)
                 .HasMaxLength(500)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("description");
             entity.Property(e => e.Status)
                 .HasDefaultValue(true)
@@ -161,18 +155,17 @@ public partial class gachaContext : DbContext
             entity.Property(e => e.Title)
                 .IsRequired()
                 .HasMaxLength(100)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("title");
 
             entity.HasOne(d => d.ActivityType).WithMany(p => p.Activities)
                 .HasForeignKey(d => d.ActivityTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__activity__activi__00200768");
+                .HasConstraintName("FK__activity__activi__02FC7413");
         });
 
         modelBuilder.Entity<ActivityLinkVoucher>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__activity__3213E83F366C2E98");
+            entity.HasKey(e => e.Id).HasName("PK__activity__3213E83F5FC4242E");
 
             entity.ToTable("activityLinkVoucher");
 
@@ -183,17 +176,17 @@ public partial class gachaContext : DbContext
             entity.HasOne(d => d.Activity).WithMany(p => p.ActivityLinkVouchers)
                 .HasForeignKey(d => d.ActivityId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__activityL__activ__02FC7413");
+                .HasConstraintName("FK__activityL__activ__05D8E0BE");
 
             entity.HasOne(d => d.Voucher).WithMany(p => p.ActivityLinkVouchers)
                 .HasForeignKey(d => d.VoucherId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__activityL__vouch__03F0984C");
+                .HasConstraintName("FK__activityL__vouch__06CD04F7");
         });
 
         modelBuilder.Entity<ActivityType>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__activity__3213E83F7B008AC7");
+            entity.HasKey(e => e.Id).HasName("PK__activity__3213E83F38356440");
 
             entity.ToTable("activityType");
 
@@ -205,55 +198,48 @@ public partial class gachaContext : DbContext
             entity.Property(e => e.Name)
                 .IsRequired()
                 .HasMaxLength(50)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("name");
         });
 
         modelBuilder.Entity<Admin>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__admin__3213E83F6801756E");
+            entity.HasKey(e => e.Account).HasName("PK__admin__EA162E1058964464");
 
             entity.ToTable("admin");
 
-            entity.HasIndex(e => e.Account, "UQ__admin__EA162E11B5839A62").IsUnique();
-
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
             entity.Property(e => e.Account)
-                .IsRequired()
-                .HasMaxLength(50)
+                .HasMaxLength(30)
                 .IsUnicode(false)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("account");
             entity.Property(e => e.Email)
                 .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("email");
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(10)
+                .HasColumnName("name");
             entity.Property(e => e.Password)
                 .IsRequired()
                 .HasMaxLength(20)
                 .IsUnicode(false)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("password");
             entity.Property(e => e.PhoneNumber)
                 .IsRequired()
                 .HasMaxLength(20)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("phoneNumber");
             entity.Property(e => e.RoleId).HasColumnName("roleId");
 
             entity.HasOne(d => d.Role).WithMany(p => p.Admins)
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__admin__roleId__4D94879B");
+                .HasConstraintName("FK__admin__roleId__4E88ABD4");
         });
 
         modelBuilder.Entity<Announcement>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__announce__3213E83FAC5F1CF5");
+            entity.HasKey(e => e.Id).HasName("PK__announce__3213E83F2571612E");
 
             entity.ToTable("announcement");
 
@@ -261,7 +247,6 @@ public partial class gachaContext : DbContext
             entity.Property(e => e.Content)
                 .IsRequired()
                 .HasMaxLength(500)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("content");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
@@ -269,18 +254,16 @@ public partial class gachaContext : DbContext
                 .HasColumnName("createdAt");
             entity.Property(e => e.Image)
                 .HasMaxLength(100)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("image");
             entity.Property(e => e.Title)
                 .IsRequired()
                 .HasMaxLength(100)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("title");
         });
 
         modelBuilder.Entity<Bag>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__bag__3213E83FBEA5693A");
+            entity.HasKey(e => e.Id).HasName("PK__bag__3213E83F4E97CDE0");
 
             entity.ToTable("bag");
 
@@ -293,24 +276,23 @@ public partial class gachaContext : DbContext
             entity.Property(e => e.GachaStatus)
                 .IsRequired()
                 .HasMaxLength(50)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("gachaStatus");
             entity.Property(e => e.UserId).HasColumnName("userId");
 
             entity.HasOne(d => d.GachaProduct).WithMany(p => p.Bags)
                 .HasForeignKey(d => d.GachaProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__bag__gachaProduc__35BCFE0A");
+                .HasConstraintName("FK__bag__gachaProduc__37A5467C");
 
             entity.HasOne(d => d.User).WithMany(p => p.Bags)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__bag__userId__34C8D9D1");
+                .HasConstraintName("FK__bag__userId__36B12243");
         });
 
         modelBuilder.Entity<ChatRoom>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__chatRoom__3213E83F53B3EADC");
+            entity.HasKey(e => e.Id).HasName("PK__chatRoom__3213E83F9F20B21D");
 
             entity.ToTable("chatRoom");
 
@@ -325,17 +307,17 @@ public partial class gachaContext : DbContext
             entity.HasOne(d => d.User1).WithMany(p => p.ChatRoomUser1s)
                 .HasForeignKey(d => d.User1Id)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__chatRoom__user1I__17F790F9");
+                .HasConstraintName("FK__chatRoom__user1I__1AD3FDA4");
 
             entity.HasOne(d => d.User2).WithMany(p => p.ChatRoomUser2s)
                 .HasForeignKey(d => d.User2Id)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__chatRoom__user2I__18EBB532");
+                .HasConstraintName("FK__chatRoom__user2I__1BC821DD");
         });
 
         modelBuilder.Entity<CheckIn>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__checkIn__3213E83FCE1D8804");
+            entity.HasKey(e => e.Id).HasName("PK__checkIn__3213E83F70A68191");
 
             entity.ToTable("checkIn");
 
@@ -349,12 +331,12 @@ public partial class gachaContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.CheckIns)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__checkIn__userID__14270015");
+                .HasConstraintName("FK__checkIn__userID__17036CC0");
         });
 
         modelBuilder.Entity<ConvenienceStore>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__convenie__3213E83FCBE4B463");
+            entity.HasKey(e => e.Id).HasName("PK__convenie__3213E83FD8C9655F");
 
             entity.ToTable("convenienceStore");
 
@@ -363,23 +345,20 @@ public partial class gachaContext : DbContext
             entity.Property(e => e.StoreAddress)
                 .IsRequired()
                 .HasMaxLength(100)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("storeAddress");
             entity.Property(e => e.StoreName)
                 .IsRequired()
                 .HasMaxLength(20)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("storeName");
             entity.Property(e => e.StoreType)
                 .IsRequired()
                 .HasMaxLength(20)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("storeType");
         });
 
         modelBuilder.Entity<ConvenienceStoreInfo>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__convenie__3214EC07D2E136B3");
+            entity.HasKey(e => e.Id).HasName("PK__convenie__3214EC070AFF43F4");
 
             entity.ToTable("convenienceStoreInfo");
 
@@ -390,22 +369,22 @@ public partial class gachaContext : DbContext
             entity.HasOne(d => d.ShippingDetail).WithMany(p => p.ConvenienceStoreInfos)
                 .HasForeignKey(d => d.ShippingDetailId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__convenien__shipp__5441852A");
+                .HasConstraintName("FK__convenien__shipp__5535A963");
 
             entity.HasOne(d => d.Store).WithMany(p => p.ConvenienceStoreInfos)
                 .HasForeignKey(d => d.StoreId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__convenien__store__534D60F1");
+                .HasConstraintName("FK__convenien__store__5441852A");
 
             entity.HasOne(d => d.User).WithMany(p => p.ConvenienceStoreInfos)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__convenien__userI__52593CB8");
+                .HasConstraintName("FK__convenien__userI__534D60F1");
         });
 
         modelBuilder.Entity<ExchangeRecord>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__exchange__3213E83FD6FD0578");
+            entity.HasKey(e => e.Id).HasName("PK__exchange__3213E83F46E5F884");
 
             entity.ToTable("exchangeRecord");
 
@@ -421,51 +400,53 @@ public partial class gachaContext : DbContext
 
             entity.HasOne(d => d.GachaIdFromNavigation).WithMany(p => p.ExchangeRecordGachaIdFromNavigations)
                 .HasForeignKey(d => d.GachaIdFrom)
-                .HasConstraintName("FK__exchangeR__gacha__59FA5E80");
+                .HasConstraintName("FK__exchangeR__gacha__5AEE82B9");
 
             entity.HasOne(d => d.GachaIdToNavigation).WithMany(p => p.ExchangeRecordGachaIdToNavigations)
                 .HasForeignKey(d => d.GachaIdTo)
-                .HasConstraintName("FK__exchangeR__gacha__5AEE82B9");
+                .HasConstraintName("FK__exchangeR__gacha__5BE2A6F2");
 
             entity.HasOne(d => d.UserIdFromNavigation).WithMany(p => p.ExchangeRecordUserIdFromNavigations)
                 .HasForeignKey(d => d.UserIdFrom)
-                .HasConstraintName("FK__exchangeR__userI__5812160E");
+                .HasConstraintName("FK__exchangeR__userI__59063A47");
 
             entity.HasOne(d => d.UserIdToNavigation).WithMany(p => p.ExchangeRecordUserIdToNavigations)
                 .HasForeignKey(d => d.UserIdTo)
-                .HasConstraintName("FK__exchangeR__userI__59063A47");
+                .HasConstraintName("FK__exchangeR__userI__59FA5E80");
         });
 
         modelBuilder.Entity<GachaDetailList>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__gachaDet__3213E83F84526470");
+            entity.HasKey(e => e.Id).HasName("PK__gachaDet__3213E83FE8D180C4");
 
             entity.ToTable("gachaDetailList");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.BagId).HasColumnName("bagId");
             entity.Property(e => e.ExchangeRecordId).HasColumnName("exchangeRecordId");
+            entity.Property(e => e.ShippingDetailId).HasColumnName("shippingDetailId");
             entity.Property(e => e.UploadRecordId).HasColumnName("uploadRecordId");
 
             entity.HasOne(d => d.Bag).WithMany(p => p.GachaDetailLists)
                 .HasForeignKey(d => d.BagId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__gachaDeta__bagId__619B8048");
+                .HasConstraintName("FK__gachaDeta__bagId__628FA481");
 
             entity.HasOne(d => d.ExchangeRecord).WithMany(p => p.GachaDetailLists)
                 .HasForeignKey(d => d.ExchangeRecordId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__gachaDeta__excha__628FA481");
+                .HasConstraintName("FK__gachaDeta__excha__6383C8BA");
+
+            entity.HasOne(d => d.ShippingDetail).WithMany(p => p.GachaDetailLists)
+                .HasForeignKey(d => d.ShippingDetailId)
+                .HasConstraintName("FK__gachaDeta__shipp__656C112C");
 
             entity.HasOne(d => d.UploadRecord).WithMany(p => p.GachaDetailLists)
                 .HasForeignKey(d => d.UploadRecordId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__gachaDeta__uploa__6383C8BA");
+                .HasConstraintName("FK__gachaDeta__uploa__6477ECF3");
         });
 
         modelBuilder.Entity<GachaMachine>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__gachaMac__3213E83FF801102C");
+            entity.HasKey(e => e.Id).HasName("PK__gachaMac__3213E83F74F58690");
 
             entity.ToTable("gachaMachine");
 
@@ -476,30 +457,30 @@ public partial class gachaContext : DbContext
                 .HasColumnName("createTime");
             entity.Property(e => e.MachineDescription)
                 .HasMaxLength(500)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("machineDescription");
             entity.Property(e => e.MachineName)
                 .IsRequired()
                 .HasMaxLength(100)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("machineName");
             entity.Property(e => e.MachinePictureName)
                 .IsRequired()
                 .HasMaxLength(100)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("machinePictureName");
             entity.Property(e => e.Price).HasColumnName("price");
+            entity.Property(e => e.Status)
+                .HasDefaultValue(true)
+                .HasColumnName("status");
             entity.Property(e => e.ThemeId).HasColumnName("themeId");
 
             entity.HasOne(d => d.Theme).WithMany(p => p.GachaMachines)
                 .HasForeignKey(d => d.ThemeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__gachaMach__theme__2D27B809");
+                .HasConstraintName("FK__gachaMach__theme__2F10007B");
         });
 
         modelBuilder.Entity<GachaProduct>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__gachaPro__3213E83F06BE55B5");
+            entity.HasKey(e => e.Id).HasName("PK__gachaPro__3213E83FCB7DE642");
 
             entity.ToTable("gachaProduct");
 
@@ -512,38 +493,38 @@ public partial class gachaContext : DbContext
             entity.Property(e => e.ProductName)
                 .IsRequired()
                 .HasMaxLength(100)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("productName");
             entity.Property(e => e.ProductPictureName)
                 .IsRequired()
                 .HasMaxLength(100)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("productPictureName");
             entity.Property(e => e.Stock).HasColumnName("stock");
 
             entity.HasOne(d => d.Machine).WithMany(p => p.GachaProducts)
                 .HasForeignKey(d => d.MachineId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__gachaProd__machi__30F848ED");
+                .HasConstraintName("FK__gachaProd__machi__32E0915F");
         });
 
         modelBuilder.Entity<GachaTheme>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__gachaThe__3213E83FC9745B9F");
+            entity.HasKey(e => e.Id).HasName("PK__gachaThe__3213E83F47350142");
 
             entity.ToTable("gachaTheme");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Status)
+                .HasDefaultValue(true)
+                .HasColumnName("status");
             entity.Property(e => e.ThemeName)
                 .IsRequired()
                 .HasMaxLength(50)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("themeName");
         });
 
         modelBuilder.Entity<Message>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__message__3213E83F4BDBD2EF");
+            entity.HasKey(e => e.Id).HasName("PK__message__3213E83FF269ECFD");
 
             entity.ToTable("message");
 
@@ -551,7 +532,6 @@ public partial class gachaContext : DbContext
             entity.Property(e => e.ChatRoomId).HasColumnName("chatRoomID");
             entity.Property(e => e.Content)
                 .HasMaxLength(500)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("content");
             entity.Property(e => e.SendDate)
                 .HasDefaultValueSql("(getdate())")
@@ -562,17 +542,17 @@ public partial class gachaContext : DbContext
             entity.HasOne(d => d.ChatRoom).WithMany(p => p.Messages)
                 .HasForeignKey(d => d.ChatRoomId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__message__chatRoo__1CBC4616");
+                .HasConstraintName("FK__message__chatRoo__1F98B2C1");
 
             entity.HasOne(d => d.Sender).WithMany(p => p.Messages)
                 .HasForeignKey(d => d.SenderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__message__senderI__1DB06A4F");
+                .HasConstraintName("FK__message__senderI__208CD6FA");
         });
 
         modelBuilder.Entity<Permission>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__permissi__3213E83F7B573151");
+            entity.HasKey(e => e.Id).HasName("PK__permissi__3213E83FC9C24127");
 
             entity.ToTable("permission");
 
@@ -582,13 +562,12 @@ public partial class gachaContext : DbContext
             entity.Property(e => e.PermissionDesc)
                 .IsRequired()
                 .HasMaxLength(20)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("permissionDesc");
         });
 
         modelBuilder.Entity<PointList>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__pointLis__3213E83F3B6688F2");
+            entity.HasKey(e => e.Id).HasName("PK__pointLis__3213E83FCCB26DC5");
 
             entity.ToTable("pointList");
 
@@ -599,23 +578,20 @@ public partial class gachaContext : DbContext
 
             entity.HasOne(d => d.Achievement).WithMany(p => p.PointLists)
                 .HasForeignKey(d => d.AchievementId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__pointList__achie__75A278F5");
+                .HasConstraintName("FK__pointList__achie__787EE5A0");
 
             entity.HasOne(d => d.Bag).WithMany(p => p.PointLists)
                 .HasForeignKey(d => d.BagId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__pointList__bagId__74AE54BC");
+                .HasConstraintName("FK__pointList__bagId__778AC167");
 
             entity.HasOne(d => d.RechargeList).WithMany(p => p.PointLists)
                 .HasForeignKey(d => d.RechargeListId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__pointList__recha__73BA3083");
+                .HasConstraintName("FK__pointList__recha__76969D2E");
         });
 
         modelBuilder.Entity<RechargeList>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__recharge__3213E83F99A3CF59");
+            entity.HasKey(e => e.Id).HasName("PK__recharge__3213E83FDE8A527D");
 
             entity.ToTable("rechargeList");
 
@@ -624,26 +600,29 @@ public partial class gachaContext : DbContext
             entity.Property(e => e.PaymentMode)
                 .IsRequired()
                 .HasMaxLength(50)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("paymentMode");
             entity.Property(e => e.Quantity).HasColumnName("quantity");
+            entity.Property(e => e.RechargeDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("rechargeDate");
             entity.Property(e => e.RechargePlanId).HasColumnName("rechargePlanId");
             entity.Property(e => e.UserId).HasColumnName("userId");
 
             entity.HasOne(d => d.RechargePlan).WithMany(p => p.RechargeLists)
                 .HasForeignKey(d => d.RechargePlanId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__rechargeL__recha__6FE99F9F");
+                .HasConstraintName("FK__rechargeL__recha__72C60C4A");
 
             entity.HasOne(d => d.User).WithMany(p => p.RechargeLists)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__rechargeL__userI__70DDC3D8");
+                .HasConstraintName("FK__rechargeL__userI__73BA3083");
         });
 
         modelBuilder.Entity<RechargePlan>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__recharge__3213E83F136B6AF7");
+            entity.HasKey(e => e.Id).HasName("PK__recharge__3213E83FCA7B7F63");
 
             entity.ToTable("rechargePlan");
 
@@ -654,12 +633,10 @@ public partial class gachaContext : DbContext
                 .HasColumnName("createdAt");
             entity.Property(e => e.Description)
                 .HasMaxLength(500)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("description");
             entity.Property(e => e.Name)
                 .IsRequired()
                 .HasMaxLength(100)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("name");
             entity.Property(e => e.Point).HasColumnName("point");
             entity.Property(e => e.Price).HasColumnName("price");
@@ -674,7 +651,7 @@ public partial class gachaContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__role__3213E83F2F907EED");
+            entity.HasKey(e => e.Id).HasName("PK__role__3213E83F23533654");
 
             entity.ToTable("role");
 
@@ -684,13 +661,12 @@ public partial class gachaContext : DbContext
             entity.Property(e => e.Title)
                 .IsRequired()
                 .HasMaxLength(20)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("title");
         });
 
         modelBuilder.Entity<RolePermission>(entity =>
         {
-            entity.HasKey(e => new { e.RoleId, e.PermissionId }).HasName("PK__rolePerm__101A550334E9FACE");
+            entity.HasKey(e => new { e.RoleId, e.PermissionId }).HasName("PK__rolePerm__101A550384658F50");
 
             entity.ToTable("rolePermission");
 
@@ -701,17 +677,17 @@ public partial class gachaContext : DbContext
             entity.HasOne(d => d.Permission).WithMany(p => p.RolePermissions)
                 .HasForeignKey(d => d.PermissionId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__rolePermi__permi__49C3F6B7");
+                .HasConstraintName("FK__rolePermi__permi__4BAC3F29");
 
             entity.HasOne(d => d.Role).WithMany(p => p.RolePermissions)
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__rolePermi__roleI__48CFD27E");
+                .HasConstraintName("FK__rolePermi__roleI__4AB81AF0");
         });
 
         modelBuilder.Entity<Shipping>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__shipping__3213E83F00BCB310");
+            entity.HasKey(e => e.Id).HasName("PK__shipping__3213E83F67FBC34F");
 
             entity.ToTable("shipping");
 
@@ -720,12 +696,10 @@ public partial class gachaContext : DbContext
                 .IsRequired()
                 .HasMaxLength(20)
                 .IsUnicode(false)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("contactPhone");
             entity.Property(e => e.ShippingAddress)
                 .IsRequired()
                 .HasMaxLength(100)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("shippingAddress");
             entity.Property(e => e.ShippingDate)
                 .HasDefaultValueSql("(getdate())")
@@ -735,46 +709,43 @@ public partial class gachaContext : DbContext
             entity.Property(e => e.ShippingMethod)
                 .IsRequired()
                 .HasMaxLength(20)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("shippingMethod");
             entity.Property(e => e.ShippingStatus)
                 .IsRequired()
                 .HasMaxLength(20)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("shippingStatus");
             entity.Property(e => e.UserId).HasColumnName("userId");
 
             entity.HasOne(d => d.User).WithMany(p => p.Shippings)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__shipping__userId__398D8EEE");
+                .HasConstraintName("FK__shipping__userId__3B75D760");
         });
 
         modelBuilder.Entity<ShippingDetail>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__shipping__3213E83F19B8E90D");
+            entity.HasKey(e => e.Id).HasName("PK__shipping__3213E83FC2484DB6");
 
             entity.ToTable("shippingDetail");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.BagId).HasColumnName("bagId");
-            entity.Property(e => e.Quantity).HasColumnName("quantity");
             entity.Property(e => e.ShippingId).HasColumnName("shippingId");
 
             entity.HasOne(d => d.Bag).WithMany(p => p.ShippingDetails)
                 .HasForeignKey(d => d.BagId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__shippingD__bagId__3D5E1FD2");
+                .HasConstraintName("FK__shippingD__bagId__3F466844");
 
             entity.HasOne(d => d.Shipping).WithMany(p => p.ShippingDetails)
                 .HasForeignKey(d => d.ShippingId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__shippingD__shipp__3C69FB99");
+                .HasConstraintName("FK__shippingD__shipp__3E52440B");
         });
 
         modelBuilder.Entity<TrackingList>(entity =>
         {
-            entity.HasKey(e => new { e.UserId, e.GachaMachineId }).HasName("PK__tracking__62AB230B8B91D669");
+            entity.HasKey(e => new { e.UserId, e.GachaMachineId }).HasName("PK__tracking__62AB230BBE4D9406");
 
             entity.ToTable("trackingList");
 
@@ -783,7 +754,6 @@ public partial class gachaContext : DbContext
             entity.Property(e => e.NoteStatus)
                 .IsRequired()
                 .HasMaxLength(20)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("noteStatus");
             entity.Property(e => e.TrackingDate)
                 .HasDefaultValueSql("(getdate())")
@@ -793,17 +763,17 @@ public partial class gachaContext : DbContext
             entity.HasOne(d => d.GachaMachine).WithMany(p => p.TrackingLists)
                 .HasForeignKey(d => d.GachaMachineId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__trackingL__gacha__4222D4EF");
+                .HasConstraintName("FK__trackingL__gacha__440B1D61");
 
             entity.HasOne(d => d.User).WithMany(p => p.TrackingLists)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__trackingL__userI__412EB0B6");
+                .HasConstraintName("FK__trackingL__userI__4316F928");
         });
 
         modelBuilder.Entity<UploadRecord>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__uploadRe__3213E83F7A4A61FB");
+            entity.HasKey(e => e.Id).HasName("PK__uploadRe__3213E83F2619A0BF");
 
             entity.ToTable("uploadRecord");
 
@@ -817,12 +787,12 @@ public partial class gachaContext : DbContext
             entity.HasOne(d => d.Bag).WithMany(p => p.UploadRecords)
                 .HasForeignKey(d => d.BagId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__uploadRec__bagId__5EBF139D");
+                .HasConstraintName("FK__uploadRec__bagId__5FB337D6");
         });
 
         modelBuilder.Entity<UserAchievement>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__userAchi__3213E83F84A125CF");
+            entity.HasKey(e => e.Id).HasName("PK__userAchi__3213E83F05540D89");
 
             entity.ToTable("userAchievement");
 
@@ -837,30 +807,27 @@ public partial class gachaContext : DbContext
             entity.HasOne(d => d.Achievement).WithMany(p => p.UserAchievements)
                 .HasForeignKey(d => d.AchievementId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__userAchie__achie__0C85DE4D");
+                .HasConstraintName("FK__userAchie__achie__0F624AF8");
 
             entity.HasOne(d => d.User).WithMany(p => p.UserAchievements)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__userAchie__userI__0B91BA14");
+                .HasConstraintName("FK__userAchie__userI__0E6E26BF");
         });
 
         modelBuilder.Entity<UserInfo>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__userInfo__3213E83F8234AAC6");
+            entity.HasKey(e => e.Id).HasName("PK__userInfo__3213E83F4751E5EF");
 
             entity.ToTable("userInfo");
 
-            entity.HasIndex(e => e.Email, "UQ__userInfo__AB6E61646932FD17").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__userInfo__AB6E61648FD44934").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Address)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
-                .HasColumnName("address");
+            entity.Property(e => e.Address).HasColumnName("address");
             entity.Property(e => e.Email)
                 .IsRequired()
                 .HasMaxLength(254)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("email");
             entity.Property(e => e.EmailConfirm)
                 .HasDefaultValue(false)
@@ -868,42 +835,37 @@ public partial class gachaContext : DbContext
             entity.Property(e => e.Gender)
                 .IsRequired()
                 .HasMaxLength(10)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("gender");
             entity.Property(e => e.PhoneNumber)
                 .IsRequired()
                 .HasMaxLength(20)
                 .IsUnicode(false)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("phoneNumber");
             entity.Property(e => e.UserName)
                 .IsRequired()
                 .HasMaxLength(50)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("userName");
         });
 
         modelBuilder.Entity<UserPassword>(entity =>
         {
-            entity.HasKey(e => e.Email).HasName("PK__userPass__AB6E61651ED9673D");
+            entity.HasKey(e => e.Email).HasName("PK__userPass__AB6E6165D15698AB");
 
             entity.ToTable("userPassword");
 
             entity.Property(e => e.Email)
                 .HasMaxLength(254)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("email");
             entity.Property(e => e.UserPassword1)
                 .IsRequired()
                 .HasMaxLength(20)
                 .IsUnicode(false)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("userPassword");
         });
 
         modelBuilder.Entity<UserVoucher>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__userVouc__3213E83FEC049791");
+            entity.HasKey(e => e.Id).HasName("PK__userVouc__3213E83F2487ED70");
 
             entity.ToTable("userVoucher");
 
@@ -921,17 +883,17 @@ public partial class gachaContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.UserVouchers)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__userVouch__userI__06CD04F7");
+                .HasConstraintName("FK__userVouch__userI__09A971A2");
 
             entity.HasOne(d => d.Voucher).WithMany(p => p.UserVouchers)
                 .HasForeignKey(d => d.VoucherId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__userVouch__vouch__07C12930");
+                .HasConstraintName("FK__userVouch__vouch__0A9D95DB");
         });
 
         modelBuilder.Entity<Voucher>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__voucher__3213E83FBA110AE2");
+            entity.HasKey(e => e.Id).HasName("PK__voucher__3213E83F661A658F");
 
             entity.ToTable("voucher");
 
@@ -940,16 +902,13 @@ public partial class gachaContext : DbContext
             entity.Property(e => e.VoucherCode)
                 .IsRequired()
                 .HasMaxLength(50)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("voucherCode");
             entity.Property(e => e.VoucherDescription)
                 .HasMaxLength(500)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("voucherDescription");
             entity.Property(e => e.VoucherName)
                 .IsRequired()
                 .HasMaxLength(50)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS")
                 .HasColumnName("voucherName");
         });
 

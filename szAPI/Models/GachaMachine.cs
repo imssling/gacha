@@ -21,6 +21,8 @@ public partial class GachaMachine
 
     public int Price { get; set; }
 
+    public bool Status { get; set; }
+
     public virtual ICollection<GachaProduct> GachaProducts { get; set; } = new List<GachaProduct>();
 
     public virtual GachaTheme Theme { get; set; }

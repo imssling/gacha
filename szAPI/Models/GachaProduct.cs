@@ -7,7 +7,6 @@ namespace szAPI.Models;
 
 public partial class GachaProduct
 {
-
     public int Id { get; set; }
 
     public int MachineId { get; set; }

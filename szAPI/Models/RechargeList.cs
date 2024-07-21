@@ -15,6 +15,8 @@ public partial class RechargeList
 
     public string PaymentMode { get; set; }
 
+    public DateTime? RechargeDate { get; set; }
+
     public int RechargePlanId { get; set; }
 
     public int UserId { get; set; }
