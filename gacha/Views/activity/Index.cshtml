@@ -17,7 +17,29 @@
 <h1>Index</h1>
 <h3>活動</h3>
 <p>
-    <a asp-action="Create">Create New</a>
+   @*  <a asp-action="Create">Create New</a> *@
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#activityCreateModal">
+        新增活動
+    </button>
+    @* creat new modal start *@
+    <div class="modal fade" id="activityCreateModal" tabindex="-1" aria-labelledby="activityCreateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    @* <h5 class="modal-title" id="createModalLabel">Create New Activity Type</h5> *@
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <partial name="_activityCreate_Partial" model="new gacha.ViewModels.activity_ViewModel()"></partial>
+                    </div>
+                </div>
+                @*  <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div> *@
+            </div>
+        </div>
+    </div>
 </p>
 <table class="table">
     <thead>
@@ -78,7 +100,7 @@
                     @Html.DisplayFor(modelItem => item.activityTypeName)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.id">Edit</a> 
+                    @* <a asp-action="Edit" asp-route-id="@item.id">Edit</a>  *@
                     @* <a asp-action="Details" asp-route-id="@item.id">Details</a> | *@
                     @* <a asp-action="Delete" asp-route-id="@item.id">Delete</a> *@
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#activityEditModal-@item.id">

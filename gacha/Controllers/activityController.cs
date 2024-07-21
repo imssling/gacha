@@ -41,7 +41,8 @@ namespace gacha.Controllers
                                    activityTypeId = activity.activityTypeId,
                                    activityTypeName = activityType.name
                                };
-                                 return View(await gachaContext.ToListAsync());
+            ViewBag.activityTypeId = new SelectList(_context.activityType, "id", "name");
+            return View(await gachaContext.ToListAsync());
             //.Select(activityV => new activity_ViewModel 
             //{
             //    id= activityV.id,
@@ -80,7 +81,7 @@ namespace gacha.Controllers
         public IActionResult Create()
         {
             ViewData["activityTypeId"] = new SelectList(_context.activityType, "id", "name");
-            return View();
+            return PartialView();
         }
 
         // POST: activity/Create
@@ -88,7 +89,7 @@ namespace gacha.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,title,description,status,activityTypeId,createdAt,activityStart,activityEnd")] activity activity)
+        public async Task<IActionResult> Create([Bind("id,title,description,status,activityTypeId, activityTypeName,createdAt,activityStart,activityEnd")] activity activity)
         {
             if (ModelState.IsValid)
             {
@@ -142,7 +143,7 @@ namespace gacha.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,title,description,status,activityTypeId,createdAt,activityStart,activityEnd")] activity activity)
+        public async Task<IActionResult> Edit(int id, [Bind("id,title,description,status,activityTypeId, activityTypeName,createdAt,activityStart,activityEnd")] activity activity)
         {
             if (id != activity.id)
             {

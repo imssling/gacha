@@ -16,7 +16,7 @@ namespace gacha.ViewModels
         [Display(Name = "狀態")]
         public bool status { get; set; }
 
-        [Display(Name = "活動類型ID")]
+        [Display(Name = "活動類型(ID)")]
         public int activityTypeId { get; set; }
 
         [Display(Name = "活動類型名稱")]
