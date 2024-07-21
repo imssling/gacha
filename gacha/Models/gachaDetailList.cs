@@ -9,15 +9,19 @@ public partial class gachaDetailList
 {
     public int id { get; set; }
 
-    public int bagId { get; set; }
+    public int? bagId { get; set; }
 
-    public int exchangeRecordId { get; set; }
+    public int? exchangeRecordId { get; set; }
 
-    public int uploadRecordId { get; set; }
+    public int? uploadRecordId { get; set; }
+
+    public int? shippingDetailId { get; set; }
 
     public virtual bag bag { get; set; }
 
     public virtual exchangeRecord exchangeRecord { get; set; }
+
+    public virtual shippingDetail shippingDetail { get; set; }
 
     public virtual uploadRecord uploadRecord { get; set; }
 }

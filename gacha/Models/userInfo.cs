@@ -19,6 +19,8 @@ public partial class userInfo
 
     public string gender { get; set; }
 
+    public bool? emailConfirm { get; set; }
+
     public virtual ICollection<achievementProgress> achievementProgress { get; set; } = new List<achievementProgress>();
 
     public virtual ICollection<bag> bag { get; set; } = new List<bag>();

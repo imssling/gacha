@@ -9,11 +9,11 @@ public partial class pointList
 {
     public int id { get; set; }
 
-    public int rechargeListId { get; set; }
+    public int? rechargeListId { get; set; }
 
-    public int bagId { get; set; }
+    public int? bagId { get; set; }
 
-    public int achievementId { get; set; }
+    public int? achievementId { get; set; }
 
     public virtual achievement achievement { get; set; }
 
