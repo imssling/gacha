@@ -12,11 +12,11 @@ namespace szAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GachaProductsController : ControllerBase
+    public class GachaProductsV2Controller : ControllerBase
     {
         private readonly gachaContext _context;
 
-        public GachaProductsController(gachaContext context)
+        public GachaProductsV2Controller(gachaContext context)
         {
             _context = context;
         }
@@ -48,11 +48,11 @@ namespace szAPI.Controllers
         // 找出所有扭蛋資料(不包含機台照片)
         // GET: api/GachaProducts
         [HttpGet]
-        public async Task<IEnumerable<GachaProductDTO>> GetGachaProducts()
+        public async Task<IEnumerable<GachaProductV2DTO>> GetGachaProducts()
         {
             return _context.GachaProducts
                 .Include(gp => gp.Machine)
-                .Select(GachaProduct => new GachaProductDTO
+                .Select(GachaProduct => new GachaProductV2DTO
                 {
                     id = GachaProduct.Id,
                     machineName = GachaProduct.Machine.MachineName,
@@ -67,12 +67,12 @@ namespace szAPI.Controllers
         //透過machineId找出其扭蛋資料(含機台照片)
         // GET: api/GachaProducts/machine
         [HttpGet("machine/{machineId}")]
-        public async Task<ActionResult<IEnumerable<GachaProductDTObyMachineId>>> GetGachaProductByMachineId(int machineId)
+        public async Task<ActionResult<IEnumerable<GachaProductV2DTObyMachineId>>> GetGachaProductByMachineId(int machineId)
         {
             var gachaProduct = await _context.GachaProducts
                 .Include(gp => gp.Machine)
                 .Where(gp => gp.Machine.Id == machineId)
-                .Select(gpbm => new GachaProductDTObyMachineId
+                .Select(gpbm => new GachaProductV2DTObyMachineId
                 {
                     machineId = gpbm.Machine.Id,
                     machineName = gpbm.Machine.MachineName,

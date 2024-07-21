@@ -1,10 +1,9 @@
 ﻿namespace gachaAPI.DTO
 {
-    public class GachaProductDTObyMachineId
+    public class GachaProductV2DTO
     {
-        public int machineId { get; set; }
+        public int id { get; set; }
         public string machineName { get; set; }
-        public string machinePictureName { get; set; }
         public string productName { get; set; }
         public string machineDescription { get; set; }
         public int price { get; set; }
