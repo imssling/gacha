@@ -85,7 +85,7 @@ DO NOT USE*@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                           @*  <h5 class="modal-title" id="exchangeModal-@item.id">Modal title</h5> *@
+                            @*  <h5 class="modal-title" id="exchangeModal-@item.id">Modal title</h5> *@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -100,17 +100,15 @@ DO NOT USE*@
             </div>
 
         }
-            <td>
-                <a class="button" asp-action="Details" asp-route-id="@item.id"><i class="fa-solid fa-list"></i></a>
-            </td>
-        </tr>
-}
     </tbody>
 
 
 </table>
 @section Scripts {
-    <script src="~/lib/datatables/js/jquery.datatables.min.js"></script>
+    <script src="~/lib/datatables/js/jquery.datatables.min.js" asp-append-version="true"></script>
+    <script src="//cdn.datatables.net/fixedheader/3.3.1/js/dataTables.fixedHeader.min.js"></script>
+    <script src="~/js/datatables.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.min.js" integrity="sha512-ztxZscxb55lKL+xmWGZEbBHekIzy+1qYKHGZTWZYH1GUwxy0hiA18lW6ORIMj4DHRgvmP/qGcvqwEyFFV7OYVQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -174,7 +172,5 @@ DO NOT USE*@
     </script>
 
    
-    <script src="~/lib/datatables/js/jquery.datatables.min.js" asp-append-version="true"></script>
-    <script src="//cdn.datatables.net/fixedheader/3.3.1/js/dataTables.fixedHeader.min.js"></script>
-    <script src="~/js/datatables.js"></script>
+
 }
