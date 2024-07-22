@@ -8,13 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Views\admin\**" />
-    <Content Remove="Views\admin\**" />
-    <EmbeddedResource Remove="Views\admin\**" />
-    <None Remove="Views\admin\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="bundleconfig.json" />
   </ItemGroup>
 

@@ -7,7 +7,7 @@
 
 <div class="row">
     <div class="col-md-10">
-        <form asp-controller="userInfoes" asp-action="Edit" id="editForm">
+        <form asp-controller="userInfoes" asp-action="Edit" id="editForm-@Model.id" class="editForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="id" />
             <div class="form-group">
@@ -30,9 +30,9 @@
             <label asp-for="address" class="control-label"></label>
             <div class="form-group d-flex justify-content-start twzipcode-modal">
                 <div class="county" data-role="county"></div>                      
-                    <div class="district" data-role="district"></div>
-                <input type="text" class="road form-control" />
-                <input type="hidden" asp-for="address" id="fullAddress" />
+                <div class="district" data-role="district"></div>
+                <input type="text" id="road" class="road form-control" />
+                <input type="hidden" asp-for="address" id="fullAddress" class="fullAddress" />
             </div>
 
             @*  <div class="form-group">

@@ -52,6 +52,14 @@
                             <i class="fa-solid fa-list pe-2"></i>
                             出貨紀錄
                         </a>
+                        <a class="sidebar-link" asp-area="" asp-controller="activity" asp-action="Index">
+                            <i class="fa-solid fa-list pe-2"></i>
+                            活動
+                        </a>
+                        <a class="sidebar-link" asp-area="" asp-controller="activityType" asp-action="Index">
+                            <i class="fa-solid fa-list pe-2"></i>
+                            活動類別
+                        </a>
                     </li>
 
                     <li class="sidebar-header">
@@ -106,7 +114,8 @@
 
         <div class="main">
             <!-- 導覽開始 -->
-            <nav class="navbar navbar-expand px-3 border-bottom">
+            <partial name="_LoginPartial" />
+            @* <nav class="navbar navbar-expand px-3 border-bottom">
                 <button class="btn" id="sidebar-toggle" type="button">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -124,7 +133,7 @@
                         </li>
                     </ul>
                 </div>
-            </nav>
+            </nav> *@
             <!-- 導覽結束 -->
             <!-- 內頁開始 -->
 

@@ -81,13 +81,14 @@
                 @Html.DisplayFor(modelItem => item.email)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.address)
+                    @(item.address.Replace("_", ""))
+                    @* @Html.DisplayFor(modelItem => item.address).ToString().Replace("_", "") *@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.gender)
             </td>
             <td>
-                <a class="button" href="" data-bs-toggle="modal" data-bs-target="#editModal-@item.id"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a class="button" href="" data-bs-toggle="modal" onclick="edit_zipcode(this)" data-bs-target="#editModal-@item.id"><i class="fa-solid fa-pen-to-square"></i></a>
                     <a class="button" asp-action="Details" asp-route-id="@item.id"><i class="fa-solid fa-list"></i></a>
                     <a asp-action="Delete" asp-route-id="@item.id" class="button delete" onclick="return Confirm(this)">
                         <i class="fa-solid fa-trash"></i>
@@ -121,32 +122,72 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.15-rc1/jquery.twzipcode.min.js"></script>
     <script src="~/js/delete_function_sweetalert.js"></script>
     <script>
+        function edit_zipcode(element) {
+            $('.modal').on('hidden.bs.modal', function (e) {
+                $(this).find('form').get(0).reset();
+            });
+            var itemId = $(element).attr('data-bs-target');
+            var splitAddress = $(`${itemId}`).find('.fullAddress').val().split("_");
+            $('.road').val(splitAddress[2]);
 
-        $(document).ready(function () {
-            $(".twzipcode-modal").twzipcode({
+            $(`${itemId}`).find(".twzipcode-modal").twzipcode({
                 // countySel: "臺北市", // 城市預設值, 字串一定要用繁體的 "臺", 否則抓不到資料
                 // districtSel: "大安區", // 地區預設值
-                zipcodeIntoDistrict: true, // 郵遞區號自動顯示在地區
-                css: ["city form-control", "town form-control"], // 自訂 "城市"、"地區" class 名稱
-                countyName: "city", // 自訂城市 select 標籤的 name 值
-                districtName: "town" // 自訂地區 select 標籤的 name 值
+                countySel: splitAddress[0], 
+                districtSel: splitAddress[1],
+                zipcodeIntoDistrict: true, //郵遞區號自動顯示在地區
+                css: ["city form-control", "town form-control"], //自訂 "城市"、"地區" class 名稱
+                countyName: "city", //自訂城市 select 標籤的 name 值
+                districtName: "town" //自訂地區 select 標籤的 name 值
             });
 
+        }
+        $(document).ready(function () {
+            // var splitAddress = $('.fullAddress').val().split("_");
+            // console.log(splitAddress);
+            // $('.road').val('111');
+            // $(".twzipcode-modal").twzipcode({
+            //     // countySel: "臺北市", // 城市預設值, 字串一定要用繁體的 "臺", 否則抓不到資料
+            //     // districtSel: "大安區", // 地區預設值
+            //     countySel: splitAddress[0], // 城市預設值, 字串一定要用繁體的 "臺", 否則抓不到資料
+            //     districtSel: splitAddress[1], // 地區預設值
+            //     zipcodeIntoDistrict: true, // 郵遞區號自動顯示在地區
+            //     css: ["city form-control", "town form-control"], // 自訂 "城市"、"地區" class 名稱
+            //     countyName: "city", // 自訂城市 select 標籤的 name 值
+            //     districtName: "town" // 自訂地區 select 標籤的 name 值
+            // });
 
-            $('#editForm').on('submit', function (e) {
+
+            $('.editForm').on('submit', function (e) {
                 e.preventDefault(); // 防止表單立即提交
+                // console.log(e.target.phoneNumber);
+                // console.log(e.target.phoneNumber.value);
 
-                let county = $('.county select').val();
-                let district = $('.district select').val();
-                let road = $('.road').val();
+
+                // console.log(e.target.road);
+                // console.log(e.target.road.val());
+                // console.log(e.find(".road"));
+                let $form = $(this);
+                console.log("$form:", $form);
+                let county = $('.county select').val()+"_";
+                let district = $('.district select').val()+"_";
+                let road = e.target.road.value;
+                console.log("Road:", road);
+                //let road = $('.road').val();
                 let fullAddress = county + district + road;
-                // console.log(fullAddress);
+                // alert(road);
 
-                $('#fullAddress').val(fullAddress); // 將完整地址設置到隱藏輸入欄位
+                $('.fullAddress').val(fullAddress); // 將完整地址設置到隱藏輸入欄位
                 // 提交表單
                 this.submit();
 
-            });        
+            });
+
+            // $('.modal').on('hidden.bs.modal', function (e) {
+            //     $(this).find('form').get(0).reset();
+            // });
+
+            
         });
     </script>
 }

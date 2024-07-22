@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using gacha.Models;
 using gacha.ViewModel;
+using System.Net;
 
 namespace gacha.Controllers
 {
@@ -101,7 +102,7 @@ namespace gacha.Controllers
                 new SelectListItem { Value = "女", Text = "女" },
                 new SelectListItem { Value = "男", Text = "男" }
             }, "Value", "Text");
-
+        
             return View(userInfo);
         }
 
@@ -121,6 +122,7 @@ namespace gacha.Controllers
             {
                 try
                 {
+                    userInfo.address = userInfo.address.Replace("_", "");
                     _context.Update(userInfo);
                     await _context.SaveChangesAsync();
                 }

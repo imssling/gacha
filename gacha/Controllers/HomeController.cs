@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 namespace gacha.Controllers
 {
+    //[SessionCheckFilter]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
