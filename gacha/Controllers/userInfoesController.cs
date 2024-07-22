@@ -122,7 +122,6 @@ namespace gacha.Controllers
             {
                 try
                 {
-                    userInfo.address = userInfo.address.Replace("_", "");
                     _context.Update(userInfo);
                     await _context.SaveChangesAsync();
                 }
