@@ -26,7 +26,34 @@ namespace gacha.Controllers
         {
             return View();
         }
-
+        public IActionResult PointList()
+        { 
+            return View();
+        }
+        public IActionResult GachaDetailList()
+        {
+            return View();
+        }
+        public IActionResult TrackingList()
+        {
+            return View();
+        }
+        public IActionResult UserInfo()
+        {
+            return View();
+        }
+        public IActionResult GachaMachine()
+        {
+            return View();
+        }
+        public IActionResult GachaProduct()
+        {
+            return View();
+        }
+        public IActionResult Bag()
+        {
+            return View();
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

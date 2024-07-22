@@ -1,0 +1,78 @@
+﻿@section Styles
+{
+    <style>
+
+    </style>
+}
+
+<div id="app">
+    <body>
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="col-md-6">會員資料</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="profileDetails">
+                                <p><strong>使用者名稱:</strong> {{ userInfo.userName }}</p>
+                                <p><strong>手機號碼:</strong> {{ userInfo.phoneNumber }}</p>
+                                <p><strong>電子郵件:</strong> {{ userInfo.email }}</p>
+                                <p><strong>地址:</strong> {{ userInfo.address }}</p>
+                                <p><strong>性別:</strong> {{ userInfo.gender }}</p>
+                                <p><strong>密碼:</strong> {{ userInfo.password }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </body>
+</div>
+
+
+@section Scripts
+{
+    <script src="https://unpkg.com/vue@3.4.31/dist/vue.global.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js"
+            integrity="sha512-JSCFHhKDilTRRXe9ak/FJ28dcpOJxzQaCd3Xg8MyF6XFjODhy/YMCM8HW0TFDckNHWUewW+kfvhin43hKtJxAw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+
+        var vueApp = {
+            data() {
+                return {
+                    userInfo: {
+                        userName: '',
+                        phoneNumber: '',
+                        email: '',
+                        address: '',
+                        gender: '',
+                        password: ''
+                    }
+                };
+            },
+
+            methods: {
+                fetchUserInfo(id) {
+                    axios.get(`https://localhost:7134/api/UserInfoes/${id}`)
+                        .then(response => {
+                            this.userInfo = response.data;
+                        })
+                        .catch(error => {
+                            alert("error");
+                        });
+                }
+            },
+
+            mounted() {
+                this.fetchUserInfo(1); // 這裡的 ID 應該是動態的，這裡只是示例使用 1
+            }
+        };
+
+        Vue.createApp(vueApp).mount("#app");
+
+
+    </script>
+}
