@@ -13,11 +13,11 @@ public partial class shippingDetail
 
     public int bagId { get; set; }
 
-    public int quantity { get; set; }
-
     public virtual bag bag { get; set; }
 
     public virtual ICollection<convenienceStoreInfo> convenienceStoreInfo { get; set; } = new List<convenienceStoreInfo>();
+
+    public virtual ICollection<gachaDetailList> gachaDetailList { get; set; } = new List<gachaDetailList>();
 
     public virtual shipping shipping { get; set; }
 }
