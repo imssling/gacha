@@ -1,0 +1,76 @@
+﻿@model trackingList_ViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+@section Styles{
+    <style>
+        .fw-bold {
+            font-weight: bold;
+        }
+    </style>
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>追蹤清單</h4>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-4 fw-bold">
+                @Html.DisplayNameFor(model => model.UserId)
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.UserId)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4 fw-bold">
+                @Html.DisplayNameFor(model => model.GachaMachineId)
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.GachaMachineId)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4 fw-bold">
+                @Html.DisplayNameFor(model => model.TrackingDate)
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.TrackingDate)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4 fw-bold">
+                @Html.DisplayNameFor(model => model.NoteStatus)
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.NoteStatus)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4 fw-bold">
+                @Html.DisplayNameFor(model => model.GachaMachineName)
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.GachaMachineName)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4 fw-bold">
+                @Html.DisplayNameFor(model => model.UserEmail)
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.UserEmail)
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    @* @Html.ActionLink("Edit", "Edit", new { id = Model.PrimaryKey }) | *@
+    @* <a asp-action="Edit" asp-route-id="@Model?.userId" asp-route-id2="@Model?.id2">Edit</a>| *@
+    @*DO NOT USE @Html.ActionLink("Edit", "Edit", new { id = Model?.userId, mId = Model?.gachaMachineId }) | DO NOT
+    USE*@
+    @* <a asp-action="Index">Back to List</a> *@
+</div>

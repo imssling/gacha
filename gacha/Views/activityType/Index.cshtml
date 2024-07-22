@@ -1,0 +1,115 @@
+﻿@model IEnumerable<gacha.Models.activityType>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+   @*  <a asp-action="Create">Create New</a> *@
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+        新增活動類別
+    </button>
+    @* creat new modal start *@
+    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    @* <h5 class="modal-title" id="createModalLabel">Create New Activity Type</h5> *@
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <partial name="_activityTypeCreate_Partial" model="new activityType()"></partial>
+                    </div>
+                </div>
+               @*  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div> *@
+            </div>
+        </div>
+    </div>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.createdAt)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.createdAt)
+                </td>
+                <td>
+                    @* <a asp-action="Edit" asp-route-id="@item.id">Edit</a> | *@
+                    @* <a asp-action="Details" asp-route-id="@item.id">Details</a> | *@
+                    <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-danger" onclick="return Confirm(this)">Delete</a>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#activityTypeModal-@item.id">
+                        Edit
+                    </button>
+
+
+                </td>
+            </tr>
+            @* edit modal start *@
+            <div class="modal fade" id="activityTypeModal-@item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            @* <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> *@
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <partial name="_activityType_Partial" model="@item" />
+                        </div>
+                        <div class="modal-footer">
+                            @* <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> *@
+                            @*  <button type="button" class="btn btn-primary">Save changes</button>  *@
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function Confirm(element) {
+            // 使用 SweetAlert2 來顯示確認對話框
+            Swal.fire({
+                title: "是否確認要刪除?",
+                icon: "warning",
+                showDenyButton: true, // 顯示「否」按鈕
+                confirmButtonText: "是", // 「是」按鈕的文字
+                denyButtonText: "否", // 「否」按鈕的文字
+                confirmButtonColor: '#d33', // 設置「是」按鈕為紅色
+                denyButtonColor: '#3085d6', // 設置「否」按鈕為藍色
+            }).then((result) => {
+                // 判斷用戶選擇的按鈕
+                if (result.isConfirmed) {
+                    // 用戶選擇了「是」，繼續刪除操作，導航到新的URL
+                    window.location.href = element.href;
+                } else if (result.isDenied) {
+                }
+                // 如果用戶選擇了「取消」，什麼都不做
+            });
+            return false; // 防止 a 標籤的預設行為
+        }
+    </script>
+}

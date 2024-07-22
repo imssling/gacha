@@ -2,11 +2,12 @@
 
 @{
     ViewData["Title"] = "Create";
+    var address = ViewData["shippingAddress"] as SelectList;
 }
 
 <h1>Create</h1>
 
-<h4>shipping</h4>
+<h4>出貨表</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,12 +15,12 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="userId" class="control-label"></label>
-                <select asp-for="userId" class="form-control" asp-items="ViewBag.userId"></select>
+                <select asp-for="userId" class="form-control" asp-items="ViewBag.userId" id="userIdDropDown"></select>
             </div>
             <div class="form-group">
                 <label asp-for="shippingStatus" class="control-label"></label>
                 @* <input asp-for="shippingStatus" class="form-control" placeholder="待處理/已發貨/已取消/已完成" /> *@
-                <select asp-for="shippingStatus" class="form-control" asp-items="ViewBag.shippingStatus"></select> 
+                <select asp-for="shippingStatus" class="form-control" asp-items="ViewBag.shippingStatus"></select>
                 @* 變成select list *@
                @*  <span asp-validation-for="shippingStatus" class="text-danger"></span> *@
             </div>
@@ -30,8 +31,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="shippingAddress" class="control-label"></label>
-                <input asp-for="shippingAddress" class="form-control" />
-                <span asp-validation-for="shippingAddress" class="text-danger"></span>
+                <select asp-for="shippingAddress" class="form-control" asp-items="address" id="shippingAddressDropDown"></select>
+                @*<span asp-validation-for="shippingAddress" class="text-danger"></span>*@
+                @* <input asp-for="shippingAddress" class="form-control" /> *@
             </div>
             <div class="form-group">
                 <label asp-for="contactPhone" class="control-label"></label>
@@ -88,6 +90,35 @@
                 option.text = '$' + fee;
                 shippingFeeDropdown.add(option);
             });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var userIdDropDown = document.querySelector('#userIdDropDown');
+            var shippingAddressDropDown = document.querySelector('#shippingAddressDropDown');
+
+            userIdDropDown.addEventListener('change', function () {
+            var userId = userIdDropDown.value;
+             //fetch shipping addres from  所選擇的userId
+                fetch(`/shippings/GetShippingAddresses?userId=${userId}`)
+                    .then(response => response.json()) //parse JSON的回應
+                    .then(data => {
+                     shippingAddressDropDown.innerHTML = '';//清空既有的選項
+                        //自動增加dropdown fetched下來的address
+                        data.forEach(newaddress => {
+                            //alert("love you tate");
+
+                            var option = document.createElement('option');
+                            option.value = newaddress.address;
+                            option.text = newaddress.address;
+                            shippingAddressDropDown.add(option);
+                        });
+
+
+                    })
+                    .catch(error => console.error('讀取地址有誤', error));
+                
+            });
+
         });
     </script>
 }

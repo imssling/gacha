@@ -1,0 +1,72 @@
+@section Style
+{
+<!-- Include Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    .fw-bold {
+        font-weight: bold;
+    }
+</style>
+}
+
+    <div class="container mt-5">
+        <h1>Details</h1>
+        <div>
+            <h4>交換紀錄</h4>
+            <div class="container">
+                <div class="row mb-2">
+                    <div class="col-4 fw-bold">
+                        @Html.DisplayNameFor(model => model.id)
+                    </div>
+                    <div class="col-8">
+                        @Html.DisplayFor(model => model.id)
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4 fw-bold">
+                        @Html.DisplayNameFor(model => model.UserName)
+                    </div>
+                    <div class="col-8">
+                        @Html.DisplayFor(model => model.UserName)
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4 fw-bold">
+                        @Html.DisplayNameFor(model => model.UserNameTo)
+                    </div>
+                    <div class="col-8">
+                        @Html.DisplayFor(model => model.UserNameTo)
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4 fw-bold">
+                        @Html.DisplayNameFor(model => model.GachaNameFrom)
+                    </div>
+                    <div class="col-8">
+                        @Html.DisplayFor(model => model.GachaNameFrom)
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4 fw-bold">
+                        @Html.DisplayNameFor(model => model.GachaNameTo)
+                    </div>
+                    <div class="col-8">
+                        @Html.DisplayFor(model => model.GachaNameTo)
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4 fw-bold">
+                        @Html.DisplayNameFor(model => model.ExchangeDate)
+                    </div>
+                    <div class="col-8">
+                        @Html.DisplayFor(model => model.ExchangeDate)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

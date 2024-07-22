@@ -19,6 +19,18 @@ namespace gacha.Controllers
             _context = context;
         }
 
+        //增加一個 Api Endpoint
+        [HttpGet]
+        public JsonResult GetShippingAddresses(int userId)
+        {
+            var addresses = _context.userInfo
+                .Where(u => u.id == userId)
+                .Select(u => new { u.address })
+                .ToList();
+            return Json(addresses);
+        }
+
+
         // GET: shippings
         public async Task<IActionResult> Index()
         {
@@ -83,7 +95,8 @@ namespace gacha.Controllers
         public IActionResult Create()
         {
             ViewData["userId"] = new SelectList(_context.userInfo, "id", "id");
-            
+            ViewData["shippingAddress"] = new SelectList(_context.userInfo, "id", "address");
+
             //增加shipping status的select選項
             ViewBag.shippingStatus = new SelectList(new List<SelectListItem>
             {

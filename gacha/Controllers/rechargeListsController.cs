@@ -32,9 +32,12 @@ namespace gacha.Controllers
                     amount = t.amount,
                     paymentMode = t.paymentMode,
                     rechargePlanId = t.rechargePlanId,
-                    userId = t.userId
+                    userId = t.userId,
+                    rechargeDate = t.rechargeDate,
+                    rechargeTotalPrice = t.quantity * t.amount
 
                 });
+            
             return View(await gachaContext.ToListAsync());
         }
 
@@ -135,7 +138,7 @@ namespace gacha.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("quantity,amount,paymentMode,rechargePlanId, userId")] rechargeList_ViewModel rechargeListVM)
+        public async Task<IActionResult> Create([Bind("quantity,amount,paymentMode,rechargePlanId, userId, rechargeDate")] rechargeList_ViewModel rechargeListVM)
         {
 
             //增加rechargePlan paymentMode的select選項
@@ -173,7 +176,8 @@ namespace gacha.Controllers
                     amount = rechargeListVM.amount,
                     paymentMode = rechargeListVM.paymentMode,
                     rechargePlanId = rechargeListVM.rechargePlanId,
-                    userId = rechargeListVM.userId  
+                    userId = rechargeListVM.userId,
+                    rechargeDate = rechargeListVM.rechargeDate
                 };
 
                 _context.Add(rechargeList);
@@ -237,7 +241,8 @@ namespace gacha.Controllers
                 amount = rechargeList.amount,
                 paymentMode = rechargeList.paymentMode,
                 rechargePlanId = rechargeList.rechargePlanId,
-                userId = rechargeList.userId
+                userId = rechargeList.userId,
+                rechargeDate = rechargeList.rechargeDate
             };
 
 
@@ -257,7 +262,7 @@ namespace gacha.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,quantity,amount,paymentMode,rechargePlanId, rechargePlan,userId, userName")] rechargeList_ViewModel rechargeListVM)
+        public async Task<IActionResult> Edit(int id, [Bind("id,quantity,amount,paymentMode,rechargePlanId, rechargePlan,userId, userName, rechargeDate")] rechargeList_ViewModel rechargeListVM)
         {
             //增加rechargePlan paymentMode的select選項
             ViewBag.paymentMode = new SelectList(new List<SelectListItem>

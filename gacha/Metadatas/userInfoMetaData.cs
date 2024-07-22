@@ -4,7 +4,7 @@ namespace gacha.Metadatas
 {
     public class userInfoMetaData
     {
-        [Display(Name = "帳號ID")]
+        [Display(Name = "使用者ID")]
         public int id { get; set; }
 
         [Display(Name = "名稱")]

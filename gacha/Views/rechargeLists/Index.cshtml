@@ -22,60 +22,81 @@
             <th>
                 @Html.DisplayNameFor(model => model.id)
             </th>
-            <th>
+           @*  <th>
                 @Html.DisplayNameFor(model => model.quantity)
-            </th>
+            </th> *@
             <th>
                 @Html.DisplayNameFor(model => model.amount)
             </th>
-            <th>
+          @*   <th>
                 @Html.DisplayNameFor(model => model.paymentMode)
-            </th>
+            </th> *@
             <th>
                 @Html.DisplayNameFor(model => model.rechargePlanId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.userId)
             </th>
-            <th>
+           @*  <th>
                 @Html.DisplayNameFor(model => model.rechargeDate)
-            </th>
+            </th> *@
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-            
+        @foreach (var item in Model)
+        {
+
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.id)
                 </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.paymentMode)
-            </td>
-            <td>
-                    @Html.DisplayFor(modelItem => item.rechargePlanId)
-            </td>
-            <td>
-                    @Html.DisplayFor(modelItem => item.userId)
-            </td>
+                @* <td>
+                    @Html.DisplayFor(modelItem => item.quantity)
+                </td> *@
                 <td>
-                    @Html.DisplayFor(modelItem => item.rechargeDate)
+                    @Html.DisplayFor(modelItem => item.amount)
                 </td>
-                
-            <td>
-                @*< a asp-action="Edit" asp-route-id="@item.id">Edit</a> | *@
-                <a class="button" asp-action="Details" asp-route-id="@item.id"><i class="fa-solid fa-list"></i></a>
-                @* <a asp-action="Delete" asp-route-id="@item.id">Delete</a> *@
-            </td>
-        </tr>
-}
+                @* <td>
+                    @Html.DisplayFor(modelItem => item.paymentMode)
+                </td> *@
+                <td>
+                    @Html.DisplayFor(modelItem => item.rechargePlanId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.userId)
+                </td>
+               @*  <td>
+                    @Html.DisplayFor(modelItem => item.rechargeDate)
+                </td> *@
+
+                <td>
+                    @*< a asp-action="Edit" asp-route-id="@item.id">Edit</a> | *@
+                   @*  <a asp-action="Details" asp-route-id="@item.id">Details</a> *@
+                    @* <a asp-action="Delete" asp-route-id="@item.id">Delete</a> *@
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#rechargeListModal-@item.id">
+                        Detail
+                    </button>
+                </td>
+            </tr>
+            <div class="modal fade" id="rechargeListModal-@item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                           @*  <h5 class="modal-title" id="rechargeListModal-@item.id"></h5> *@
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <partial name="_rechargeLists_Partial" model="@item">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            @* <button type="button" class="btn btn-primary">Save changes</button> *@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
     </tbody>
 </table>
 @section Scripts {

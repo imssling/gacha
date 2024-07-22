@@ -43,12 +43,15 @@ namespace gacha.Controllers
                     id = e.id,
                     UserName = e.userIdFromNavigation.userName,
                     UserNameTo = e.userIdToNavigation.userName,
-                    GachaNameFrom = e.gachaIdFromNavigation.productName, 
+                    GachaNameFrom = e.gachaIdFromNavigation.productName,
                     GachaNameTo = e.gachaIdToNavigation.productName,
                     ExchangeDate = e.exchangeDate
 
                 });
+
+
             return View(gachaContext);
+         
         }
 
         // GET: exchangeRecords/Details/5

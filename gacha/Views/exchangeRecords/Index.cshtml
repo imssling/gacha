@@ -14,26 +14,33 @@
 @*DO NOT USE
     <p>
     <a asp-action="Create">Create New</a>
-</p> 
+</p>
 DO NOT USE*@
+
+
+
+@* <div id="sankey_basic" style="width: 900px; height: 300px;"></div>
+ *@
+
+
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.id)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserName)
+            @* <th>
+            @Html.DisplayNameFor(model => model.UserName)
+            </th> *@
+            @* <th>
+            @Html.DisplayNameFor(model => model.UserNameTo)
+            </th>*@
+            @* <th>
+            @Html.DisplayNameFor(model => model.GachaNameFrom)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserNameTo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GachaNameFrom)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GachaNameTo)
-            </th>
+            @Html.DisplayNameFor(model => model.GachaNameTo)
+            </th> *@
             <th>
                 @Html.DisplayNameFor(model => model.ExchangeDate)
             </th>
@@ -41,34 +48,132 @@ DO NOT USE*@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
                     @Html.DisplayFor(modelItem => item.id)
+                </td>
+                @* <td>
+            @Html.DisplayFor(modelItem => item.UserName)
             </td>
             <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
+            @Html.DisplayFor(modelItem => item.UserNameTo)
+            </td> *@
+                @* <td>
+            @Html.DisplayFor(modelItem => item.GachaNameFrom)
             </td>
             <td>
-                    @Html.DisplayFor(modelItem => item.UserNameTo)
-            </td>
-            <td>
-                    @Html.DisplayFor(modelItem => item.GachaNameFrom)
-            </td>
-            <td>
-                    @Html.DisplayFor(modelItem => item.GachaNameTo)
-            </td>
+            @Html.DisplayFor(modelItem => item.GachaNameTo)
+            </td> *@
                 <td>
                     @Html.DisplayFor(modelItem => item.ExchangeDate)
                 </td>
+                <td>
+                    @*  DO NOT USE
+                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                DO NOT USE *@
+                    @*  <a asp-action="Details" asp-route-id="@item.id">Details</a> *@
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exchangeModal-@item.id">
+                        Detail
+                    </button>
+
+                </td>
+            </tr>
+            <div class="modal fade" id="exchangeModal-@item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                           @*  <h5 class="modal-title" id="exchangeModal-@item.id">Modal title</h5> *@
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <partial name="_exchangeRecords_Partial" model="@item">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            @* <button type="button" class="btn btn-primary">Save changes</button> *@
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
             <td>
                 <a class="button" asp-action="Details" asp-route-id="@item.id"><i class="fa-solid fa-list"></i></a>
             </td>
         </tr>
 }
     </tbody>
+
+
 </table>
 @section Scripts {
+    <script src="~/lib/datatables/js/jquery.datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.min.js" integrity="sha512-ztxZscxb55lKL+xmWGZEbBHekIzy+1qYKHGZTWZYH1GUwxy0hiA18lW6ORIMj4DHRgvmP/qGcvqwEyFFV7OYVQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // alert("love you tate");
+            $('table').DataTable();
+            google.charts.load('current', { 'packages': ['sankey'] });
+            google.charts.setOnLoadCallback(drawChart);
+
+        });
+
+
+
+
+
+        @*Google Chart Start*@
+
+            // <script type="text/javascript" >
+
+        //         $(document).ready(function () {
+        //             $('table').DataTable();
+        //             google.charts.load('current', { 'packages': ['sankey'] });
+        //             google.charts.setOnLoadCallback(drawChart);
+        //         });
+
+       
+        //     var exchangeRecords = Model as List<exchangeRecord_ViewModel>;
+ 
+
+        //     function drawChart() {
+        //         var data = new google.visualization.DataTable();
+        //         data.addColumn('string', 'From');
+        //         data.addColumn('string', 'To');
+        //         data.addColumn('number', 'ExcahngeTime');
+        //         data.addRows([
+        // foreach (var record in Model)
+        // {
+        //     :["record.GachaNameFrom", "record.GachaNameTo", "ExcahngeTime"],
+        // }
+        //         var options = {
+        //             title: 'Exchange Records',
+        //             hAxis: { title: 'From', titleTextStyle: { color: '#333' } },
+        //             vAxis: { minValue: 0 }
+        //         };
+
+        //         var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+        //         chart.draw(data, options);
+
+
+        //         // Sets chart options.
+        //         var options = {
+        //             width: 1200,
+        //         };
+
+        //         // Instantiates and draws our chart, passing in some options.
+        //         var chart = new google.visualization.Sankey(document.getElementById('sankey_basic'));
+        //         chart.draw(data, options);
+        //     }
+        // @*Google Chart End *@
+    </script>
+
+   
     <script src="~/lib/datatables/js/jquery.datatables.min.js" asp-append-version="true"></script>
     <script src="//cdn.datatables.net/fixedheader/3.3.1/js/dataTables.fixedHeader.min.js"></script>
     <script src="~/js/datatables.js"></script>

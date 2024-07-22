@@ -78,6 +78,7 @@ namespace gacha.Controllers
                 return NotFound();
             }
             return View(rechargePlan);
+
         }
 
         // POST: rechargePlan/Edit/5
@@ -122,19 +123,27 @@ namespace gacha.Controllers
         // GET: rechargePlan/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //var rechargePlan = await _context.rechargePlan
+            //    .FirstOrDefaultAsync(m => m.id == id);
+            //if (rechargePlan == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //return View(rechargePlan);
+            var rechargePlan = await _context.rechargePlan.FindAsync(id);
+            if (rechargePlan != null)
             {
-                return NotFound();
+                _context.rechargePlan.Remove(rechargePlan);
             }
 
-            var rechargePlan = await _context.rechargePlan
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (rechargePlan == null)
-            {
-                return NotFound();
-            }
-
-            return View(rechargePlan);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: rechargePlan/Delete/5

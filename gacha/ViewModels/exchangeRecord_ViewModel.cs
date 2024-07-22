@@ -13,7 +13,7 @@ namespace gacha.ViewModels
         [Display(Name = "接受交換用戶")]
         public string? UserNameTo { get; set; }
 
-        [Display(Name = "發起交換用戶的扭蛋")]
+        [Display(Name ="發起交換用戶的扭蛋")]
         public string? GachaNameFrom { get; set; }
 
         [Display(Name = "接受交換用戶的扭蛋")]

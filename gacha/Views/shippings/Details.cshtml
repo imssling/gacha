@@ -1,5 +1,6 @@
 ﻿@model gacha.Models.shipping
 
+
 @{
     ViewData["Title"] = "Details";
 }
@@ -7,9 +8,19 @@
 <h3>Details</h3>
 
 <div>
-    <h4>shipping</h4>
+    <h4>出貨表</h4>
     <hr />
     <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.userId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.user.id) | @Html.DisplayFor(model => model.user.userName)
+        </dd>
+        @* <dd class="col-sm-10">
+            
+        </dd> *@
+
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.shippingDate)
         </dt>
@@ -45,12 +56,6 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.shippingFee)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.user)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.user.email)
         </dd>
     </dl>
 </div>
