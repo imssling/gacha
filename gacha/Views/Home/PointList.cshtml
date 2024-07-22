@@ -6,7 +6,29 @@
 }
 
 <div id="app">
-    PointList
+    <div class="container mt-5">
+        <h2 class="mb-4">點數詳細記錄</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>點數變更</th>
+                        <th>總點數</th>
+                        <th>異動狀態</th>
+                        <th>異動時間</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="record in pointDetails" :key="record.PointListId">
+                        <td>{{ record.pointsChanged }}</td>
+                        <td>{{ record.totalPoints }}</td>
+                        <td>{{ record.changeType }}</td>
+                        <td>{{ new Date(record.changeDate).toLocaleString() }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 
@@ -18,20 +40,36 @@
             integrity="sha512-JSCFHhKDilTRRXe9ak/FJ28dcpOJxzQaCd3Xg8MyF6XFjODhy/YMCM8HW0TFDckNHWUewW+kfvhin43hKtJxAw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-
+        var baseAddress = "https://localhost:7134"
         var vueApp = {
 
-            data() {
+            data() 
+            {
 
                 return {
-
+                    pointDetails: []
                 }
 
             },
 
-            methods: {
-
+            methods:
+            {
+                fetchPointDetails(userId) {
+                    axios.get(`${baseAddress}/api/PointLists/${userId}`)
+                        .then(response => {
+                            console.log('API response:', response.data);
+                            this.pointDetails = response.data;
+                        })
+                        .catch(error => {
+                            console.error('There was an error!', error);
+                        });
+                }
             },
+
+            mounted() 
+            {
+                    this.fetchPointDetails(4); // 替換為適當的用戶ID
+            }
 
         };
 

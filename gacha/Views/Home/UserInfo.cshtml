@@ -6,7 +6,6 @@
 }
 
 <div id="app">
-    <body>
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-md-8">
@@ -28,7 +27,6 @@
                 </div>
             </div>
         </div>
-        </body>
 </div>
 
 
@@ -39,9 +37,10 @@
             integrity="sha512-JSCFHhKDilTRRXe9ak/FJ28dcpOJxzQaCd3Xg8MyF6XFjODhy/YMCM8HW0TFDckNHWUewW+kfvhin43hKtJxAw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-
+        var baseAddress = "https://localhost:7134"
         var vueApp = {
-            data() {
+            data() 
+            {
                 return {
                     userInfo: {
                         userName: '',
@@ -54,9 +53,10 @@
                 };
             },
 
-            methods: {
+            methods: 
+            {
                 fetchUserInfo(id) {
-                    axios.get(`https://localhost:7134/api/UserInfoes/${id}`)
+                    axios.get(`${baseAddress}/api/UserInfoes/${id}`)
                         .then(response => {
                             this.userInfo = response.data;
                         })
@@ -66,7 +66,8 @@
                 }
             },
 
-            mounted() {
+            mounted() 
+            {
                 this.fetchUserInfo(1); // 這裡的 ID 應該是動態的，這裡只是示例使用 1
             }
         };

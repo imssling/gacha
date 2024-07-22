@@ -29,19 +29,20 @@ namespace szAPI.Controllers
         }
 
         // 根據使用者ID取得點數紀錄的詳細資訊
-        // GET: api/PointLists/user/{userId}
-        [HttpGet("user/{userId}")]
+        // GET: api/PointLists/{userId}
+        [HttpGet("{userId}")]
         public async Task<ActionResult<IEnumerable<PointDetailDTO>>> GetPointListsByUserId(int userId)
         {
             // 查詢所有符合使用者ID的點數異動紀錄
             var pointLists = await _context.PointLists
-                .Where(pl => pl.RechargeList.UserId == userId || pl.Bag.UserId == userId)
-                .Include(pl => pl.RechargeList)
-                    .ThenInclude(rl => rl.RechargePlan)
-                .Include(pl => pl.Bag)
-                    .ThenInclude(b => b.GachaProduct)
-                        .ThenInclude(gp => gp.Machine)
-                .ToListAsync();
+            .Where(pl => (pl.RechargeList != null && pl.RechargeList.UserId == userId) ||
+                         (pl.Bag != null && pl.Bag.UserId == userId))
+            .Include(pl => pl.RechargeList)
+                .ThenInclude(rl => rl.RechargePlan)
+            .Include(pl => pl.Bag)
+                .ThenInclude(b => b.GachaProduct)
+                    .ThenInclude(gp => gp.Machine)
+            .ToListAsync();
 
             if (pointLists == null || pointLists.Count == 0)
             {
@@ -75,7 +76,7 @@ namespace szAPI.Controllers
             if (pointList.RechargeListId != null)
             {
                 // 根據儲值方案計算新增點數
-                var rechargePoints = (pointList.RechargeList.RechargePlan.Point)*(pointList.RechargeList.Amount);
+                var rechargePoints = (pointList.RechargeList.RechargePlan.Point)*(pointList.RechargeList.Quantity);
                 return rechargePoints;
             }
             else if (pointList.BagId != null)
