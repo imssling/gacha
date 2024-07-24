@@ -1,30 +1,21 @@
-﻿@model gacha.ViewModels.activity_ViewModel
-
-@{
-    ViewData["Title"] = "Create";
-}
-
-<h1>Create</h1>
-<h4>活動</h4>
-<hr />
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
+              
                 <div class="form-group row mb-3">
-                    <!-- Added mb-3 for margin -->
-                    <label asp-for="title" class="col-sm-3 col-form-label fw-bold"></label>
+                    <label asp-for="name" class="col-sm-3 col-form-label fw-bold"></label>
                     <div class="col-sm-9">
-                        <input asp-for="title" class="form-control" />
-                        <span asp-validation-for="title" class="text-danger"></span>
+                        <input asp-for="name" class="form-control" />
+                        <span asp-validation-for="name" class="text-danger"></span>
                     </div>
                 </div>
 
                 <div class="form-group row mb-3">
                     <!-- Added mb-3 for margin -->
-                    <label asp-for="description" class="col-sm-3 col-form-label fw-bold"></label>
+                    <label asp-for="description" class="col-sm-3 col-form-label"></label>
                     <div class="col-sm-9">
                         <input asp-for="description" class="form-control" />
                         <span asp-validation-for="description" class="text-danger"></span>
@@ -33,7 +24,7 @@
 
                 <div class="form-group row mb-3">
                     <!-- Added mb-3 for margin -->
-                    <label asp-for="activityTypeId" class="col-sm-3 col-form-label fw-bold"></label>
+                    <label asp-for="activityTypeId" class="col-sm-3 col-form-label"></label>
                     <div class="col-sm-9">
                         <select asp-for="activityTypeId" class="form-control" asp-items="ViewBag.activityTypeId"></select>
                     </div>
@@ -41,7 +32,7 @@
 
                 <div class="form-group row mb-3">
                     <!-- Added mb-3 for margin -->
-                    <label asp-for="activityStart" class="col-sm-3 col-form-label fw-bold"></label>
+                    <label asp-for="activityStart" class="col-sm-3 col-form-label"></label>
                     <div class="col-sm-9">
                         <input asp-for="activityStart" class="form-control" />
                         <span asp-validation-for="activityStart" class="text-danger"></span>
@@ -50,7 +41,7 @@
 
                 <div class="form-group row mb-3">
                     <!-- Added mb-3 for margin -->
-                    <label asp-for="activityEnd" class="col-sm-3 col-form-label fw-bold"></label>
+                    <label asp-for="activityEnd" class="col-sm-3 col-form-label"></label>
                     <div class="col-sm-9">
                         <input asp-for="activityEnd" class="form-control" />
                         <span asp-validation-for="activityEnd" class="text-danger"></span>
@@ -60,18 +51,10 @@
                 <div class="form-group row justify-content-end">
                     <div class="col-sm-10 d-flex justify-content-end">
                         <input type="submit" value="Create" class="btn btn-primary me-2" />
-                      @*   <a asp-action="Index" class="btn btn-link">Back to List</a> *@
+                        <a asp-action="Index" class="btn btn-link">Back to List</a>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}

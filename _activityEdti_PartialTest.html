@@ -1,13 +1,3 @@
-﻿@model gacha.ViewModels.activity_ViewModel
-
-@{
-    ViewData["Title"] = "Edit";
-}
-
-<h1>Edit</h1>
-
-<h4>活動</h4>
-<hr />
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -15,7 +5,7 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
                 <div class="form-group row mb-3">
-                    <label asp-for="id" class="col-sm-3 control-label fw-bold"></label>
+                    <label asp-for="id" class="col-sm-3 control-label"></label>
                     <div class="col-sm-9">
                         <input asp-for="id" class="form-control" readonly="readonly" />
                         <span asp-validation-for="id" class="text-danger"></span>
@@ -29,7 +19,7 @@
                     </div>
                 </div>
                 <div class="form-group row mb-3">
-                    <label asp-for="description" class="col-sm-3 col-form-label fw-bold"></label>
+                    <label asp-for="description" class="col-sm-3 col-form-label"></label>
                     <div class="col-sm-9">
                         <input asp-for="description" class="form-control" />
                         <span asp-validation-for="description" class="text-danger"></span>
@@ -37,25 +27,21 @@
                 </div>
 
                 <div class="form-group row mb-3">
-                    <label asp-for="activityTypeId" class="col-sm-3 col-form-label fw-bold"></label>
-                    <div class="col-sm-9">
-                        <select asp-for="activityTypeId" class="form-control"
-                                asp-items="ViewBag.activityTypeId"></select>
-                    </div>
-                </div>
-                <div class="form-group row mb-3">
-                    <label asp-for="status" class="col-sm-3 col-form-check fw-bold"></label>
+                    <label asp-for="status" class="col-sm-3 col-form-check"></label>
                     <div class="col-sm-9">
                         <input class="form-check-input" asp-for="status" /> @Html.DisplayNameFor(model => model.status)
                     </div>
                 </div>
                 <div class="form-group row mb-3">
-                    <label asp-for="createdAt" class="col-sm-3 control-label fw-bold"></label>
+                    <label asp-for="createdAt" class="control-label"></label>
                     <div class="col-sm-9">
                         <input asp-for="createdAt" class="form-control" readonly="readonly" />
                         <span asp-validation-for="createdAt" class="text-danger"></span>
                     </div>
                 </div>
+
+
+
                 <div class="form-group row mb-3">
                     <label asp-for="activityStart" class="col-sm-3 col-form-label fw-bold"></label>
                     <div class="col-sm-9">
@@ -74,17 +60,11 @@
 
                 <div class="form-group row justify-content-end">
                     <div class="col-sm-10 d-flex justify-content-end">
-                        <input type="submit" value="Save" class="btn btn-primary me-2" />              
-                       @*  <a asp-action="Index" class="btn btn-link">Back to List</a>  *@
+                        <input type="submit" value="Create" class="btn btn-primary me-2" />
+                        <a asp-action="Index" class="btn btn-link">Back to List</a>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}

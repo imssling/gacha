@@ -9,73 +9,95 @@
 <div>
     <h4>儲值紀錄</h4>
     <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.id)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.rechargePlanId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.rechargePlanId)
-          @*   @ViewBag.rechargeName *@
-        </dd>
-        @* <dt class="col-sm-2">
+    <div class="container">
+        <div class="row mb-2">
+            <div class="col-4 fw-bold">
+                @Html.DisplayNameFor(model => model.id)
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.id)
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-4 fw-bold">
+                @Html.DisplayNameFor(model => model.rechargePlanId)
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.rechargePlanId)
+                @* @ViewBag.rechargeName *@
+            </div>
+        </div>
+        @*
+        <div class="row mb-2">
+        <div class="col-4 fw-bold">
         @Html.DisplayNameFor(model => model.rechargePlan)
-        </dt>
-        <dd class="col-sm-10">
+        </div>
+        <div class="col-8">
         @Html.DisplayFor(model => model.rechargePlan)
-        </dd> *@
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.userId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.userId)
-        </dd>
-        @*  <dt class="col-sm-2">
+        </div>
+        </div>
+        *@
+        <div class="row mb-2">
+            <div class="col-4 fw-bold">
+                @Html.DisplayNameFor(model => model.userId)
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.userId)
+            </div>
+        </div>
+        @*
+        <div class="row mb-2">
+        <div class="col-4 fw-bold">
         @Html.DisplayNameFor(model => model.userName)
-        </dt>
-        <dd class="col-sm-10">
+        </div>
+        <div class="col-8">
         @Html.DisplayFor(model => model.userName)
-        </dd> *@
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.quantity)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.quantity)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.amount)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.amount)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.paymentMode)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.paymentMode)
-        </dd>
-
-        <dt class="col-sm-2">
-            總價錢
-        </dt>
-        <dd class="col-sm-10">
-
-            @Html.DisplayFor(model => model.rechargeTotalPrice)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.rechargeDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.rechargeDate)
-        </dd>
-
-    </dl>
+        </div>
+        </div>
+        *@
+        <div class="row mb-2">
+            <div class="col-4 fw-bold">
+                @Html.DisplayNameFor(model => model.quantity)
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.quantity)
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-4 fw-bold">
+                @Html.DisplayNameFor(model => model.amount)
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.amount)
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-4 fw-bold">
+                @Html.DisplayNameFor(model => model.paymentMode)
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.paymentMode)
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-4 fw-bold">
+                總價錢
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.rechargeTotalPrice)
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-4 fw-bold">
+                @Html.DisplayNameFor(model => model.rechargeDate)
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.rechargeDate)
+            </div>
+        </div>
+    </div>
 </div>
+
 <div>
     @* <a asp-action="Edit" asp-route-id="@Model?.id">Edit</a> | *@
     @* <a asp-action="Index">Back to List</a> *@

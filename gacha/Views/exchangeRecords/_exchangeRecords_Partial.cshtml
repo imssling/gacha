@@ -18,45 +18,58 @@
 <div>
     <h4>交換紀錄</h4>
     <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.id)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserNameTo)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserNameTo)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.GachaNameFrom)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.GachaNameFrom)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.GachaNameTo)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.GachaNameTo)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ExchangeDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ExchangeDate)
-        </dd>
-    </dl>
+    <div class="container">
+        <div class="row mb-2">
+            <div class="col-4 fw-bold">
+                @Html.DisplayNameFor(model => model.id)
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.id)
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-4 fw-bold">
+                @Html.DisplayNameFor(model => model.UserName)
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.UserName)
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-4 fw-bold">
+                @Html.DisplayNameFor(model => model.UserNameTo)
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.UserNameTo)
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-4 fw-bold">
+                @Html.DisplayNameFor(model => model.GachaNameFrom)
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.GachaNameFrom)
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-4 fw-bold">
+                @Html.DisplayNameFor(model => model.GachaNameTo)
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.GachaNameTo)
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-4 fw-bold">
+                @Html.DisplayNameFor(model => model.ExchangeDate)
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.ExchangeDate)
+            </div>
+        </div>
+    </div>
 </div>
+
 <div>
     @*DO NOT USE <a asp-action="Edit" asp-route-id="@Model.id">Edit</a> | DO NOT USE*@
     @* <a asp-action="Index">Back to List</a> *@
