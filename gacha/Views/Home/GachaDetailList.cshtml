@@ -6,7 +6,29 @@
 }
 
 <div id="app">
-    GachaDetailList
+    <div class="container mt-5">
+        <h2 class="mb-4">扭蛋詳細記錄</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>扭蛋商品名稱</th>
+                        <th>扭蛋狀態</th>
+                        <th>數量</th>
+                        <th>異動時間</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-foe="data in gachaDetails" :key="">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 
@@ -18,19 +40,28 @@
             integrity="sha512-JSCFHhKDilTRRXe9ak/FJ28dcpOJxzQaCd3Xg8MyF6XFjODhy/YMCM8HW0TFDckNHWUewW+kfvhin43hKtJxAw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-
+        var baseAddress = "https://localhost:7134"
         var vueApp = {
 
             data() {
 
                 return {
-
+                    gachaDetails: []
                 }
 
             },
 
             methods: {
-               
+                fetchGachaDetails(userId) {
+                    axios.get(`${baseAddress}/api/PointLists/${userId}`)
+                        .then(response => {
+                            console.log('API response:', response.data);
+                            this.pointDetails = response.data;
+                        })
+                        .catch(error => {
+                            console.error('There was an error!', error);
+                        });
+                }
             },
 
         };

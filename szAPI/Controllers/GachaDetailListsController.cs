@@ -28,35 +28,40 @@ namespace szAPI.Controllers
             return await _context.GachaDetailLists.ToListAsync();
         }
 
-        // GET: api/GachaDetailLists/user/{userId}
-        //現在三個ID都有值，等修改過後再檢查一下
-        [HttpGet("user/{userId}")]
+        // GET: api/GachaDetailLists/{userId}
+        [HttpGet("{userId}")]
         public async Task<ActionResult<IEnumerable<GachaDetailListDTO>>> GetGachaDetailListByUserId(int userId)
         {
             var gachaDetailList = await _context.GachaDetailLists
-                .Where(gdl => gdl.Bag.UserId == userId || gdl.ExchangeRecord.UserIdFrom == userId || gdl.UploadRecord.Bag.UserId == userId)
+                .Where(gdl => gdl.Bag.UserId == userId || gdl.ExchangeRecord.UserIdFrom == userId || gdl.UploadRecord.Bag.UserId == userId || gdl.ShippingDetail.Shipping.UserId == userId)
                 .Include(gdl => gdl.ExchangeRecord)
-                .Include (gdl => gdl.UploadRecord)
+                .Include(gdl => gdl.UploadRecord)
                 .Include(gdl => gdl.Bag)
+                    .ThenInclude(b => b.GachaProduct)
+                .Include(gdl => gdl.ShippingDetail)
+                    .ThenInclude(sd => sd.Shipping)
                 .ToListAsync();
 
-            if (gachaDetailList == null || gachaDetailList.Count == 0)
+            if (gachaDetailList == null)
             {
                 return NotFound(new { message = "找不到該使用者的任何扭蛋異動紀錄。" });
             }
 
             // 轉換為 DTO 格式以便返回
-            var gachaDetailListDTO = gachaDetailList.Select(gdl => {
-
-                return new GachaDetailListDTO
+            var gachaDetailListDTO = gachaDetailList
+                .GroupBy(gdl => new {
+                    ProductName = gdl.Bag?.GachaProduct?.ProductName ?? "未知商品",
+                    Date = gdl.Bag?.Date ?? DateTime.MinValue
+                })
+                .Select(g => new GachaDetailListDTO
                 {
-                    id = gdl.Id,
-                    gachaProductName = gdl.Bag.GachaProduct.ProductName ?? "未知商品",
-                    status = ConfirmStatus(gdl),
-                    //quantity = 1, //數量怎寫
-                    updateTime = ConfirmUpdateTime(gdl),
-                };
-            }).ToList();
+                    id = g.First().Id,
+                    gachaProductName = g.Key.ProductName,
+                    status = ConfirmStatus(g.First()),
+                    quantity = g.Count(),
+                    updateTime = ConfirmUpdateTime(g.First()),
+                })
+                .ToList();
 
             return Ok(gachaDetailListDTO);
         }
@@ -69,32 +74,39 @@ namespace szAPI.Controllers
             }
             else if (gachaDetailList.ExchangeRecordId != null)
             {
-                return "已交換"; //這裡邏輯
+                return "已交換";
             }
             else if (gachaDetailList.UploadRecordId != null)
             {
                 return "已上架";
             }
-            //還要新增出貨ID
+            else if (gachaDetailList.ShippingDetailId != null)
+            {
+                return "已出貨";
+            }
             else
             {
-                return "未知";
-            }       
+                return "找無此資料!";
+            }
         }
 
         private DateTime ConfirmUpdateTime(GachaDetailList gachaDetailList)
         {
-            if (gachaDetailList.BagId != null)
+            if (gachaDetailList.BagId != null && gachaDetailList.Bag != null)
             {
-                return gachaDetailList.Bag?.Date ?? DateTime.MinValue;
+                return gachaDetailList.Bag.Date;
             }
-            else if (gachaDetailList.ExchangeRecordId != null)
+            else if (gachaDetailList.ExchangeRecordId != null && gachaDetailList.ExchangeRecord != null)
             {
                 return gachaDetailList.ExchangeRecord.ExchangeDate ?? DateTime.MinValue;
             }
-            else if (gachaDetailList.UploadRecordId != null)
+            else if (gachaDetailList.UploadRecordId != null && gachaDetailList.UploadRecord != null)
             {
                 return gachaDetailList.UploadRecord.UploadDate ?? DateTime.MinValue;
+            }
+            else if (gachaDetailList.ShippingDetailId != null && gachaDetailList.ShippingDetail?.Shipping != null)
+            {
+                return gachaDetailList.ShippingDetail.Shipping.ShippingDate ?? DateTime.MinValue;
             }
             return DateTime.MinValue;
         }
