@@ -3,7 +3,16 @@
 @{
     ViewData["Title"] = "Index";
 }
+@section Styles {
+    <link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" asp-append-version="true" />
 
+    <style>
+        thead {
+            background-color: #F6EEA2;
+            color: BLACK;
+        }
+    </style>
+}
 <h1>Index</h1>
 
 <p>
@@ -11,7 +20,7 @@
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
         新增活動類別
     </button>
-    @* creat new modal start *@
+    @* create new modal start *@
     <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -30,10 +39,14 @@
             </div>
         </div>
     </div>
+    @* create new modal edn *@
 </p>
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.name)
             </th>
@@ -47,6 +60,9 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.name)
                 </td>
@@ -111,5 +127,11 @@
             });
             return false; // 防止 a 標籤的預設行為
         }
+    </script>
+    <script src="~/lib/datatables/js/jquery.datatables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable();
+        });
     </script>
 }

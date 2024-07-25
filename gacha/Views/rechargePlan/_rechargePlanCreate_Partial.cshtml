@@ -31,7 +31,7 @@
                 <div class="form-group row mb-3">
                     <label asp-for="description" class="col-sm-2 col-form-label fw-bold"></label>
                     <div class="col-sm-10">
-                        <textarea asp-for="description" class="form-control" rows="3"></textarea>
+                        <textarea asp-for="description" class="form-control mb-2" rows="5"></textarea> 
                         <span asp-validation-for="description" class="text-danger"></span>
                     </div>
                 </div>
@@ -69,7 +69,9 @@
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
     <script>
         $(document).ready(function () {
             $('#price').on('input', function () {
@@ -78,4 +80,3 @@
         });
     </script>
 }
-
