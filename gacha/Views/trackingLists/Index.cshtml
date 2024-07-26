@@ -65,9 +65,9 @@
                     @* @Html.ActionLink("Details", "Details", new { id = item.UserId, mId = item.GachaMachineId }) *@
                     @*DO NOT USE @Html.ActionLink("Edit", "Edit", new { id = item.UserId, mId = item.GachaMachineId }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.UserId, mId = item.GachaMachineId }) DO NOT USE*@
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#trackingListModal-@item.UserId-@item.GachaMachineId">
-                        Detail
-                    </button>
+                    <a class="button" data-bs-toggle="modal" data-bs-target="#trackingListModal-@item.UserId-@item.GachaMachineId">
+                        <i class="fa-solid fa-list fa-lg"></i>
+                    </a>
                 </td>
             </tr>
             <div class="modal fade" id="trackingListModal-@item.UserId-@item.GachaMachineId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

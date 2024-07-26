@@ -6,6 +6,7 @@
 @section Styles {
     <link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" asp-append-version="true" />
     @* REMEBER TO USE "asp-append-version" FOR A QUICKER VERSION *@
+    <link href="~/css/datatables.css" rel="stylesheet" />
     <style>
         thead {
             background-color: #F6EEA2;
@@ -44,8 +45,8 @@
                     @*   <a asp-action="Details" asp-route-id="@item.id">Details</a> *@
                     @* DO NOT USE <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
                 <a asp-action="Delete" asp-route-id="@item.id">Delete</a>| DO NOT USE*@
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#permissionModal-@item.id">
-                        Detail
+                    <button type="button" class="btn button" data-bs-toggle="modal" data-bs-target="#permissionModal-@item.id">
+                        <i class="fa-solid fa-list fa-lg"></i>
                     </button>
                 </td>
             </tr>

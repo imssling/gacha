@@ -1,10 +1,3 @@
-﻿@model gacha.Models.permission
-
-@{
-    ViewData["Title"] = "Details";
-}
-
-<h1>Details</h1>
 <div>
     <h4>權限</h4>
     <hr />
@@ -21,7 +14,10 @@
     </div>
 </div>
 
-<div>
-    @*DO NOT USE <a asp-action="Edit" asp-route-id="@Model?.id">Edit</a> | DO NOT USE*@
-    @* <a asp-action="Index">Back to List</a> *@
-</div>
+<a class="button me-3" href="" data-bs-toggle="modal" data-bs-target="#rechargePlanEditModal-@item.id"><i
+        class="fa-solid fa-pen-to-square"></i></a>
+<a asp-action="Delete" asp-route-id="@item.id" class="button delete" onclick="return Confirm(this)">
+    <i class="fa-solid fa-trash"></i>
+</a>
+
+<a href=""><button><i class="bi bi-plus-circle"></i></button></a>

@@ -5,7 +5,7 @@
 }
 @section Styles {
     <link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" asp-append-version="true" />
-
+    <link href="~/css/datatables.css" rel="stylesheet" />
     <style>
         thead {
             background-color: #F6EEA2;
@@ -18,9 +18,10 @@
 <h3>活動</h3>
 <p>
    @*  <a asp-action="Create">Create New</a> *@
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#activityCreateModal">
-        新增活動
-    </button>
+    <a class="btn button" asp-action="Create" data-bs-toggle="modal" data-bs-target="#activityCreateModal">
+        <i class="fa-solid fa-plus fa-lg"></i> 
+    </a>
+    
     @* creat new modal start *@
     <div class="modal fade" id="activityCreateModal" tabindex="-1" aria-labelledby="activityCreateModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -103,9 +104,11 @@
                     @* <a asp-action="Edit" asp-route-id="@item.id">Edit</a>  *@
                     @* <a asp-action="Details" asp-route-id="@item.id">Details</a> | *@
                     @* <a asp-action="Delete" asp-route-id="@item.id">Delete</a> *@
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#activityEditModal-@item.id">
-                        Edit
-                    </button>
+                    <div class="d-flex flex-column">
+                        <a class="btn button mb-2" href="" data-bs-toggle="modal" data-bs-target="#activityEditModal-@item.id">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                    </div>
                 </td>
             </tr>
             @* edit modal start *@
