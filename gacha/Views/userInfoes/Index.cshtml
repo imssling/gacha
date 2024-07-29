@@ -5,7 +5,6 @@
 }
 @section Styles {
     <link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" asp-append-version="true" />
-    @* REMEBER TO USE "asp-append-version" FOR A QUICKER VERSION *@
         <link href="~/css/datatables.css" rel="stylesheet" / >
     <style>
         .city, .town {
@@ -36,11 +35,6 @@
 }
 
 <h3>會員基本資料</h3>
-
-
-<p>
-    <a asp-action="Create" class="btn button"><i class="fa-solid fa-plus"></i></a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -82,38 +76,65 @@
             </td>
             <td>
                     @(item.address.Replace("_", ""))
-                    @* @Html.DisplayFor(modelItem => item.address).ToString().Replace("_", "") *@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.gender)
             </td>
             <td>
                     <a class="button" href="" data-bs-toggle="modal" onclick="edit_zipcode(this)" data-bs-target="#editModal-@item.id"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a class="button" asp-action="Details" asp-route-id="@item.id"><i class="fa-solid fa-list"></i></a>
+                    <a class="button" href="" data-bs-toggle="modal" data-bs-target="#detailModal-@item.id"><i class="fa-solid fa-list"></i></a>
                     <a asp-action="Delete" asp-route-id="@item.id" class="button delete" onclick="return Confirm(this)">
                         <i class="fa-solid fa-trash"></i>
                     </a>
                
             </td>
-        </tr>
+        </tr>            
+}
+        
+    </tbody>
+</table>
 
-            <!-- Edit Modal -->
-            <div class="modal fade modal-lg" id="editModal-@item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">編輯會員資料</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <partial name="_userInfoes_edit_partial" model="@item">
-                        </div>                    
+<!-- Edit Modal -->
+@foreach (var item in Model)
+{
+    <div class="modal fade modal-lg" id="editModal-@item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">編輯會員資料</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <partial name="_userInfoes_edit_partial" model="@item">
+                    <div>
+                        <a class="btn button" asp-action="Index"><i class="fa-solid fa-backward"></i> </a>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 }
-    </tbody>
-</table>
+
+<!-- Detail Modal -->
+@foreach (var item in Model)
+{
+    <div class="modal fade" id="detailModal-@item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">查看會員資料</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <partial name="_userInfoes_detail_partial" model="@item">
+                        <div>
+                            <a class="btn button" asp-action="Index"><i class="fa-solid fa-backward"></i> </a>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 
 @section Scripts {
@@ -122,6 +143,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.15-rc1/jquery.twzipcode.min.js"></script>
     <script src="~/js/delete_function_sweetalert.js"></script>
     <script>
+
         function edit_zipcode(element) {
             $('.modal').on('hidden.bs.modal', function (e) {
                 $(this).find('form').get(0).reset();
@@ -131,7 +153,7 @@
             $('.road').val(splitAddress[2]);
 
             $(`${itemId}`).find(".twzipcode-modal").twzipcode({
-                // countySel: "臺北市", // 城市預設值, 字串一定要用繁體的 "臺", 否則抓不到資料
+                // countySel: "臺北市", // 城市預設值
                 // districtSel: "大安區", // 地區預設值
                 countySel: splitAddress[0], 
                 districtSel: splitAddress[1],
@@ -143,43 +165,34 @@
 
         }
         $(document).ready(function () {
-            // var splitAddress = $('.fullAddress').val().split("_");
-            // console.log(splitAddress);
-            // $('.road').val('111');
-            // $(".twzipcode-modal").twzipcode({
-            //     // countySel: "臺北市", // 城市預設值, 字串一定要用繁體的 "臺", 否則抓不到資料
-            //     // districtSel: "大安區", // 地區預設值
-            //     countySel: splitAddress[0], // 城市預設值, 字串一定要用繁體的 "臺", 否則抓不到資料
-            //     districtSel: splitAddress[1], // 地區預設值
-            //     zipcodeIntoDistrict: true, // 郵遞區號自動顯示在地區
-            //     css: ["city form-control", "town form-control"], // 自訂 "城市"、"地區" class 名稱
-            //     countyName: "city", // 自訂城市 select 標籤的 name 值
-            //     districtName: "town" // 自訂地區 select 標籤的 name 值
-            // });
-
-
-            $('.editForm').on('submit', function (e) {
+            $('.editForm').on('submit',function (e) {
                 e.preventDefault(); // 防止表單立即提交
-                // console.log(e.target.phoneNumber);
-                // console.log(e.target.phoneNumber.value);
+                console.log(e.target)
+                if (!e.target.checkValidity()) {
+                    console.log('Form is invalid');
+                    event.stopPropagation()//防止冒泡
+                } else {
+                    console.log('Form is valid');
+                    let $form = $(this);
+                    console.log("$form:", $form);
+                    let county = $('.county select').val() + "_";
+                    let district = $('.district select').val() + "_";
+                    let road = e.target.road.value;
+                    // console.log("Road:", road);
+                    //let road = $('.road').val();
+                    let fullAddress = county + district + road;
+                    // alert(road);
+                    $('.fullAddress').val(fullAddress); // 將完整地址設置到隱藏輸入欄位
+
+                    // 提交表單
+                    this.submit();
+
+                }
+
+                e.target.classList.add('was-validated')
 
 
-                // console.log(e.target.road);
-                // console.log(e.target.road.val());
-                // console.log(e.find(".road"));
-                let $form = $(this);
-                console.log("$form:", $form);
-                let county = $('.county select').val()+"_";
-                let district = $('.district select').val()+"_";
-                let road = e.target.road.value;
-                console.log("Road:", road);
-                //let road = $('.road').val();
-                let fullAddress = county + district + road;
-                // alert(road);
-
-                $('.fullAddress').val(fullAddress); // 將完整地址設置到隱藏輸入欄位
-                // 提交表單
-                this.submit();
+                
 
             });
 
@@ -187,7 +200,34 @@
             //     $(this).find('form').get(0).reset();
             // });
 
+
             
         });
+
+        // // Example starter JavaScript for disabling form submissions if there are invalid fields
+        // (function () {
+        //     'use strict'
+
+        //     // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        //     var forms = document.querySelectorAll('.needs-validation')
+
+        //     // Loop over them and prevent submission
+        //     Array.prototype.slice.call(forms)
+        //         .forEach(function (form) {
+        //             form.addEventListener('submit', function (event) {
+        //                 event.preventDefault()
+        //                 if (!form.checkValidity()) {
+        //                     console.log('Form is invalid');
+        //                     event.preventDefault()
+        //                     event.stopPropagation()
+        //                 } else {
+        //                     console.log('Form is valid');
+        //                 }
+
+        //                 form.classList.add('was-validated')
+        //                 return false;
+        //             }, false)
+        //         })
+        // })()
     </script>
 }

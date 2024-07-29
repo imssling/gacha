@@ -1,0 +1,86 @@
+﻿@model IEnumerable<gacha.Models.shipping>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.userId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.shippingDate)
+            </th>
+            @* <th>
+            @Html.DisplayNameFor(model => model.shippingDate)
+            </th> *@
+            <th>
+                @Html.DisplayNameFor(model => model.shippingStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.shippingAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.contactPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.shippingMethod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.shippingFee)
+            </th>
+            @* <th>
+            @Html.DisplayNameFor(model => model.user)
+            </th> *@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="shipping-row" data-status="@item.shippingStatus">
+                <td>
+                    @Html.DisplayFor(modelItem => item.id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.userId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.shippingDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.shippingStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.shippingAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.contactPhone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.shippingMethod)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.shippingFee)
+                </td>
+                @*  <td>
+            @Html.DisplayFor(modelItem => item.user.email)
+            </td> *@
+
+                @*   <td>
+            <a class="button" asp-action="Edit" asp-route-id="@item.id"><i class="fa-solid fa-pen-to-square"></i></a>
+            <a class="button" asp-action="Details" asp-route-id="@item.id"><i class="fa-solid fa-list"></i></a>
+            <a class="button" asp-action="Delete" asp-route-id="@item.id"><i class="fa-solid fa-trash"></i></a>
+            </td> *@
+                <td>
+                    @* <a class="button" asp-action="Edit" asp-route-id="@item.id"><i class="fa-solid fa-pen-to-square"></i></a> *@
+                    <a class="button" href="" data-bs-toggle="modal" data-bs-target="#shippingEdit-@item.id"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a class="button" href="" data-bs-toggle="modal" data-bs-target="#shippingDetail-@item.id"><i class="fa-solid fa-list"></i></a>
+                    <a class="button delete" asp-action="Delete" asp-route-id="@item.id" onclick="return Confirm(this)"><i class="fa-solid fa-trash"></i></a>
+                </td>
+            </tr>
+            
+        }
+    </tbody>
+</table>

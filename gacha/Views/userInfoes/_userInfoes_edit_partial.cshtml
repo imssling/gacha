@@ -5,24 +5,28 @@
 }
 
 
+
 <div class="row">
     <div class="col-md-10">
-        <form asp-controller="userInfoes" asp-action="Edit" id="editForm-@Model.id" class="editForm">
+        <form asp-controller="userInfoes" asp-action="Edit" id="editForm-@Model.id" class="editForm needs-validation" novalidate>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="id" />
             <div class="form-group">
-                <label asp-for="userName" class="control-label"></label>
-                <input asp-for="userName" class="form-control" />
+                <label asp-for="userName" class="control-label" for="validationCustom01"></label>
+                <input asp-for="userName" class="form-control" id="validationCustom01" required />
                 <span asp-validation-for="userName" class="text-danger"></span>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="form-group">
                 <label asp-for="phoneNumber" class="control-label"></label>
-                <input asp-for="phoneNumber" class="form-control" />
+                <input asp-for="phoneNumber" class="form-control" required />
                 <span asp-validation-for="phoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="email" class="control-label"></label>
-                <input asp-for="email" class="form-control" />
+                <input asp-for="email" class="form-control" required />
                 <span asp-validation-for="email" class="text-danger"></span>
             </div>
 
@@ -31,7 +35,7 @@
             <div class="form-group d-flex justify-content-start twzipcode-modal">
                 <div class="county" data-role="county"></div>                      
                 <div class="district" data-role="district"></div>
-                <input type="text" id="road" class="road form-control" />
+                <input type="text" id="road" class="road form-control" required />
                 <input type="hidden" asp-for="address" id="fullAddress" class="fullAddress" />
             </div>
 
@@ -57,10 +61,6 @@
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a class="btn button" asp-action="Index"><i class="fa-solid fa-backward"></i> </a>
 </div>
 
 @section Scripts {

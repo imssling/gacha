@@ -30,6 +30,23 @@ namespace gacha.Controllers
             return Json(addresses);
         }
 
+        //出貨卡片
+        //GET:ShippingStatus
+        [HttpGet]
+        [Route("shippings/{action = ShippingStatus}/{statusChinese}")]
+        public async Task<IActionResult> ShippingStatus(string statusChinese)
+        {
+            List<shipping> sp;
+            if (statusChinese == null)
+            {
+                return NotFound();
+            }
+            // 有導覽寫法
+            //return PartialView("_ShippingStautsPartial", sp);
+
+            return PartialView("_ShippingStautsPartial", statusChinese == "全部"? await _context.shipping.ToListAsync() : await _context.shipping.Where(s => s.shippingStatus == statusChinese).ToListAsync());
+
+        }
 
         // GET: shippings
         public async Task<IActionResult> Index()
@@ -48,28 +65,31 @@ namespace gacha.Controllers
             ViewBag.cancel_count = cancel_count;
             ViewBag.done_count = done_count;
 
-            //以商品id做分類,相同id為一項
-            //var a = await (from s in _context.shipping
-            //               join sd in _context.shippingDetail
-            //               on s.id equals sd.shippingId
-            //               join b in _context.bag
-            //               on sd.bagId equals b.id
-            //               join p in _context.gachaProduct
-            //               on b.gachaProductId equals p.id
-            //               //where s.id == id
-            //               group sd by new { p.id, p.productName, ShippingId = s.id } into grouped
-            //               select new shipping_vm
-            //               {
-            //                   id = grouped.Key.ShippingId,
-            //                   myquantity = grouped.Count(),
-            //                   productName = grouped.Key.productName,
-            //                   productId = grouped.Key.id,
 
-            //               }).ToListAsync();
+            //增加shipping status的select選項
+            ViewBag.shippingStatus = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "待處理", Text = "待處理" },
+                new SelectListItem { Value = "已發貨", Text = "已發貨" },
+                new SelectListItem { Value = "已取消", Text = "已取消" },
+                new SelectListItem { Value = "已完成", Text = "已完成" }
+            }, "Value", "Text");
+            //增加shipping fee的select選項
+            ViewBag.shippingMethod = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "宅配", Text = "宅配" },
+                new SelectListItem { Value = "超商-711", Text = "超商-711" }
+            }, "Value", "Text");
+            
 
+            // 增加shipping fee的select選項(設定自動選擇 shippingfee based on shipping Method)
+            ViewBag.shippingFee = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "100", Text = "$100" },
+                new SelectListItem { Value = "70", Text = "$70" }
+            }, "Value", "Text");
 
             return View(await gachaContext.ToListAsync());
-            
         }
 
         // GET: shippings/Details/5
@@ -263,8 +283,12 @@ namespace gacha.Controllers
             {
                 return NotFound();
             }
-
-            return View(shipping);
+            if (shipping != null)
+            {
+                _context.shipping.Remove(shipping);
+            }
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: shippings/Delete/5

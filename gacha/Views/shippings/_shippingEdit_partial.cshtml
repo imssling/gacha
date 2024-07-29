@@ -3,12 +3,10 @@
 @{
     ViewData["Title"] = "Edit";
 }
-@section Styles {
+@* @section Styles {
     <link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/datatables.css" rel="stylesheet" />
-}
-
-<h4>出貨表</h4>
+} *@
 
 <div class="row">
     <div class="col-md-4">
@@ -17,7 +15,7 @@
             <input type="hidden" asp-for="id" />
             <div class="form-group">
                 <label asp-for="userId" class="control-label"></label>
-                <input asp-for="userId" class="form-control" readonly="readonly" />
+                <input asp-for="userId" class="form-control" readonly="readonly" disabled />
                 <span asp-validation-for="userId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -64,7 +62,7 @@
     <a class="button" asp-action="Index"><i class="fa-solid fa-backward"></i> </a>
 </div>
 
-@section Scripts {
+@* @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
@@ -97,4 +95,4 @@
             shippingMethodDropdown.dispatchEvent(event);
         });
     </script>
-}
+} *@

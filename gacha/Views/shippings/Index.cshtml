@@ -5,12 +5,21 @@
 }
 @section Styles {
     <link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" asp-append-version="true" />
-    @* REMEBER TO USE "asp-append-version" FOR A QUICKER VERSION *@
     <link href="~/css/datatables.css" rel="stylesheet" />
+
     <style>
-        .btn-group {
+        /* 出貨卡片的顏色 */
+        .btn-selected {
             background-color: #F6EEA2;
         }
+
+        .btn-group .card.btn {
+            transition: none;
+        }
+       
+        .btn-group:hover {
+            background-color: #FFFFCE;
+            }
     </style>
 }
 
@@ -47,180 +56,100 @@
         </div>
     </div>
 </div>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.userId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.shippingDate)
-            </th>
-            @* <th>
-                @Html.DisplayNameFor(model => model.shippingDate)
-            </th> *@
-            <th>
-                @Html.DisplayNameFor(model => model.shippingStatus)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.shippingAddress)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.contactPhone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.shippingMethod)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.shippingFee)
-            </th>
-            @* <th>
-                @Html.DisplayNameFor(model => model.user)
-            </th> *@
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-            <tr class ="shipping-row" data-status="@item.shippingStatus">
-            <td>
-               @Html.DisplayFor(modelItem => item.id)
-            </td>
-            <td>
-               @Html.DisplayFor(modelItem => item.userId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.shippingDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.shippingStatus)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.shippingAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.contactPhone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.shippingMethod)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.shippingFee)
-            </td>
-           @*  <td>
-                @Html.DisplayFor(modelItem => item.user.email)
-            </td> *@
 
-              @*   <td>
-                    <a class="button" asp-action="Edit" asp-route-id="@item.id"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a class="button" asp-action="Details" asp-route-id="@item.id"><i class="fa-solid fa-list"></i></a>
-                    <a class="button" asp-action="Delete" asp-route-id="@item.id"><i class="fa-solid fa-trash"></i></a>
-                </td> *@
-            <td>
-                    <a class="button" asp-action="Edit" asp-route-id="@item.id"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a class="button" href="" data-bs-toggle="modal" data-bs-target="#shippingDetail-@item.id"><i class="fa-solid fa-list"></i></a>
-                    <a class="button" asp-action="Delete" asp-route-id="@item.id"><i class="fa-solid fa-trash"></i></a>
-            </td>
-        </tr>
-            <div class="modal fade" id="shippingDetail-@item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">出貨明細</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <partial name="_shippingDetail_partial" model="@item.id">
-                        </div>
-                        @* <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                            </div> *@
-                    </div>
+<table id="table" class="table my-3">
+
+</table>
+@foreach (var item in Model)
+{
+    @* DetailModal *@
+    <div class="modal fade" id="shippingDetail-@item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">出貨明細</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <partial name="_shippingDetail_partial" model="@item.id">
                 </div>
             </div>
-        }
-    </tbody>
-</table>
+        </div>
+    </div>
+    @* EditModal *@
+    <div class="modal fade" id="shippingEdit-@item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">編輯出貨單</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <partial name="_shippingEdit_partial" model="@item">
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
 @section Scripts {
     <script src="~/lib/datatables/js/jquery.datatables.min.js"></script>
+    <script src="~/js/datatables.js"></script>
+    <script src="~/js/delete_sweetalert.js"></script>
+    <script src="~/js/delete_function_sweetalert.js"></script>
 
     <script>
+        function updateShipping(statusChinese) {
+            $.ajax({
+                type: "GET",
+                url: `@Url.Action("ShippingStatus", "shippings")/${statusChinese}`,
+            }).done(data => {
+
+                // 在加載新數據後重新初始化 DataTables
+                // 抓到table並塞入資料data
+                $('table').html(data).DataTable();
+
+            }).fail(err => {
+                alert(err.responseText);
+            });
+        }
+
         $(document).ready(function () {
-            // alert("love you tate");
-            // $('table').DataTable();
+            // 初始化時設置"全部"卡片為選中狀態
+            $('#all').addClass('btn-selected');
+            updateShipping("全部");
 
-            //計算五種出貨狀態的數量
-            $('#all').on('click', function () {
-                $('.shipping-row').show();
-                var totalCount = $('.shipping-row').length;
-                console.log(totalCount);
-                handleButtonClick($(this));
+            $('.card').on('click', function (e) {
+                let card = $(this);
+                let statusID = card.attr('id');
+                var statusChinese = "";
+                switch (statusID){
+                    case "all":
+                        statusChinese = "全部"
+                        break;
+                    case "shipping":
+                        statusChinese = "已發貨"
+                        break;
+                    case "await":
+                        statusChinese = "待處理"
+                        break;
+                    case "cancel":
+                        statusChinese = "已取消"
+                        break;
+                    case "done":
+                        statusChinese = "已完成"
+                        break;
+                }
+                console.log(statusChinese);
+                updateShipping(statusChinese);
+
+                // 更新選中狀態
+                $('.card').removeClass('btn-selected');
+                card.addClass('btn-selected');
             });
-            $('#shipping').on('click', function () {
-                $('.shipping-row').each(function () {
-                    var status = $(this).data('status');
-                    if (status === '已發貨') {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
-                });
-                handleButtonClick($(this));
-            });
-            $('#await').on('click', function () {
-                $('.shipping-row').each(function () {
-                    var status = $(this).data('status');
-                    if (status === '待處理') {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
-                });
-                handleButtonClick($(this));
-
-            });
-
-            $('#cancel').on('click', function () {
-                $('.shipping-row').each(function () {
-                    var status = $(this).data('status');
-                    if (status === '已取消') {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
-                });
-                handleButtonClick($(this));
-
-            });
-
-            $('#done').on('click', function () {
-                $('.shipping-row').each(function () {
-                    var status = $(this).data('status');
-                    if (status === '已完成') {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
-                });
-                handleButtonClick($(this));
-
-            });
-
-            // 定義一個處理按鈕點擊變色的函數
-            function handleButtonClick(button) {
-                // 移除所有按鈕上的選中樣式
-                $('.btn').removeClass('btn-selected');
-                // 為被點擊的按鈕添加選中樣式
-                button.addClass('btn-selected');
-            }
+            
         });
+        // $('table').DataTable();
 
     </script>
 

@@ -59,15 +59,15 @@ namespace gacha.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("account,name,roleId,email,phoneNumber,password")] admin admin)
         {
-            //密碼加密
-            var hashPassword = BCrypt.Net.BCrypt.HashPassword(admin.password);
-
-            //把加密和輸入的密碼做比較,一致才存(測試用)
-            bool verify = BCrypt.Net.BCrypt.Verify(admin.password, hashPassword);
-            admin.password = hashPassword;
-
             if (ModelState.IsValid)
             {
+                //密碼加密
+                var hashPassword = BCrypt.Net.BCrypt.HashPassword(admin.password);
+
+                //把加密和輸入的密碼做比較,一致才存(測試用)
+                bool verify = BCrypt.Net.BCrypt.Verify(admin.password, hashPassword);
+                admin.password = hashPassword;
+
                 _context.Add(admin);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -144,8 +144,12 @@ namespace gacha.Controllers
             {
                 return NotFound();
             }
-
-            return View(admin);
+            if (admin != null)
+            {
+                _context.admin.Remove(admin);
+            }
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: admin/Delete/5
