@@ -22,10 +22,6 @@ namespace gacha.Controllers
         {
             return View();
         }
-        public IActionResult GetPicture()
-        {
-            return View();
-        }
         public IActionResult PointList()
         { 
             return View();

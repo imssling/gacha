@@ -1,42 +1,88 @@
 ﻿@section Styles
 {
     <style>
+        .machine-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
 
+        .machine-item {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 15px;
+            width: 200px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+            .machine-item:hover {
+                transform: translateY(-5px);
+            }
+
+            .machine-item img {
+                width: 100%;
+                height: 200px;
+                object-fit: cover;
+                border-radius: 5px;
+            }
+
+        .machine-name {
+            font-weight: bold;
+            margin: 10px 0 5px;
+        }
+
+        .machine-price {
+            color: #e44d26;
+            font-weight: bold;
+        }
     </style>
 }
 
 <div id="app">
-    GachaMachine
+    <div class="machine-grid">
+        <div v-for="machine in machines" :key="machine.id" class="machine-item">
+            <img :src="getPictureUrl(machine.id)" :alt="machine.machineName">
+            <div class="machine-name">{{ machine.machineName }}</div>
+            <div class="machine-price">{{ machine.price }}點</div>
+        </div>
+    </div>
 </div>
-
 
 @section Scripts
 {
     <script src="https://unpkg.com/vue@3.4.31/dist/vue.global.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js"
             integrity="sha512-JSCFHhKDilTRRXe9ak/FJ28dcpOJxzQaCd3Xg8MyF6XFjODhy/YMCM8HW0TFDckNHWUewW+kfvhin43hKtJxAw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-
         var vueApp = {
-
             data() {
-
                 return {
-
+                    machines: [],
+                    baseAddress: "https://localhost:7134"
                 }
-
             },
-
             methods: {
-
+                fetchMachines() {
+                    axios.get(`${this.baseAddress}/api/GachaMachines`)
+                        .then(response => {
+                            this.machines = response.data;
+                        })
+                        .catch(error => {
+                            console.error('Error fetching machines:', error);
+                        });
+                },
+                getPictureUrl(id) {
+                    return `${this.baseAddress}/api/GachaMachines/GetPicture/${id}`;
+                }
             },
-
+            mounted() {
+                this.fetchMachines();
+            }
         };
-
         var app = Vue.createApp(vueApp).mount("#app");
-
-
     </script>
 }

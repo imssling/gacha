@@ -1,42 +1,141 @@
 ﻿@section Styles
 {
     <style>
+        .machine-detail {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
+        .machine-image {
+            flex: 1;
+            min-width: 300px;
+        }
+
+            .machine-image img {
+                width: 100%;
+                height: auto;
+                border-radius: 10px;
+            }
+
+        .machine-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .product-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .product-image {
+            width: calc(20% - 10px);
+            min-width: 150px;
+        }
+
+            .product-image img {
+                width: 100%;
+                height: auto;
+                border-radius: 5px;
+            }
     </style>
 }
 
 <div id="app">
-    GachaProduct
+    <div class="machine-detail" v-if="machineData.length > 0">
+        <div class="machine-image">
+            <img :src="getMachinePictureUrl(machineData[0].machineId)" :alt="machineData[0].machineName">
+        </div>
+        <div class="machine-info">
+            <table>
+                <tr>
+                    <th>機台名稱</th>
+                    <td>{{ machineData[0].machineName }}</td>
+                </tr>
+                <tr>
+                    <th>機台描述</th>
+                    <td>{{ machineData[0].machineDescription }}</td>
+                </tr>
+                <tr>
+                    <th>價格</th>
+                    <td>{{ machineData[0].price }}點</td>
+                </tr>
+                <tr>
+                    <th>庫存量</th>
+                    <td>{{ totalStock }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="product-gallery">
+        <div v-for="product in machineData" :key="product.productName" class="product-image">
+            <img :src="getProductPictureUrl(machineData[0].machineId)" :alt="product.productName">
+        </div>
+    </div>
 </div>
-
 
 @section Scripts
 {
     <script src="https://unpkg.com/vue@3.4.31/dist/vue.global.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js"
             integrity="sha512-JSCFHhKDilTRRXe9ak/FJ28dcpOJxzQaCd3Xg8MyF6XFjODhy/YMCM8HW0TFDckNHWUewW+kfvhin43hKtJxAw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-
         var vueApp = {
-
             data() {
-
                 return {
-
+                    machineData: [],
+                    baseAddress: "https://localhost:7134"
                 }
-
             },
-
+            computed: {
+                totalStock() {
+                    return this.machineData.reduce((sum, product) => sum + product.stock, 0);
+                }
+            },
             methods: {
-
+                fetchMachineData(machineId) {
+                    axios.get(`${this.baseAddress}/api/GachaProducts/machine/${machineId}`)
+                        .then(response => {
+                            this.machineData = response.data;
+                        })
+                        .catch(error => {
+                            console.error('Error fetching machine data:', error);
+                        });
+                },
+                getMachinePictureUrl(id) {
+                    return `${this.baseAddress}/api/GachaMachines/GetPicture/${id}`;
+                },
+                getProductPictureUrl(machineId) {
+                    return `${this.baseAddress}/api/GachaProducts/GetPicture/${machineId}`;
+                }
             },
-
+            mounted() {
+                // 假設機台ID是通過路由參數傳遞的，這裡使用1作為示例
+                const machineId = 1;
+                this.fetchMachineData(machineId);
+            }
         };
-
         var app = Vue.createApp(vueApp).mount("#app");
-
-
     </script>
 }

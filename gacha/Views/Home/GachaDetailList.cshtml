@@ -1,8 +1,8 @@
 ﻿@section Styles
 {
-<style>
+    <style>
 
-</style>
+    </style>
 }
 
 <div id="app">
@@ -19,11 +19,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-foe="data in gachaDetails" :key="">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                    <tr v-for="record in gachaDetails" :key="record.id">
+                        <td>{{ record.gachaProductName }}</td>
+                        <td>{{ record.status }}</td>
+                        <td>{{ record.quantity }}</td>
+                        <td>{{ new Date(record.updateTime).toLocaleString() }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -35,7 +35,6 @@
 @section Scripts
 {
     <script src="https://unpkg.com/vue@3.4.31/dist/vue.global.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js"
             integrity="sha512-JSCFHhKDilTRRXe9ak/FJ28dcpOJxzQaCd3Xg8MyF6XFjODhy/YMCM8HW0TFDckNHWUewW+kfvhin43hKtJxAw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -44,19 +43,17 @@
         var vueApp = {
 
             data() {
-
                 return {
                     gachaDetails: []
                 }
-
             },
 
             methods: {
                 fetchGachaDetails(userId) {
-                    axios.get(`${baseAddress}/api/PointLists/${userId}`)
+                    axios.get(`${baseAddress}/api/GachaDetailLists/${userId}`)
                         .then(response => {
                             console.log('API response:', response.data);
-                            this.pointDetails = response.data;
+                            this.gachaDetails = response.data;
                         })
                         .catch(error => {
                             console.error('There was an error!', error);
@@ -64,10 +61,11 @@
                 }
             },
 
+            mounted() {
+                this.fetchGachaDetails(1); // 替換為適當的用戶ID
+            }
         };
 
         var app = Vue.createApp(vueApp).mount("#app");
-
-
     </script>
 }
