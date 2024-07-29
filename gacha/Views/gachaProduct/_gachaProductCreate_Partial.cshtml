@@ -1,0 +1,140 @@
+﻿@model gacha.Models.gachaProduct
+
+@{
+    ViewData["Title"] = "Create";
+}
+@section Styles {
+    <link href="~/css/datatables.min.css" rel="stylesheet" />
+}
+
+<h4>新增商品</h4>
+<hr />
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="Create" enctype="multipart/form-data" class="needs-validation" novalidate>
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="form-group row mb-3">
+                    <label asp-for="machineId" class="col-sm-3 col-form-label fw-bold"></label>
+                    <div class="col-sm-9">
+                        <select asp-for="machineId" class="form-select" asp-items="ViewBag.machineId" required></select>
+                        <span asp-validation-for="machineId" class="text-danger"></span>
+                        <div class="valid-feedback">漂漂亮亮</div>
+                        <div class="invalid-feedback">機台ID必選,誠實招來</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label asp-for="productName" class="col-sm-3 col-form-label fw-bold"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="productName" class="form-control" required />
+                        <span asp-validation-for="productName" class="text-danger"></span>
+                        <div class="valid-feedback">漂漂亮亮</div>
+                        <div class="invalid-feedback">產品名稱必填,誠實招來</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label asp-for="stock" class="col-sm-3 col-form-label fw-bold"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="stock" class="form-control" required />
+                        <span asp-validation-for="stock" class="text-danger"></span>
+                        <div class="valid-feedback">漂漂亮亮</div>
+                        <div class="invalid-feedback">庫存必填,誠實招來</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label asp-for="productPictureName" class="col-sm-3 col-form-label fw-bold"></label>
+                    <div class="col-sm-9">
+                        <img id="productImage" src="~/img/no-photo.png" title="待上傳" class="img-thumbnail mb-3" style="width:320px;height:240px" />
+                        <input asp-for="productPictureName" type="file" accept="image/*" class="form-control" required />
+                        <span asp-validation-for="productPictureName" class="text-danger"></span>
+                        <div class="valid-feedback">漂漂亮亮</div>
+                        <div class="invalid-feedback">相片必選,誠實招來</div>
+                    </div>
+                </div>
+
+                <div class="form-group row justify-content-end">
+                    <div class="col-sm-10 d-flex justify-content-end">
+                        <button type="submit" class="btn button">
+                            <i class="fa-solid fa-floppy-disk fa-lg"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            // 綁定文件輸入元素的 change 事件
+            $('#productPictureName').on('change', function () {
+                var allowType = "image.*";
+                var file = this.files[0];
+
+                if (file.type.match(allowType)) {
+                    // 預覽圖片
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        // 檔案讀取完成，設置圖片預覽
+                        $('#productPictureName').prev().attr("src", e.target.result);
+                        $('#productPictureName').prev().attr("title", file.name);
+
+                    }
+                    // 檔案讀取
+                    reader.readAsDataURL(file);
+                    // 啟用提交按鈕
+                    $('.btn').prop('disabled', false);
+                } else {
+                    alert("不支援的檔案上傳類型");
+                    // 禁用提交按鈕
+                    $('.btn').prop('disabled', true);
+                }
+            });
+        });
+
+    </script>
+}
+
+@* <div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="machineId" class="control-label"></label>
+                <select class="form-select" asp-for="machineId" class="form-control" asp-items="ViewBag.machineId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="productName" class="control-label"></label>
+                <input asp-for="productName" class="form-control" />
+                <span asp-validation-for="productName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="stock" class="control-label"></label>
+                <input asp-for="stock" class="form-control" />
+                <span asp-validation-for="stock" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="productPictureName" class="control-label"></label>
+                <img src="~/img/no-photo.png" title="待上傳" style="width:320px;height:240px" />
+                <input asp-for="productPictureName" type="file" accept="image/*" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="儲存" class="btn button" id="submit" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a class="btn button" asp-action="Index"><i class="fa-solid fa-backward"></i></a>
+</div> *@

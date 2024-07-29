@@ -22,10 +22,13 @@ namespace gacha.Controllers
         // GET: trackingLists
         public async Task<IActionResult> Index()
         {
-            var gachaContext =await  _context.trackingList.Include(t => t.gachaMachine).Include(t => t.user)
+            var gachaContext =await  _context.trackingList
+                .Include(t => t.gachaMachine)
+                .Include(t => t.user)
                 .Select(t=> new trackingList_ViewModel 
                 {
                     UserId = t.userId,
+                    UserName = t.user.userName,
                     GachaMachineId = t.gachaMachineId,
                     TrackingDate= t.trackingDate,
                     NoteStatus = t.noteStatus,
@@ -47,11 +50,14 @@ namespace gacha.Controllers
                 .Include(t => t.gachaMachine)
                 .Include(t => t.user)
                 .FirstOrDefaultAsync(m => m.userId == id);
-            var gachaMachine = _context.gachaMachine.Where(g => g.id == trackingList.gachaMachineId);
+
             if (trackingList == null)
             {
                 return NotFound();
             }
+
+            var user = _context.userInfo.FirstOrDefault(u => u.id == trackingList.userId);
+            var gachaMachine = _context.gachaMachine.Where(g => g.id == trackingList.gachaMachineId);
 
             var x = await (from t in _context.trackingList
                     join u in _context.userInfo
@@ -66,7 +72,9 @@ namespace gacha.Controllers
                         TrackingDate = DateTime.Now,
                         NoteStatus = t.noteStatus,
                         GachaMachineName = g.machineName,
-                        UserEmail = u.email
+                        UserEmail = u.email,
+                        UserName = u.userName
+
                     }).FirstOrDefaultAsync();
 
 
@@ -90,6 +98,8 @@ namespace gacha.Controllers
 
             //};
 
+            ViewData["gachaMachineId"] = new SelectList(_context.gachaMachine, "id", "machineName", trackingList.gachaMachineId);
+            ViewData["userId"] = new SelectList(_context.userInfo, "id", "id", trackingList.userId);
             return View(x);
         }
 
@@ -133,7 +143,7 @@ namespace gacha.Controllers
                 return NotFound();
             }
             ViewData["gachaMachineId"] = new SelectList(_context.gachaMachine, "id", "machineName", trackingList.gachaMachineId);
-            ViewData["userId"] = new SelectList(_context.userInfo, "id", "email", trackingList.userId);
+            ViewData["userId"] = new SelectList(_context.userInfo, "id", "name", trackingList.userId);
             return View(trackingList);
         }
 

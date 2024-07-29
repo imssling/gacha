@@ -1,0 +1,23 @@
+﻿@model gacha.Models.gachaMachine
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@section Styles {
+    <link href="~/css/datatables.min.css" rel="stylesheet" />
+}
+<div>
+    <h4>機台</h4>
+    <hr />
+    <div class="container">
+        <div class="row mb-2">
+            <div class="col-4 fw-bold">
+                @Html.DisplayNameFor(model => model.machineDescription)
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.machineDescription)
+            </div>
+        </div>
+    </div>
+</div>

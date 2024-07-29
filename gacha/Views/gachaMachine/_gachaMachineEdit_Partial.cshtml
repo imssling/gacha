@@ -1,70 +1,83 @@
-﻿@model gacha.Models.gachaMachine
+﻿ @model gacha.Models.gachaMachine
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 @section Styles {
     <link href="~/css/datatables.min.css" rel="stylesheet" />
 }
 
-
-<h4>新增機台</h4>
+<h4>修改機台</h4>
 <hr />
-
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <form asp-action="Create" enctype="multipart/form-data" class="needs-validation" novalidate>
+            <form id="editForm" asp-action="Edit" enctype="multipart/form-data" class="needs-validation" novalidate>
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
                 <div class="form-group row mb-3">
-                    <label asp-for="themeId" class="col-sm-3 col-form-label"></label>
+                    <label asp-for="id" class="col-sm-3 col-form-label fw-bold"></label>
                     <div class="col-sm-9">
-                        <select class="form-select" asp-for="themeId" asp-items="ViewBag.themeId" required></select>
-                        <span asp-validation-for="themeId" class="text-danger"></span>
-                        <div class="valid-feedback">漂漂亮亮</div>
-                        <div class="invalid-feedback">活動名稱必填,誠實招來</div>
+                        <input asp-for="id" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="id" class="text-danger"></span>
                     </div>
                 </div>
 
                 <div class="form-group row mb-3">
-                    <label asp-for="machineName" class="col-sm-3 col-form-label"></label>
+                    <label asp-for="themeId" class="col-sm-3 col-form-label fw-bold"></label>
+                    <div class="col-sm-9">
+                        <select asp-for="themeId" class="form-control" asp-items="ViewBag.themeId" required></select>
+                        <span asp-validation-for="themeId" class="text-danger"></span>
+                        <div class="valid-feedback">漂漂亮亮</div>
+                        <div class="invalid-feedback">主題名稱必選,誠實招來</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label asp-for="machineName" class="col-sm-3 col-form-label fw-bold"></label>
                     <div class="col-sm-9">
                         <input asp-for="machineName" class="form-control" required />
                         <span asp-validation-for="machineName" class="text-danger"></span>
                         <div class="valid-feedback">漂漂亮亮</div>
-                        <div class="invalid-feedback">活動名稱必填,誠實招來</div>
+                        <div class="invalid-feedback">機台名稱必填,誠實招來</div>
                     </div>
                 </div>
 
                 <div class="form-group row mb-3">
-                    <label asp-for="machineDescription" class="col-sm-3 col-form-label"></label>
+                    <label asp-for="machineDescription" class="col-sm-3 col-form-label fw-bold"></label>
                     <div class="col-sm-9">
-                        <textarea asp-for="machineDescription" class="form-control" rows="3" required></textarea>
+                        <textarea asp-for="machineDescription" class="form-control" rows="5" ></textarea>
                         <span asp-validation-for="machineDescription" class="text-danger"></span>
                         <div class="valid-feedback">漂漂亮亮</div>
-                        <div class="invalid-feedback">活動名稱必填,誠實招來</div>
+                        <div class="invalid-feedback">機台詳細資訊必填,誠實招來</div>
                     </div>
                 </div>
 
                 <div class="form-group row mb-3">
-                    <label asp-for="price" class="col-sm-3 col-form-label"></label>
+                    <label asp-for="price" class="col-sm-3 col-form-label fw-bold"></label>
                     <div class="col-sm-9">
                         <input asp-for="price" class="form-control" required />
                         <span asp-validation-for="price" class="text-danger"></span>
                         <div class="valid-feedback">漂漂亮亮</div>
-                        <div class="invalid-feedback">活動名稱必填,誠實招來</div>
+                        <div class="invalid-feedback">價錢必填,誠實招來</div>
                     </div>
                 </div>
 
                 <div class="form-group row mb-3">
-                    <label asp-for="machinePictureName" class="col-sm-3 col-form-label"></label>
+                    <label asp-for="status" class="col-sm-3 col-form-label fw-bold"></label>
                     <div class="col-sm-9">
-                        <img id="machineImage" src="~/img/no-photo.png" title="待上傳" class="img-thumbnail mb-3" style="width:320px;height:240px" />
+                        <input class="form-check-input" asp-for="status" /> @Html.DisplayNameFor(model => model.status)
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label asp-for="machinePictureName" class="col-sm-3 col-form-label fw-bold"></label>
+                    <div class="col-sm-9">
+                        <img id="machineImage" src="@Model.machinePictureName ?? Url.Content(" ~ /images/default.png")" alt="機台圖片" class="img-thumbnail mb-3" style="width:320px;height:240px" />
                         <input asp-for="machinePictureName" type="file" accept="image/*" class="form-control" required />
                         <span asp-validation-for="machinePictureName" class="text-danger"></span>
                         <div class="valid-feedback">漂漂亮亮</div>
-                        <div class="invalid-feedback">活動名稱必填,誠實招來</div>
+                        <div class="invalid-feedback">相片必選,誠實招來</div>
                     </div>
                 </div>
 
@@ -73,7 +86,6 @@
                         <button type="submit" class="btn button">
                             <i class="fa-solid fa-floppy-disk fa-lg"></i>
                         </button>
-                        <a asp-action="Index" class="btn btn-link">Back to List</a>
                     </div>
                 </div>
             </form>
@@ -82,40 +94,33 @@
 </div>
 
 
-<div>
-    <a asp-action="Index" class="btn button"><i class="fa-solid fa-backward"></i></a>
-</div>
-
-
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    <script>
+    @*  <script>
         $(document).ready(function () {
-            // 綁定文件輸入元素的 change 事件
-            $('#machinePictureName').on('change', function () {
+            $('#machinePictureName').on("change", function () {
+                // 允許的副檔名
                 var allowType = "image.*";
+                // 上傳的第一個檔案
                 var file = this.files[0];
+                // 抓取檔案的型態是否為allowType的格式
                 if (file.type.match(allowType)) {
-                    // 預覽圖片
+                    // 讀取圖片
                     var reader = new FileReader();
+                    // 檔案讀取完成的事件
                     reader.onload = function (e) {
-                        // 檔案讀取完成，設置圖片預覽
-                        $('#machinePictureName').prev().attr("src", e.target.result);
-                        $('#machinePictureName').prev().attr("title", e.file.name);
+                        // 修改圖片的src屬性
+                        $('#machineImage').attr("src", e.target.result);
                     }
-                    // 檔案讀取
+                    // 用圖片的URL讀取圖片
                     reader.readAsDataURL(file);
-                    // 啟用提交按鈕
-                    $('.btn').prop('disabled', false);
                 } else {
                     alert("不支援的檔案上傳類型");
-                    // 禁用提交按鈕
-                    $('.btn').prop('disabled', true);
-                }           
+                }
             });
         });
-
-    </script>
+    </script> *@
 }
+

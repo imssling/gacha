@@ -6,13 +6,34 @@
 @section Styles {
     <link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/datatables.css" rel="stylesheet" />
-
-
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
 }
 <h3>機台管理</h3>
 
 <p>
-    <a asp-action="Create" class="btn button"><i class="fa-solid fa-plus"></i></a>
+    @* <a asp-action="Create" class="btn button"><i class="fa-solid fa-plus"></i></a> *@
+    <a class="btn button" asp-action="Create" data-bs-toggle="modal" data-bs-target="#gachaMachineCreateModal">
+        <i class="fa-solid fa-plus fa-lg"></i>
+    </a>
+    @* creat new modal start *@
+    <div class="modal fade" id="gachaMachineCreateModal" tabindex="-1" aria-labelledby="gachaMachineCreateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    @* <h5 class="modal-title" id="createModalLabel">Create New Activity Type</h5> *@
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <partial name="_gachaMachineCreate_Partial" model="new gachaMachine()"></partial>
+                    </div>
+                </div>
+                @*  <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div> *@
+            </div>
+        </div>
+    </div>
 </p>
 <table class="table">
     <thead>
@@ -23,9 +44,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.machineName)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.machineDescription)
-            </th>
+            @*  <th>
+            @Html.DisplayNameFor(model => model.machineDescription)
+            </th> *@
             <th>
                 @Html.DisplayNameFor(model => model.machinePictureName)
             </th>
@@ -45,60 +66,114 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.machineName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.machineDescription)
-            </td>
-            <td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.machineName)
+                </td>
+                @*  <td>
+            @Html.DisplayFor(modelItem => item.machineDescription)
+            </td> *@
+                <td>
                     <partial name="_ShowMachineImagePartial" model="item" />
-            </td>
-            <td>
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.createTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.theme.themeName)
-            </td>
-            <td>
-                    <a class="button" asp-action="Edit" asp-route-id="@item.id"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a class="button" asp-action="Details" asp-route-id="@item.id"><i class="fa-solid fa-list"></i></a>
-                    <a class="button" asp-action="Delete" asp-route-id="@item.id"><i class="fa-solid fa-trash"></i></a>
-            </td>
-        </tr>
-}
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.createTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.theme.themeName)
+                </td>
+                <td>
+                    <div class="d-flex flex-column">
+                        <a class="btn button mb-2" href="" data-bs-toggle="modal" data-bs-target="#gachaMachinEditModal-@item.id">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <a class="button" data-bs-toggle="modal" data-bs-target="#gachaMachineDetailModal-@item.id">
+                            <i class="fa-solid fa-list fa-lg"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            <div class="modal fade" id="gachaMachineDetailModal-@item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            @*  <h5 class="modal-title" id="rechargeListModal-@item.id"></h5> *@
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <partial name="_gachaMachineDetail_Partial" model="@item">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            @* <button type="button" class="btn btn-primary">Save changes</button> *@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
     </tbody>
 </table>
+@foreach (var item in Model)
+{
+    @* edit modal start *@
+    <div class="modal fade" id="gachaMachinEditModal-@item.id" tabindex="-1" aria-labelledby="gachaMachineEditModalLabel-@item.id" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    @* <h5 class="modal-title" id="gachaMachineEditModalLabel-@item.id">Edit Theme</h5> *@
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <partial name="_gachaMachineEdit_Partial" model="@item" />
+                </div>
+                <div class="modal-footer">
+                    @*  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> *@
+                    @* <button type="button" class="btn btn-primary">Save changes</button> *@
+                </div>
+            </div>
+        </div>
+    </div>
+    @* edit modal end *@
+
+}
 @section Scripts {
     <script src="~/lib/datatables/js/jquery.datatables.min.js" asp-append-version="true"></script>
     <script src="//cdn.datatables.net/fixedheader/3.3.1/js/dataTables.fixedHeader.min.js"></script>
+    <script src="~/js/datatables.js"></script>
     <script>
         $(document).ready(function () {
-            $('table').DataTable({
-                fixedHeader: {
-                    header: true,
-                },
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/zh-HANT.json',
-                },
-                columnDefs: [
-                    {
-                        targets: '_all',
-                        className: 'text-center'
-                    }
-                ],
-            });
+            console.log("Document ready");
+            if (!$.fn.DataTable.isDataTable('table')) {
+                console.log("Initializing DataTable");
+                $('table').DataTable({
+                    fixedHeader: {
+                        header: true,
+                    },
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/zh-HANT.json',
+                    },
+                    columnDefs: [
+                        {
+                            targets: '_all',
+                            className: 'text-center'
+                        }
+                    ],
+                });
+            } else {
+                console.log("DataTable already initialized");
+            }
+
             // 換頁時回到最上面
             $('table').on('page.dt', function () {
                 $('html, body').animate({
@@ -106,5 +181,25 @@
                 }, 50);
             });
         });
+
+        // Bootstrap validation for create/edit forms
+        (function () {
+            'use strict';
+
+            // Fetch all forms to apply custom Bootstrap validation styles
+            var forms = document.querySelectorAll('.needs-validation');
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+        })();
     </script>
 }

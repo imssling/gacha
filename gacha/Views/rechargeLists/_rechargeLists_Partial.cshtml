@@ -12,55 +12,10 @@
     <div class="container">
         <div class="row mb-2">
             <div class="col-4 fw-bold">
-                @Html.DisplayNameFor(model => model.id)
+                @Html.DisplayNameFor(model => model.RechargePlan)
             </div>
             <div class="col-8">
-                @Html.DisplayFor(model => model.id)
-            </div>
-        </div>
-        <div class="row mb-2">
-            <div class="col-4 fw-bold">
-                @Html.DisplayNameFor(model => model.rechargePlanId)
-            </div>
-            <div class="col-8">
-                @Html.DisplayFor(model => model.rechargePlanId)
-                @* @ViewBag.rechargeName *@
-            </div>
-        </div>
-        @*
-        <div class="row mb-2">
-        <div class="col-4 fw-bold">
-        @Html.DisplayNameFor(model => model.rechargePlan)
-        </div>
-        <div class="col-8">
-        @Html.DisplayFor(model => model.rechargePlan)
-        </div>
-        </div>
-        *@
-        <div class="row mb-2">
-            <div class="col-4 fw-bold">
-                @Html.DisplayNameFor(model => model.userId)
-            </div>
-            <div class="col-8">
-                @Html.DisplayFor(model => model.userId)
-            </div>
-        </div>
-        @*
-        <div class="row mb-2">
-        <div class="col-4 fw-bold">
-        @Html.DisplayNameFor(model => model.userName)
-        </div>
-        <div class="col-8">
-        @Html.DisplayFor(model => model.userName)
-        </div>
-        </div>
-        *@
-        <div class="row mb-2">
-            <div class="col-4 fw-bold">
-                @Html.DisplayNameFor(model => model.quantity)
-            </div>
-            <div class="col-8">
-                @Html.DisplayFor(model => model.quantity)
+                @Html.DisplayFor(model => model.RechargePlan)
             </div>
         </div>
         <div class="row mb-2">
@@ -71,6 +26,16 @@
                 @Html.DisplayFor(model => model.amount)
             </div>
         </div>
+
+        <div class="row mb-2">
+            <div class="col-4 fw-bold">
+                @Html.DisplayNameFor(model => model.quantity)
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.quantity)
+            </div>
+        </div>
+
         <div class="row mb-2">
             <div class="col-4 fw-bold">
                 @Html.DisplayNameFor(model => model.paymentMode)
@@ -79,14 +44,7 @@
                 @Html.DisplayFor(model => model.paymentMode)
             </div>
         </div>
-        <div class="row mb-2">
-            <div class="col-4 fw-bold">
-                總價錢
-            </div>
-            <div class="col-8">
-                @Html.DisplayFor(model => model.rechargeTotalPrice)
-            </div>
-        </div>
+ 
         <div class="row mb-2">
             <div class="col-4 fw-bold">
                 @Html.DisplayNameFor(model => model.rechargeDate)
@@ -95,6 +53,25 @@
                 @Html.DisplayFor(model => model.rechargeDate)
             </div>
         </div>
+
+        <div class="row mb-2">
+            <div class="col-4 fw-bold">
+                @Html.DisplayNameFor(model => model.userName)
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.userName)
+                @ViewBag.userName
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-4 fw-bold">
+                @Html.DisplayNameFor(model => model.rechargeTotalPrice)
+            </div>
+            <div class="col-8">
+                @Html.DisplayFor(model => model.rechargeTotalPrice)
+            </div>
+        </div>
+
     </div>
 </div>
 

@@ -6,6 +6,7 @@
 @section Styles {
     <link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/datatables.css" rel="stylesheet" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     <style>
         thead {
             background-color: #F6EEA2;
@@ -14,10 +15,10 @@
     </style>
 }
 <h1>Index</h1>
-
+<h3>活動類別</h3>
 <p>
-   @*  <a asp-action="Create">Create New</a> *@
-    <button  class="btn button" asp-action="Create" data-bs-toggle="modal" data-bs-target="#createModal">
+    @*  <a asp-action="Create">Create New</a> *@
+    <button class="btn button" asp-action="Create" data-bs-toggle="modal" data-bs-target="#createModal">
         <i class="fa-solid fa-plus fa-lg"></i>
     </button>
     @* create new modal start *@
@@ -33,8 +34,8 @@
                         <partial name="_activityTypeCreate_Partial" model="new activityType()"></partial>
                     </div>
                 </div>
-               @*  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                @*  <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div> *@
             </div>
         </div>
@@ -53,6 +54,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.createdAt)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.status)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -70,6 +74,9 @@
                     @Html.DisplayFor(modelItem => item.createdAt)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.status)
+                </td>
+                <td>
                     @* <a asp-action="Edit" asp-route-id="@item.id">Edit</a> | *@
                     @* <a asp-action="Details" asp-route-id="@item.id">Details</a> | *@
                     <div class="d-flex flex-column">
@@ -83,31 +90,35 @@
 
                 </td>
             </tr>
-            @* edit modal start *@
-            <div class="modal fade" id="activityTypeModal-@item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            @* <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> *@
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <partial name="_activityType_Partial" model="@item" />
-                        </div>
-                        <div class="modal-footer">
-                            @* <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> *@
-                            @*  <button type="button" class="btn btn-primary">Save changes</button>  *@
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         }
     </tbody>
 </table>
+@foreach (var item in Model)
+{
+    @* edit modal start *@
+    <div class="modal fade" id="activityTypeModal-@item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    @* <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> *@
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <partial name="_activityType_Partial" model="@item" />
+                </div>
+                <div class="modal-footer">
+                    @* <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> *@
+                    @*  <button type="button" class="btn btn-primary">Save changes</button>  *@
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 @section Scripts {
+    <script src="~/lib/datatables/js/jquery.datatables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
     <script>
         function Confirm(element) {
             // 使用 SweetAlert2 來顯示確認對話框
@@ -130,11 +141,32 @@
             });
             return false; // 防止 a 標籤的預設行為
         }
-    </script>
-    <script src="~/lib/datatables/js/jquery.datatables.min.js"></script>
-    <script>
         $(document).ready(function () {
             $('.table').DataTable();
         });
+
+        //CREATE/EDIT Partial Bootstrap Validation
+        (function () {
+            'use strict';
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation');
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+        })();
+
+        
+        
     </script>
+
 }

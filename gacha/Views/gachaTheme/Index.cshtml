@@ -6,11 +6,40 @@
 @section Styles {
     <link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/datatables.css" rel="stylesheet" />
+
+    <style>
+        thead {
+            background-color: #F6EEA2;
+            color: BLACK;
+        }
+    </style>
 }
 <h3>主題管理</h3>
 
 <p>
-    <a asp-action="Create" class="btn button"><i class="fa-solid fa-plus"></i></a>
+    <button class="btn button" asp-action="Create" data-bs-toggle="modal" data-bs-target="#createModal">
+        <i class="fa-solid fa-plus fa-lg"></i>
+    </button>
+    @* create new modal start *@
+    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    @* <h5 class="modal-title" id="createModalLabel">Create New Activity Type</h5> *@
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <partial name="_gachaThemeCreate_Partial" model="new gachaTheme()"></partial>
+                    </div>
+                </div>
+                @*  <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div> *@
+            </div>
+        </div>
+    </div>
+    @* create new modal edn *@
 </p>
 <table class="table">
     <thead>
@@ -21,30 +50,70 @@
             <th>
                 @Html.DisplayNameFor(model => model.themeName)
             </th>
-            <th>功能</th>
+            <th>
+                @Html.DisplayNameFor(model => model.status)
+            </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.themeName)
-            </td>
-            <td>
-                    <a class="button" asp-action="Edit" asp-route-id="@item.id"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a class="button" asp-action="Details" asp-route-id="@item.id"><i class="fa-solid fa-list"></i></a>
-                    <a class="button" asp-action="Delete" asp-route-id="@item.id"><i class="fa-solid fa-trash"></i></a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.themeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.status)
+                </td>
+                <td>
+
+                    <div class="d-flex flex-column">
+                        <a class="btn button mb-2" href="" data-bs-toggle="modal" data-bs-target="#gachaThemeEditModal-@item.id">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        @*  <a asp-action="Delete" asp-route-id="@item.id" class="button delete" onclick="return Confirm(this)">
+                    <i class="fa-solid fa-trash"></i>
+                    </a> *@
+                    </div>
+                </td>
+            </tr>
+
+        }
+
     </tbody>
+
 </table>
+@foreach (var item in Model)
+{
+    <!-- Modal -->
+    <div class="modal fade" id="gachaThemeEditModal-@item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    @*  <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> *@
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <partial name="_gachaThemeEdit_Partial" model="@item" />
+                </div>
+                <div class="modal-footer">
+                    @* <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> *@
+                    @*  <button type="button" class="btn btn-primary">Save changes</button>  *@
+                </div> 
+            </div>
+        </div>
+    </div>
+
+}
+
 @section Scripts {
     <script src="~/lib/datatables/js/jquery.datatables.min.js" asp-append-version="true"></script>
     <script src="//cdn.datatables.net/fixedheader/3.3.1/js/dataTables.fixedHeader.min.js"></script>
+    <script src="~/fixed-header-table/jquery.fixedheadertable.min.js"></script>
     <script>
         $(document).ready(function () {
             $('table').DataTable({
@@ -68,6 +137,25 @@
                 }, 50);
             });
         });
+        //CREATE/EDIT Partial Bootstrap Validation
+        (function () {
+            'use strict';
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation');
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+        })();
 
     </script>
 }

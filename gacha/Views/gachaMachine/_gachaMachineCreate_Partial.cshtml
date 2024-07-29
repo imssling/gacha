@@ -18,53 +18,51 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
                 <div class="form-group row mb-3">
-                    <label asp-for="themeId" class="col-sm-3 col-form-label"></label>
+                    <label asp-for="themeId" class="col-sm-3 col-form-label fw-bold"></label>
                     <div class="col-sm-9">
                         <select class="form-select" asp-for="themeId" asp-items="ViewBag.themeId" required></select>
                         <span asp-validation-for="themeId" class="text-danger"></span>
                         <div class="valid-feedback">漂漂亮亮</div>
-                        <div class="invalid-feedback">活動名稱必填,誠實招來</div>
+                        <div class="invalid-feedback">主題名稱必選,誠實招來</div>
                     </div>
                 </div>
 
                 <div class="form-group row mb-3">
-                    <label asp-for="machineName" class="col-sm-3 col-form-label"></label>
+                    <label asp-for="machineName" class="col-sm-3 col-form-label fw-bold"></label>
                     <div class="col-sm-9">
                         <input asp-for="machineName" class="form-control" required />
                         <span asp-validation-for="machineName" class="text-danger"></span>
                         <div class="valid-feedback">漂漂亮亮</div>
-                        <div class="invalid-feedback">活動名稱必填,誠實招來</div>
+                        <div class="invalid-feedback">機台名稱必填,誠實招來</div>
                     </div>
                 </div>
 
                 <div class="form-group row mb-3">
-                    <label asp-for="machineDescription" class="col-sm-3 col-form-label"></label>
+                    <label asp-for="machineDescription" class="col-sm-3 col-form-label fw-bold"></label>
                     <div class="col-sm-9">
-                        <textarea asp-for="machineDescription" class="form-control" rows="3" required></textarea>
+                        <textarea asp-for="machineDescription" class="form-control" rows="5" ></textarea>
                         <span asp-validation-for="machineDescription" class="text-danger"></span>
-                        <div class="valid-feedback">漂漂亮亮</div>
-                        <div class="invalid-feedback">活動名稱必填,誠實招來</div>
                     </div>
                 </div>
 
                 <div class="form-group row mb-3">
-                    <label asp-for="price" class="col-sm-3 col-form-label"></label>
+                    <label asp-for="price" class="col-sm-3 col-form-label fw-bold"></label>
                     <div class="col-sm-9">
                         <input asp-for="price" class="form-control" required />
                         <span asp-validation-for="price" class="text-danger"></span>
                         <div class="valid-feedback">漂漂亮亮</div>
-                        <div class="invalid-feedback">活動名稱必填,誠實招來</div>
+                        <div class="invalid-feedback">價錢必填,誠實招來</div>
                     </div>
                 </div>
 
                 <div class="form-group row mb-3">
-                    <label asp-for="machinePictureName" class="col-sm-3 col-form-label"></label>
+                    <label asp-for="machinePictureName" class="col-sm-3 col-form-label fw-bold"></label>
                     <div class="col-sm-9">
                         <img id="machineImage" src="~/img/no-photo.png" title="待上傳" class="img-thumbnail mb-3" style="width:320px;height:240px" />
                         <input asp-for="machinePictureName" type="file" accept="image/*" class="form-control" required />
                         <span asp-validation-for="machinePictureName" class="text-danger"></span>
                         <div class="valid-feedback">漂漂亮亮</div>
-                        <div class="invalid-feedback">活動名稱必填,誠實招來</div>
+                        <div class="invalid-feedback">相片必選,誠實招來</div>
                     </div>
                 </div>
 
@@ -73,7 +71,6 @@
                         <button type="submit" class="btn button">
                             <i class="fa-solid fa-floppy-disk fa-lg"></i>
                         </button>
-                        <a asp-action="Index" class="btn btn-link">Back to List</a>
                     </div>
                 </div>
             </form>
@@ -81,10 +78,6 @@
     </div>
 </div>
 
-
-<div>
-    <a asp-action="Index" class="btn button"><i class="fa-solid fa-backward"></i></a>
-</div>
 
 
 @section Scripts {
@@ -113,9 +106,10 @@
                     alert("不支援的檔案上傳類型");
                     // 禁用提交按鈕
                     $('.btn').prop('disabled', true);
-                }           
+                }
             });
         });
 
     </script>
 }
+

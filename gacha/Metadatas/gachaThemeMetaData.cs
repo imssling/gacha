@@ -11,5 +11,8 @@ namespace gacha.Metadatas
         [Display(Name = "主題名稱")]
         [Required(ErrorMessage = "主題名稱必填")]
         public string themeName { get; set; }
+
+        [Display(Name = "狀態")]
+        public string status { get; set; }
     }
 }

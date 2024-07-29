@@ -1,21 +1,15 @@
-﻿@model gacha.Models.activityType 
-
-@{
-    ViewData["Title"] = "Create";
-}
-
-<h4>活動類別</h4>
-<hr />
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <form id="createForm" asp-action="Create" class="needs-validation" novalidate>
+            <form asp-action="Create" class="needs-validation" novalidate>
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
                 <div class="form-group row mb-3">
-                    <label asp-for="name" class="col-sm-3 col-form-label fw-bold"></label>
+                    <!-- Added mb-3 for margin -->
+                    <label asp-for="themeName" class="col-sm-3 col-form-label"></label>
                     <div class="col-sm-9">
-                        <input asp-for="name" class="form-control" id="name" required />
-                        <span asp-validation-for="name" class="text-danger"></span>
+                        <input asp-for="themeName" class="form-control" id="themeName" required />
+                        <span asp-validation-for="themeName" class="text-danger"></span>
                         <div class="valid-feedback">漂漂亮亮</div>
                         <div class="invalid-feedback">活動名稱必填,誠實招來</div>
                     </div>
@@ -25,17 +19,10 @@
                         <button type="submit" class="btn button">
                             <i class="fa-solid fa-floppy-disk fa-lg"></i>
                         </button>
-                        @* <a asp-action="Index" class="btn btn-link">Back to List</a> *@
+                        <a asp-action="Index" class="btn btn-link">Back to List</a>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-
-}

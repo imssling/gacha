@@ -15,5 +15,8 @@ namespace gacha.Metadatas
         [Display(Name = "創建日期")]
         //[Required(ErrorMessage = "日期必填")]
         public DateTime? createdAt { get; set; }
+
+        [Display(Name = "狀態")]
+        public bool status { get; set; }
     }
 }

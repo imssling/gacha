@@ -4,14 +4,14 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+
 
 <h4>活動</h4>
 <hr />
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <form asp-action="Edit">
+            <form asp-action="Edit" class="needs-validation" novalidate>
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
                 <div class="form-group row mb-3">
@@ -24,15 +24,19 @@
                 <div class="form-group row mb-3">
                     <label asp-for="title" class="col-sm-3 col-form-label fw-bold"></label>
                     <div class="col-sm-9">
-                        <input asp-for="title" class="form-control" />
+                        <input asp-for="title" class="form-control" id="title" required />
                         <span asp-validation-for="title" class="text-danger"></span>
+                        <div class="valid-feedback">漂漂亮亮</div>
+                        <div class="invalid-feedback">活動標題必填,誠實招來</div>
                     </div>
                 </div>
                 <div class="form-group row mb-3">
                     <label asp-for="description" class="col-sm-3 col-form-label fw-bold"></label>
                     <div class="col-sm-9">
-                        <input asp-for="description" class="form-control" />
+                        <input asp-for="description" class="form-control" id="description" required />
                         <span asp-validation-for="description" class="text-danger"></span>
+                        <div class="valid-feedback">漂漂亮亮</div>
+                        <div class="invalid-feedback">活動描述必填,誠實招來</div>
                     </div>
                 </div>
 
@@ -40,7 +44,9 @@
                     <label asp-for="activityTypeId" class="col-sm-3 col-form-label fw-bold"></label>
                     <div class="col-sm-9">
                         <select asp-for="activityTypeId" class="form-control"
-                                asp-items="ViewBag.activityTypeId"></select>
+                                asp-items="ViewBag.activityTypeId" id="activityTypeId" required></select>
+                        <div class="valid-feedback">漂漂亮亮</div>
+                        <div class="invalid-feedback">活動類別必選,誠實招來</div>
                     </div>
                 </div>
                 <div class="form-group row mb-3">
@@ -59,16 +65,20 @@
                 <div class="form-group row mb-3">
                     <label asp-for="activityStart" class="col-sm-3 col-form-label fw-bold"></label>
                     <div class="col-sm-9">
-                        <input asp-for="activityStart" class="form-control" />
+                        <input asp-for="activityStart" class="form-control" id="activityStart" required />
                         <span asp-validation-for="activityStart" class="text-danger"></span>
+                        <div class="valid-feedback">漂漂亮亮</div>
+                        <div class="invalid-feedback">活動開始日必選,誠實招來</div>
                     </div>
                 </div>
 
                 <div class="form-group row mb-3">
                     <label asp-for="activityEnd" class="col-sm-3 col-form-label fw-bold"></label>
                     <div class="col-sm-9">
-                        <input asp-for="activityEnd" class="form-control" />
+                        <input asp-for="activityEnd" class="form-control" id="activityEnd" required />
                         <span asp-validation-for="activityEnd" class="text-danger"></span>
+                        <div class="valid-feedback">漂漂亮亮</div>
+                        <div class="invalid-feedback">活動結束日必選,誠實招來</div>
                     </div>
                 </div>
 
