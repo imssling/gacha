@@ -60,7 +60,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                    @Html.DisplayFor(modelItem => item.id)
+                @Html.DisplayFor(modelItem => item.id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.productName)
@@ -82,33 +82,40 @@
                     @* <a class="button" asp-action="Edit" asp-route-id="@item.id"><i class="fa-solid fa-pen-to-square"></i></a> *@
                     @* <a class="button" asp-action="Delete" asp-route-id="@item.id"><i class="fa-solid fa-trash"></i></a> *@
                     @* <a class="button" asp-action="Details" asp-route-id="@item.id"><i class="fa-solid fa-list"></i></a> *@
-                    <a class="btn button mb-2" href="" data-bs-toggle="modal" data-bs-target="#gachaMachineEditModal-@item.id">
+                    <div class="d-flex flex-column">
+                    
+                        <a class="btn button mb-2" href="" data-bs-toggle="modal" data-bs-target="#gachaProductEditModal-@item.id">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </a>
                     <a asp-action="Delete" asp-route-id="@item.id" class="button delete mb-2" onclick="return Confirm(this)">
                         <i class="fa-solid fa-trash"></i>
                     </a>
+                    </div>
             </td>
         </tr>
-            <!-- Edit Modal -->
-            @* <div class="modal fade" id="gachaMachineEditModal-@item.id" tabindex="-1" aria-labelledby="gachaMachineEditModalLabel-@item.id" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="gachaMachineEditModalLabel-@item.id">Edit Gacha Machine</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div>
-                                <partial name="_gachapProductEdit_Partial" model="@item"></partial>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> *@
+           
 }
     </tbody>
 </table>
+@foreach (var item in Model)
+{
+    <!-- Edit Modal -->
+    <div class="modal fade" id="gachaProductEditModal-@item.id" tabindex="-1" aria-labelledby="gachaProductEditModalLabel-@item.id" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <partial name="_gachaProductEdit_Partial" model="@item" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 @section Scripts {
     <script src="~/lib/datatables/js/jquery.datatables.min.js" asp-append-version="true"></script>
     <script src="//cdn.datatables.net/fixedheader/3.3.1/js/dataTables.fixedHeader.min.js"></script>
@@ -133,5 +140,28 @@
                     }, false);
                 });
         })();
+
+        $(document).ready(function () {
+            $('#machinePictureName').on("change", function () {
+                // 允許的副檔名
+                var allowType = "image.*";
+                // 上傳的第一個檔案
+                var file = this.files[0];
+                // 抓取檔案的型態是否為allowType的格式
+                if (file.type.match(allowType)) {
+                    // 讀取圖片
+                    var reader = new FileReader();
+                    // 檔案讀取完成的事件
+                    reader.onload = function (e) {
+                        // 修改圖片的src屬性
+                        $('#machineImage').attr("src", e.target.result);
+                    }
+                    // 用圖片的URL讀取圖片
+                    reader.readAsDataURL(file);
+                } else {
+                    alert("不支援的檔案上傳類型");
+                }
+            });
+        });
     </script>
 }

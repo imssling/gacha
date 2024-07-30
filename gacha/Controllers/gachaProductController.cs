@@ -125,6 +125,10 @@ namespace gacha.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("id,machineId,productName,stock,productPictureName")] gachaProduct gachaProduct)
         {
+            if (id != gachaProduct.id)
+            {
+                return NotFound();
+            }
             if (ModelState.IsValid)
             {
                 try
