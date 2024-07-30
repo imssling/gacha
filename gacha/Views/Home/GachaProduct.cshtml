@@ -86,11 +86,16 @@
                 </tr>
             </table>
         </div>
+
     </div>
     <div class="product-gallery">
         <div v-for="product in machineData" :key="product.productName" class="product-image">
             <img :src="getProductPictureUrl(machineData[0].machineId)" :alt="product.productName">
         </div>
+    </div>
+    <div class="mt-4 d-flex justify-content-center">
+        <button class="btn btn-primary mx-2" @@click="addTracking(machineData[0])">加入追蹤</button>
+        <button class="btn btn-success mx-2">扭蛋</button>
     </div>
 </div>
 
@@ -128,6 +133,20 @@
                 },
                 getProductPictureUrl(machineId) {
                     return `${this.baseAddress}/api/GachaProducts/GetPicture/${machineId}`;
+                },
+                addTracking(machine) {
+                    const userId = 1; // 替換為當前的用戶ID
+                    axios.post(`${this.baseAddress}/api/TrackingLists`, {
+                        userId: userId,
+                        gachaMachineId: machine.machineId,
+                        gachaMachineName: machine.machineName // 添加必填字段
+                    })
+                        .then(response => {
+                            alert(response.data);
+                        })
+                        .catch(error => {
+                            console.error('Error adding tracking:', error.response ? error.response.data : error.message);
+                        });
                 }
             },
             mounted() {

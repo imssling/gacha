@@ -45,6 +45,29 @@ namespace szAPI.Controllers
             return File(image, "image/jpeg");
         }
 
+        // 找出符合商品ID的扭蛋照片
+        // GET: api/GachaProducts/GetPictureByProduct/{id}
+        [HttpGet("GetPictureByProduct/{id}")]
+        public async Task<IActionResult> GetPictureByProduct(int id)
+        {
+            var gachaProduct = await _context.GachaProducts
+                .FirstOrDefaultAsync(gp => gp.Id == id);
+
+            if (gachaProduct == null || string.IsNullOrEmpty(gachaProduct.ProductPictureName))
+            {
+                return NotFound();
+            }
+
+            var path = Path.Combine("images", gachaProduct.ProductPictureName);
+            if (!System.IO.File.Exists(path))
+            {
+                return NotFound();
+            }
+
+            var image = System.IO.File.OpenRead(path);
+            return File(image, "image/jpeg");
+        }
+
         // 找出所有扭蛋資料(不包含機台照片)
         // GET: api/GachaProducts
         [HttpGet]

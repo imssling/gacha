@@ -5,8 +5,8 @@
             display: grid;
             grid-template-columns: repeat(8, 1fr);
             grid-template-rows: repeat(6, 1fr);
-            gap: 5px;
-            max-width: 800px;
+            gap: 10px;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
@@ -14,6 +14,39 @@
             aspect-ratio: 1;
             border: 1px solid #dee2e6;
             background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+            .slot img {
+                max-width: 95%;
+                max-height: 95%;
+                object-fit: contain;
+            }
+
+        .slot-info {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 2px;
+            border-radius: 5px;
+            width: 200px;
+            z-index: 10;
+            display: none;
+/*             line-height: 1.0; /* 調整行高 */ */
+        }
+
+        .slot-info p {
+            margin: 3px 0; /* 減少每行之間的間距 */
+        }
+
+        .slot:hover .slot-info {
+            display: block;
         }
     </style>
 }
@@ -22,7 +55,16 @@
     <div class="container mt-5">
         <h1 class="text-center mb-4">扭蛋背包</h1>
         <div class="inventory">
-            <div v-for="slot in totalSlots" :key="slot" class="slot"></div>
+            <div v-for="(slot, index) in inventorySlots" :key="index" class="slot">
+                <template v-if="bags[index]">
+                    <img :src="getProductPictureUrl(bags[index].gachaProductId)" :alt="bags[index].productName">
+                    <div class="slot-info">
+                        <p><strong>商品名稱:</strong> <br>{{ bags[index].productName }}</p>
+                        <p><strong>狀態:</strong> <br>{{ bags[index].gachaStatus }}</p>
+                        <p class="pb-0"><strong>異動時間:</strong> <br>{{ formatDate(bags[index].date) }}</p>
+                    </div>
+                </template>
+            </div>
         </div>
         <div class="mt-4 d-flex justify-content-center">
             <button class="btn btn-primary mx-2">出貨</button>
@@ -43,21 +85,35 @@
         var vueApp = {
             data() {
                 return {
-                    totalSlots: 6 * 8 // 6直8橫，總共48個格子
+                    totalSlots: 6 * 8, // 6直8橫，總共48個格子
+                    bags: [], // 存储从API获取的背包数据
+                    inventorySlots: Array.from({ length: 6 * 8 }), // 初始化48个格子
+                    baseAddress: "https://localhost:7134"
                 };
             },
             methods: {
-                createInventorySlots() {
-                    for (let i = 0; i < this.totalSlots; i++) {
-                        this.inventory.push({});
-                    }
+                fetchBags(userId) {
+                    axios.get(`${this.baseAddress}/api/Bags/user/${userId}`)
+                        .then(response => {
+                            this.bags = response.data;
+                        })
+                        .catch(error => {
+                            console.error('Error fetching bags:', error);
+                        });
+                },
+                getProductPictureUrl(productId) {
+                    return `${this.baseAddress}/api/GachaProducts/GetPictureByProduct/${productId}`;
+                },
+                formatDate(dateString) {
+                    const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+                    return new Date(dateString).toLocaleDateString('zh-TW', options);
                 }
             },
             mounted() {
-                this.createInventorySlots();
+                const userId = 1; // 替換為適當的用戶ID
+                this.fetchBags(userId);
             }
         };
-
         var app = Vue.createApp(vueApp).mount("#app");
     </script>
 }
