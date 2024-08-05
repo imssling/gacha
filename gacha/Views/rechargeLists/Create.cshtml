@@ -23,7 +23,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="quantity" class="control-label"></label>
-                <input asp-for="quantity" class="form-control" min="1 />
+                <input asp-for="quantity" class="form-control" min="1" />
                 <span asp-validation-for="quantity" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -37,6 +37,12 @@
                 <select asp-for="paymentMode" class="form-control" asp-items="ViewBag.paymentMode"></select>
                 @* <input asp-for="paymentMode" class="form-control" />
                 <span asp-validation-for="paymentMode" class="text-danger"></span> *@
+            </div>
+            <div class="form-group">
+                <label asp-for="rechargeDate" class="col-sm-3 col-form-label fw-bold"></label>
+                <input asp-for="rechargeDate" class="form-control" id="rechargeDate" required />
+                <span asp-validation-for="rechargeDate" class="text-danger"></span>
+
             </div>
             
 
