@@ -134,7 +134,22 @@
                         if (!form.checkValidity()) {
                             event.preventDefault();
                             event.stopPropagation();
+                        },
+                        //ELSE to VALIDATE
+                        else {
+                            event.preventDefault();//Prevent default form submission
+                            account: $('').val(),
+                            name:$().val(),
+                            roleId:$().val(),
+                            title:,
+                            email:,
+                            phoneNumber:,
+                            password:,
+                            confirmPassword: 
+
+
                         }
+
                         form.classList.add('was-validated');
                     }, false);
                 });

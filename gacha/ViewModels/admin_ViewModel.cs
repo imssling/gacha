@@ -27,6 +27,7 @@ namespace gacha.ViewModels
         [Display(Name = "信箱")]
         [Required(ErrorMessage = "信箱必填")]
         [StringLength(50, ErrorMessage = " 最長50個字")]
+
         public string email { get; set; }
 
         [Display(Name = "電話")]
@@ -37,6 +38,14 @@ namespace gacha.ViewModels
 
         [Display(Name = "密碼")]
         [Required(ErrorMessage = "密碼必填")]
+        [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$",
+            ErrorMessage = "密碼必須至少6個字符長, 且包含數字和特殊字符")]
         public string password { get; set; }
+
+
+        [Display(Name = "確認密碼")]
+        [Required(ErrorMessage = "確認密碼必填")]
+        [Compare("password", ErrorMessage = "新密碼和確認密碼不匹配")]
+        public string confirmPassword { get; set; }
     }
 }
