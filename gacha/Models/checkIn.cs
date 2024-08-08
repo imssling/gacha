@@ -5,13 +5,13 @@ using System.Collections.Generic;
 
 namespace gacha.Models;
 
-public partial class CheckIn
+public partial class checkIn
 {
-    public int Id { get; set; }
+    public int id { get; set; }
 
-    public int UserId { get; set; }
+    public int userID { get; set; }
 
-    public DateTime? CheckInDate { get; set; }
+    public DateTime? checkInDate { get; set; }
 
-    public virtual UserInfo User { get; set; }
+    public virtual userInfo user { get; set; }
 }

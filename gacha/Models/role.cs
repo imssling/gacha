@@ -5,13 +5,13 @@ using System.Collections.Generic;
 
 namespace gacha.Models;
 
-public partial class Role
+public partial class role
 {
-    public int Id { get; set; }
+    public int id { get; set; }
 
-    public string Title { get; set; }
+    public string title { get; set; }
 
-    public virtual ICollection<Admin> Admins { get; set; } = new List<Admin>();
+    public virtual ICollection<admin> admin { get; set; } = new List<admin>();
 
-    public virtual ICollection<RolePermission> RolePermissions { get; set; } = new List<RolePermission>();
+    public virtual ICollection<rolePermission> rolePermission { get; set; } = new List<rolePermission>();
 }

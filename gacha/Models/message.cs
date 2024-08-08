@@ -5,19 +5,19 @@ using System.Collections.Generic;
 
 namespace gacha.Models;
 
-public partial class Message
+public partial class message
 {
-    public int Id { get; set; }
+    public int id { get; set; }
 
-    public int ChatRoomId { get; set; }
+    public int chatRoomID { get; set; }
 
-    public int SenderId { get; set; }
+    public int senderID { get; set; }
 
-    public string Content { get; set; }
+    public string content { get; set; }
 
-    public DateTime? SendDate { get; set; }
+    public DateTime? sendDate { get; set; }
 
-    public virtual ChatRoom ChatRoom { get; set; }
+    public virtual chatRoom chatRoom { get; set; }
 
-    public virtual UserInfo Sender { get; set; }
+    public virtual userInfo sender { get; set; }
 }

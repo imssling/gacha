@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace gacha.Models;
 
-public partial class UserPassword
+public partial class userPassword
 {
-    public string Email { get; set; }
+    public string email { get; set; }
 
-    public string UserPassword1 { get; set; }
+    public string userPassword1 { get; set; }
 }

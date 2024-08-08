@@ -5,13 +5,13 @@ using System.Collections.Generic;
 
 namespace gacha.Models;
 
-public partial class GachaTheme
+public partial class gachaTheme
 {
-    public int Id { get; set; }
+    public int id { get; set; }
 
-    public string ThemeName { get; set; }
+    public string themeName { get; set; }
 
-    public bool Status { get; set; }
+    public bool status { get; set; }
 
-    public virtual ICollection<GachaMachine> GachaMachines { get; set; } = new List<GachaMachine>();
+    public virtual ICollection<gachaMachine> gachaMachine { get; set; } = new List<gachaMachine>();
 }

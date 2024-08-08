@@ -5,23 +5,23 @@ using System.Collections.Generic;
 
 namespace gacha.Models;
 
-public partial class Achievement
+public partial class achievement
 {
-    public int Id { get; set; }
+    public int id { get; set; }
 
-    public string Name { get; set; }
+    public string name { get; set; }
 
-    public string Description { get; set; }
+    public string description { get; set; }
 
-    public string AchievementType { get; set; }
+    public string achievementType { get; set; }
 
-    public int Target { get; set; }
+    public int target { get; set; }
 
-    public DateTime? CreatedAt { get; set; }
+    public DateTime? createdAt { get; set; }
 
-    public virtual ICollection<AchievementProgress> AchievementProgresses { get; set; } = new List<AchievementProgress>();
+    public virtual ICollection<achievementProgress> achievementProgress { get; set; } = new List<achievementProgress>();
 
-    public virtual ICollection<PointList> PointLists { get; set; } = new List<PointList>();
+    public virtual ICollection<pointList> pointList { get; set; } = new List<pointList>();
 
-    public virtual ICollection<UserAchievement> UserAchievements { get; set; } = new List<UserAchievement>();
+    public virtual ICollection<userAchievement> userAchievement { get; set; } = new List<userAchievement>();
 }

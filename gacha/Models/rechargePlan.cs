@@ -5,23 +5,23 @@ using System.Collections.Generic;
 
 namespace gacha.Models;
 
-public partial class RechargePlan
+public partial class rechargePlan
 {
-    public int Id { get; set; }
+    public int id { get; set; }
 
-    public string Name { get; set; }
+    public string name { get; set; }
 
-    public string Description { get; set; }
+    public string description { get; set; }
 
-    public int Point { get; set; }
+    public int point { get; set; }
 
-    public int Price { get; set; }
+    public int price { get; set; }
 
-    public bool Status { get; set; }
+    public bool status { get; set; }
 
-    public DateTime? CreatedAt { get; set; }
+    public DateTime? createdAt { get; set; }
 
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime? updatedAt { get; set; }
 
-    public virtual ICollection<RechargeList> RechargeLists { get; set; } = new List<RechargeList>();
+    public virtual ICollection<rechargeList> rechargeList { get; set; } = new List<rechargeList>();
 }

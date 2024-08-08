@@ -5,17 +5,17 @@ using System.Collections.Generic;
 
 namespace gacha.Models;
 
-public partial class ConvenienceStore
+public partial class convenienceStore
 {
-    public int Id { get; set; }
+    public int id { get; set; }
 
-    public string StoreType { get; set; }
+    public string storeType { get; set; }
 
-    public string StoreName { get; set; }
+    public string storeName { get; set; }
 
-    public string StoreAddress { get; set; }
+    public string storeAddress { get; set; }
 
-    public int ShippingFee { get; set; }
+    public int shippingFee { get; set; }
 
-    public virtual ICollection<ConvenienceStoreInfo> ConvenienceStoreInfos { get; set; } = new List<ConvenienceStoreInfo>();
+    public virtual ICollection<convenienceStoreInfo> convenienceStoreInfo { get; set; } = new List<convenienceStoreInfo>();
 }

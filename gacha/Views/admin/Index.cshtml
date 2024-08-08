@@ -1,13 +1,41 @@
-﻿@model IEnumerable<gacha.Models.admin>
+﻿@model IEnumerable<admin_ViewModel>
 
 @{
     ViewData["Title"] = "Index";
 }
+@section Styles {
+    <link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/datatables.css" rel="stylesheet" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+}
 
-<h1>Index</h1>
+<h1>管理員</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @* <a asp-action="Create">Create New</a> *@
+    <a class="btn button" asp-action="Create" data-bs-toggle="modal" data-bs-target="#adminCreateModal">
+        <i class="fa-solid fa-plus fa-lg"></i>
+    </a>
+    @* creat new modal start *@
+    <div class="modal fade" id="adminCreateModal" tabindex="-1" aria-labelledby="adminCreateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    @* <h5 class="modal-title" id="createModalLabel">Create New Activity Type</h5> *@
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <partial name="_adminCreate_Partial" model="new gacha.ViewModels.admin_ViewModel()"></partial>
+                    </div>
+                </div>
+                @*  <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div> *@
+            </div>
+        </div>
+    </div>
+    @* creat new modal end *@
 </p>
 <table class="table">
     <thead>
@@ -21,11 +49,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.phoneNumber)
             </th>
-            <th>
+            @* <th>
                 @Html.DisplayNameFor(model => model.password)
-            </th>
+            </th> *@
             <th>
-                @Html.DisplayNameFor(model => model.role)
+                @Html.DisplayNameFor(model => model.title)
             </th>
             <th></th>
         </tr>
@@ -42,11 +70,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.phoneNumber)
             </td>
-            <td>
+            @* <td>
                 @Html.DisplayFor(modelItem => item.password)
-            </td>
+            </td> *@
             <td>
-                @Html.DisplayFor(modelItem => item.role.title)
+                @Html.DisplayFor(modelItem => item.title)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.account">Edit</a> |
@@ -57,3 +85,59 @@
 }
     </tbody>
 </table>
+@section Scripts {
+    <script src="~/lib/datatables/js/jquery.datatables.min.js" asp-append-version="true"></script>
+    <script src="//cdn.datatables.net/fixedheader/3.3.1/js/dataTables.fixedHeader.min.js"></script>
+    <script src="~/js/datatables.js"></script>
+    <script>
+        $(document).ready(function () {
+            console.log("Document ready");
+            if (!$.fn.DataTable.isDataTable('table')) {
+                console.log("Initializing DataTable");
+                $('table').DataTable({
+                    fixedHeader: {
+                        header: true,
+                    },
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/zh-HANT.json',
+                    },
+                    columnDefs: [
+                        {
+                            targets: '_all',
+                            className: 'text-center'
+                        }
+                    ],
+                });
+            } else {
+                console.log("DataTable already initialized");
+            }
+
+            // 換頁時回到最上面
+            $('table').on('page.dt', function () {
+                $('html, body').animate({
+                    scrollTop: $(".dataTables_wrapper").offset().top
+                }, 50);
+            });
+        });
+
+        // Bootstrap validation for create/edit forms
+        (function () {
+            'use strict';
+
+            // Fetch all forms to apply custom Bootstrap validation styles
+            var forms = document.querySelectorAll('.needs-validation');
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+        })();
+    </script>
+}

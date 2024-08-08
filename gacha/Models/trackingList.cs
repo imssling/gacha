@@ -5,17 +5,17 @@ using System.Collections.Generic;
 
 namespace gacha.Models;
 
-public partial class TrackingList
+public partial class trackingList
 {
-    public int UserId { get; set; }
+    public int userId { get; set; }
 
-    public int GachaMachineId { get; set; }
+    public int gachaMachineId { get; set; }
 
-    public DateTime? TrackingDate { get; set; }
+    public DateTime? trackingDate { get; set; }
 
-    public string NoteStatus { get; set; }
+    public string noteStatus { get; set; }
 
-    public virtual GachaMachine GachaMachine { get; set; }
+    public virtual gachaMachine gachaMachine { get; set; }
 
-    public virtual UserInfo User { get; set; }
+    public virtual userInfo user { get; set; }
 }

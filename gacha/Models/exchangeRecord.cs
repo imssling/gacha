@@ -5,27 +5,27 @@ using System.Collections.Generic;
 
 namespace gacha.Models;
 
-public partial class ExchangeRecord
+public partial class exchangeRecord
 {
-    public int Id { get; set; }
+    public int id { get; set; }
 
-    public int? UserIdFrom { get; set; }
+    public int? userIdFrom { get; set; }
 
-    public int? UserIdTo { get; set; }
+    public int? userIdTo { get; set; }
 
-    public int? GachaIdFrom { get; set; }
+    public int? gachaIdFrom { get; set; }
 
-    public int? GachaIdTo { get; set; }
+    public int? gachaIdTo { get; set; }
 
-    public DateTime? ExchangeDate { get; set; }
+    public DateTime? exchangeDate { get; set; }
 
-    public virtual ICollection<GachaDetailList> GachaDetailLists { get; set; } = new List<GachaDetailList>();
+    public virtual ICollection<gachaDetailList> gachaDetailList { get; set; } = new List<gachaDetailList>();
 
-    public virtual GachaProduct GachaIdFromNavigation { get; set; }
+    public virtual gachaProduct gachaIdFromNavigation { get; set; }
 
-    public virtual GachaProduct GachaIdToNavigation { get; set; }
+    public virtual gachaProduct gachaIdToNavigation { get; set; }
 
-    public virtual UserInfo UserIdFromNavigation { get; set; }
+    public virtual userInfo userIdFromNavigation { get; set; }
 
-    public virtual UserInfo UserIdToNavigation { get; set; }
+    public virtual userInfo userIdToNavigation { get; set; }
 }

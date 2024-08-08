@@ -5,27 +5,27 @@ using System.Collections.Generic;
 
 namespace gacha.Models;
 
-public partial class GachaProduct
+public partial class gachaProduct
 {
-    public int Id { get; set; }
+    public int id { get; set; }
 
-    public int MachineId { get; set; }
+    public int machineId { get; set; }
 
-    public string ProductName { get; set; }
+    public string productName { get; set; }
 
-    public int Stock { get; set; }
+    public int stock { get; set; }
 
-    public string ProductPictureName { get; set; }
+    public string productPictureName { get; set; }
 
-    public DateTime? CreateTime { get; set; }
+    public DateTime? createTime { get; set; }
 
-    public virtual ICollection<Bag> Bags { get; set; } = new List<Bag>();
+    public virtual ICollection<bag> bag { get; set; } = new List<bag>();
 
-    public virtual ICollection<ExchangeRecord> ExchangeRecordGachaIdFromNavigations { get; set; } = new List<ExchangeRecord>();
+    public virtual ICollection<exchangeRecord> exchangeRecordgachaIdFromNavigation { get; set; } = new List<exchangeRecord>();
 
-    public virtual ICollection<ExchangeRecord> ExchangeRecordGachaIdToNavigations { get; set; } = new List<ExchangeRecord>();
+    public virtual ICollection<exchangeRecord> exchangeRecordgachaIdToNavigation { get; set; } = new List<exchangeRecord>();
 
-    public virtual GachaMachine Machine { get; set; }
+    public virtual gachaMachine machine { get; set; }
 
-    public virtual ICollection<UploadRecord> UploadRecords { get; set; } = new List<UploadRecord>();
+    public virtual ICollection<uploadRecord> uploadRecord { get; set; } = new List<uploadRecord>();
 }

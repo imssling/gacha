@@ -5,25 +5,25 @@ using System.Collections.Generic;
 
 namespace gacha.Models;
 
-public partial class Shipping
+public partial class shipping
 {
-    public int Id { get; set; }
+    public int id { get; set; }
 
-    public int UserId { get; set; }
+    public int userId { get; set; }
 
-    public DateTime? ShippingDate { get; set; }
+    public DateTime? shippingDate { get; set; }
 
-    public string ShippingStatus { get; set; }
+    public string shippingStatus { get; set; }
 
-    public string ShippingAddress { get; set; }
+    public string shippingAddress { get; set; }
 
-    public string ContactPhone { get; set; }
+    public string contactPhone { get; set; }
 
-    public string ShippingMethod { get; set; }
+    public string shippingMethod { get; set; }
 
-    public int ShippingFee { get; set; }
+    public int shippingFee { get; set; }
 
-    public virtual ICollection<ShippingDetail> ShippingDetails { get; set; } = new List<ShippingDetail>();
+    public virtual ICollection<shippingDetail> shippingDetail { get; set; } = new List<shippingDetail>();
 
-    public virtual UserInfo User { get; set; }
+    public virtual userInfo user { get; set; }
 }

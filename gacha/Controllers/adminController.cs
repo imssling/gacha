@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using gacha.Models;
 using System.Runtime.Intrinsics.X86;
+using gacha.ViewModels;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace gacha.Controllers
 {
@@ -22,7 +24,22 @@ namespace gacha.Controllers
         // GET: admin
         public async Task<IActionResult> Index()
         {
-            var gachaContext = _context.admin.Include(a => a.role);
+            var gachaContext = from admin in _context.admin
+                               join role in _context.role
+                               on admin.roleId equals role.id
+                               select new admin_ViewModel
+                               {
+                                   account = admin.account,
+                                   name = admin.name,
+                                   roleId = admin.roleId,
+                                   title = role.title,
+                                   email = admin.email,
+                                   phoneNumber = admin.phoneNumber,
+                                   password = admin.password,
+
+                               };
+            ViewBag.roleId = new SelectList(_context.role, "id", "title");
+
             return View(await gachaContext.ToListAsync());
         }
 
