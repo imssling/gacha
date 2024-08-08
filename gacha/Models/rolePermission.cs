@@ -5,15 +5,15 @@ using System.Collections.Generic;
 
 namespace gacha.Models;
 
-public partial class rolePermission
+public partial class RolePermission
 {
-    public int roleId { get; set; }
+    public int RoleId { get; set; }
 
-    public int permissionId { get; set; }
+    public int PermissionId { get; set; }
 
-    public int? nono { get; set; }
+    public int? Nono { get; set; }
 
-    public virtual permission permission { get; set; }
+    public virtual Permission Permission { get; set; }
 
-    public virtual role role { get; set; }
+    public virtual Role Role { get; set; }
 }

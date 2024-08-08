@@ -5,17 +5,17 @@ using System.Collections.Generic;
 
 namespace gacha.Models;
 
-public partial class userAchievement
+public partial class UserAchievement
 {
-    public int id { get; set; }
+    public int Id { get; set; }
 
-    public int userID { get; set; }
+    public int UserId { get; set; }
 
-    public int achievementID { get; set; }
+    public int AchievementId { get; set; }
 
-    public DateTime? achievedAt { get; set; }
+    public DateTime? AchievedAt { get; set; }
 
-    public virtual achievement achievement { get; set; }
+    public virtual Achievement Achievement { get; set; }
 
-    public virtual userInfo user { get; set; }
+    public virtual UserInfo User { get; set; }
 }

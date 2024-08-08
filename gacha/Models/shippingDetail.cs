@@ -5,19 +5,19 @@ using System.Collections.Generic;
 
 namespace gacha.Models;
 
-public partial class shippingDetail
+public partial class ShippingDetail
 {
-    public int id { get; set; }
+    public int Id { get; set; }
 
-    public int shippingId { get; set; }
+    public int ShippingId { get; set; }
 
-    public int bagId { get; set; }
+    public int BagId { get; set; }
 
-    public virtual bag bag { get; set; }
+    public virtual Bag Bag { get; set; }
 
-    public virtual ICollection<convenienceStoreInfo> convenienceStoreInfo { get; set; } = new List<convenienceStoreInfo>();
+    public virtual ICollection<ConvenienceStoreInfo> ConvenienceStoreInfos { get; set; } = new List<ConvenienceStoreInfo>();
 
-    public virtual ICollection<gachaDetailList> gachaDetailList { get; set; } = new List<gachaDetailList>();
+    public virtual ICollection<GachaDetailList> GachaDetailLists { get; set; } = new List<GachaDetailList>();
 
-    public virtual shipping shipping { get; set; }
+    public virtual Shipping Shipping { get; set; }
 }

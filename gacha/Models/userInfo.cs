@@ -5,47 +5,51 @@ using System.Collections.Generic;
 
 namespace gacha.Models;
 
-public partial class userInfo
+public partial class UserInfo
 {
-    public int id { get; set; }
+    public int Id { get; set; }
 
-    public string userName { get; set; }
+    public string UserName { get; set; }
 
-    public string phoneNumber { get; set; }
+    public string PhoneNumber { get; set; }
 
-    public string email { get; set; }
+    public string Email { get; set; }
 
-    public string address { get; set; }
+    public string Address { get; set; }
 
-    public string gender { get; set; }
+    public string Gender { get; set; }
 
-    public bool? emailConfirm { get; set; }
+    public bool? EmailConfirm { get; set; }
 
-    public virtual ICollection<achievementProgress> achievementProgress { get; set; } = new List<achievementProgress>();
+    public string EmailToken { get; set; }
 
-    public virtual ICollection<bag> bag { get; set; } = new List<bag>();
+    public int Points { get; set; }
 
-    public virtual ICollection<chatRoom> chatRoomuser1 { get; set; } = new List<chatRoom>();
+    public virtual ICollection<AchievementProgress> AchievementProgresses { get; set; } = new List<AchievementProgress>();
 
-    public virtual ICollection<chatRoom> chatRoomuser2 { get; set; } = new List<chatRoom>();
+    public virtual ICollection<Bag> Bags { get; set; } = new List<Bag>();
 
-    public virtual ICollection<checkIn> checkIn { get; set; } = new List<checkIn>();
+    public virtual ICollection<ChatRoom> ChatRoomUser1s { get; set; } = new List<ChatRoom>();
 
-    public virtual ICollection<convenienceStoreInfo> convenienceStoreInfo { get; set; } = new List<convenienceStoreInfo>();
+    public virtual ICollection<ChatRoom> ChatRoomUser2s { get; set; } = new List<ChatRoom>();
 
-    public virtual ICollection<exchangeRecord> exchangeRecorduserIdFromNavigation { get; set; } = new List<exchangeRecord>();
+    public virtual ICollection<CheckIn> CheckIns { get; set; } = new List<CheckIn>();
 
-    public virtual ICollection<exchangeRecord> exchangeRecorduserIdToNavigation { get; set; } = new List<exchangeRecord>();
+    public virtual ICollection<ConvenienceStoreInfo> ConvenienceStoreInfos { get; set; } = new List<ConvenienceStoreInfo>();
 
-    public virtual ICollection<message> message { get; set; } = new List<message>();
+    public virtual ICollection<ExchangeRecord> ExchangeRecordUserIdFromNavigations { get; set; } = new List<ExchangeRecord>();
 
-    public virtual ICollection<rechargeList> rechargeList { get; set; } = new List<rechargeList>();
+    public virtual ICollection<ExchangeRecord> ExchangeRecordUserIdToNavigations { get; set; } = new List<ExchangeRecord>();
 
-    public virtual ICollection<shipping> shipping { get; set; } = new List<shipping>();
+    public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
 
-    public virtual ICollection<trackingList> trackingList { get; set; } = new List<trackingList>();
+    public virtual ICollection<RechargeList> RechargeLists { get; set; } = new List<RechargeList>();
 
-    public virtual ICollection<userAchievement> userAchievement { get; set; } = new List<userAchievement>();
+    public virtual ICollection<Shipping> Shippings { get; set; } = new List<Shipping>();
 
-    public virtual ICollection<userVoucher> userVoucher { get; set; } = new List<userVoucher>();
+    public virtual ICollection<TrackingList> TrackingLists { get; set; } = new List<TrackingList>();
+
+    public virtual ICollection<UserAchievement> UserAchievements { get; set; } = new List<UserAchievement>();
+
+    public virtual ICollection<UserVoucher> UserVouchers { get; set; } = new List<UserVoucher>();
 }

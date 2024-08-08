@@ -5,15 +5,15 @@ using System.Collections.Generic;
 
 namespace gacha.Models;
 
-public partial class announcement
+public partial class Announcement
 {
-    public int id { get; set; }
+    public int Id { get; set; }
 
-    public string title { get; set; }
+    public string Title { get; set; }
 
-    public string content { get; set; }
+    public string Content { get; set; }
 
-    public string image { get; set; }
+    public string Image { get; set; }
 
-    public DateTime? createdAt { get; set; }
+    public DateTime? CreatedAt { get; set; }
 }

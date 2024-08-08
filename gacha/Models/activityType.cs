@@ -5,15 +5,15 @@ using System.Collections.Generic;
 
 namespace gacha.Models;
 
-public partial class activityType
+public partial class ActivityType
 {
-    public int id { get; set; }
+    public int Id { get; set; }
 
-    public string name { get; set; }
+    public string Name { get; set; }
 
-    public DateTime? createdAt { get; set; }
+    public DateTime? CreatedAt { get; set; }
 
-    public bool status { get; set; }
+    public bool Status { get; set; }
 
-    public virtual ICollection<activity> activity { get; set; } = new List<activity>();
+    public virtual ICollection<Activity> Activities { get; set; } = new List<Activity>();
 }

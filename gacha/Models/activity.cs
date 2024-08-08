@@ -5,25 +5,25 @@ using System.Collections.Generic;
 
 namespace gacha.Models;
 
-public partial class activity
+public partial class Activity
 {
-    public int id { get; set; }
+    public int Id { get; set; }
 
-    public string title { get; set; }
+    public string Title { get; set; }
 
-    public string description { get; set; }
+    public string Description { get; set; }
 
-    public bool status { get; set; }
+    public bool Status { get; set; }
 
-    public int activityTypeId { get; set; }
+    public int ActivityTypeId { get; set; }
 
-    public DateTime? createdAt { get; set; }
+    public DateTime? CreatedAt { get; set; }
 
-    public DateTime? activityStart { get; set; }
+    public DateTime? ActivityStart { get; set; }
 
-    public DateTime? activityEnd { get; set; }
+    public DateTime? ActivityEnd { get; set; }
 
-    public virtual ICollection<activityLinkVoucher> activityLinkVoucher { get; set; } = new List<activityLinkVoucher>();
+    public virtual ICollection<ActivityLinkVoucher> ActivityLinkVouchers { get; set; } = new List<ActivityLinkVoucher>();
 
-    public virtual activityType activityType { get; set; }
+    public virtual ActivityType ActivityType { get; set; }
 }

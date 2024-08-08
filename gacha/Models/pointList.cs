@@ -5,19 +5,21 @@ using System.Collections.Generic;
 
 namespace gacha.Models;
 
-public partial class pointList
+public partial class PointList
 {
-    public int id { get; set; }
+    public int Id { get; set; }
 
-    public int? rechargeListId { get; set; }
+    public int? RechargeListId { get; set; }
 
-    public int? bagId { get; set; }
+    public int? BagId { get; set; }
 
-    public int? achievementId { get; set; }
+    public int? AchievementId { get; set; }
 
-    public virtual achievement achievement { get; set; }
+    public int? ChangedPoint { get; set; }
 
-    public virtual bag bag { get; set; }
+    public virtual Achievement Achievement { get; set; }
 
-    public virtual rechargeList rechargeList { get; set; }
+    public virtual Bag Bag { get; set; }
+
+    public virtual RechargeList RechargeList { get; set; }
 }

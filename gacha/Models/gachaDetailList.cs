@@ -5,23 +5,23 @@ using System.Collections.Generic;
 
 namespace gacha.Models;
 
-public partial class gachaDetailList
+public partial class GachaDetailList
 {
-    public int id { get; set; }
+    public int Id { get; set; }
 
-    public int? bagId { get; set; }
+    public int? BagId { get; set; }
 
-    public int? exchangeRecordId { get; set; }
+    public int? ExchangeRecordId { get; set; }
 
-    public int? uploadRecordId { get; set; }
+    public int? UploadRecordId { get; set; }
 
-    public int? shippingDetailId { get; set; }
+    public int? ShippingDetailId { get; set; }
 
-    public virtual bag bag { get; set; }
+    public virtual Bag Bag { get; set; }
 
-    public virtual exchangeRecord exchangeRecord { get; set; }
+    public virtual ExchangeRecord ExchangeRecord { get; set; }
 
-    public virtual shippingDetail shippingDetail { get; set; }
+    public virtual ShippingDetail ShippingDetail { get; set; }
 
-    public virtual uploadRecord uploadRecord { get; set; }
+    public virtual UploadRecord UploadRecord { get; set; }
 }
