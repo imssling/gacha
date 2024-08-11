@@ -45,7 +45,7 @@ namespace gacha.ViewModels
 
         [Display(Name = "確認密碼")]
         [Required(ErrorMessage = "確認密碼必填")]
-        [Compare("password", ErrorMessage = "新密碼和確認密碼不匹配")]
+        [Compare("password", ErrorMessage = "新密碼和確認密碼不同")]
         public string confirmPassword { get; set; }
     }
 }

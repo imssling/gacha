@@ -50,7 +50,7 @@
                 @Html.DisplayNameFor(model => model.phoneNumber)
             </th>
             @* <th>
-                @Html.DisplayNameFor(model => model.password)
+            @Html.DisplayNameFor(model => model.password)
             </th> *@
             <th>
                 @Html.DisplayNameFor(model => model.title)
@@ -59,30 +59,31 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.phoneNumber)
-            </td>
-            @* <td>
-                @Html.DisplayFor(modelItem => item.password)
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.phoneNumber)
+                </td>
+                @* <td>
+            @Html.DisplayFor(modelItem => item.password)
             </td> *@
-            <td>
-                @Html.DisplayFor(modelItem => item.title)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.account">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.account">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.account">Delete</a>
-            </td>
-        </tr>
-}
+                <td>
+                    @Html.DisplayFor(modelItem => item.title)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.account">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.account">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.account">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 @section Scripts {
@@ -134,20 +135,56 @@
                         if (!form.checkValidity()) {
                             event.preventDefault();
                             event.stopPropagation();
-                        },
-                        //ELSE to VALIDATE
-                        else {
-                            event.preventDefault();//Prevent default form submission
-                            account: $('').val(),
-                            name:$().val(),
-                            roleId:$().val(),
-                            title:,
-                            email:,
-                            phoneNumber:,
-                            password:,
-                            confirmPassword: 
+                        } else {
+                            event.preventDefault(); // Prevent default form submission
 
+                            // Collect form data
+                            var formData = {
+                                account: $('#createAdminForm [name="account"]').val(),
+                                name: $('#createAdminForm [name="name"]').val(),
+                                roleId: $('#createAdminForm [name="roleId"]').val(),
+                                email: $('#createAdminForm [name="email"]').val(),
+                                phoneNumber: $('#createAdminForm [name="phoneNumber"]').val(),
+                                password: $('#createAdminForm [name="password"]').val(),
+                                confirmPassword: $('#createAdminForm [name="confirmPassword"]').val()
+                            };
+                       
 
+                            // Client-side password validation
+                            var password = formData.password;
+                            var confirmPassword = formData.confirmPassword;
+
+                            var passwordPattern = `/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@@$!%*?&])[A-Za-z\d@@$!%*?&]{6,}$/`;
+                            if (!passwordPattern.test(password)) {
+                                alert("密碼必須至少6個字符長, 且包含數字和特殊字符");
+                                return;
+                            }
+
+                            if (password !== confirmPassword) {
+                                alert("新密碼和確認密碼不同");
+                                return;
+                            }
+
+                            $.ajax({
+                                url: `@Url.Action("ValidateAndCreate", "Admin")`,
+                                type: 'POST',
+                                data: formData, // Send the form data in the AJAX request
+                                success: function (response) {
+                                    if (response.success) {
+                                        $('#createAdminModal').modal('hide');
+                                        alert("帳戶建立成功^^");
+                                        location.reload(); // Reload the page
+                                    } else {
+                                        // Validation Error
+                                        $.each(response.errors, function (key, value) {
+                                            $('#createAdminForm [name="' + key + '"]').siblings('.text-danger').text(value);
+                                        });
+                                    }
+                                },
+                                error: function () {
+                                    alert("建立失敗");
+                                }
+                            });
                         }
 
                         form.classList.add('was-validated');
@@ -156,3 +193,4 @@
         })();
     </script>
 }
+
