@@ -13,5 +13,7 @@ public partial class activityType
 
     public DateTime? createdAt { get; set; }
 
+    public bool status { get; set; }
+
     public virtual ICollection<activity> activity { get; set; } = new List<activity>();
 }

@@ -21,6 +21,10 @@ public partial class userInfo
 
     public bool? emailConfirm { get; set; }
 
+    public string emailToken { get; set; }
+
+    public int points { get; set; }
+
     public virtual ICollection<achievementProgress> achievementProgress { get; set; } = new List<achievementProgress>();
 
     public virtual ICollection<bag> bag { get; set; } = new List<bag>();
