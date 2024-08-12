@@ -56,7 +56,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.gender)
             </th>
-            <th></th>
+            <th>功能</th>
         </tr>
     </thead>
     <tbody>
@@ -83,9 +83,9 @@
             <td>
                     <a class="button" href="" data-bs-toggle="modal" onclick="edit_zipcode(this)" data-bs-target="#editModal-@item.id"><i class="fa-solid fa-pen-to-square"></i></a>
                     <a class="button" href="" data-bs-toggle="modal" data-bs-target="#detailModal-@item.id"><i class="fa-solid fa-list"></i></a>
-                    <a asp-action="Delete" asp-route-id="@item.id" class="button delete" onclick="return Confirm(this)">
+@*                     <a asp-action="Delete" asp-route-id="@item.id" class="button delete" onclick="return Confirm(this)">
                         <i class="fa-solid fa-trash"></i>
-                    </a>
+                    </a> *@
                
             </td>
         </tr>            
@@ -143,11 +143,22 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.15-rc1/jquery.twzipcode.min.js"></script>
     <script src="~/js/delete_function_sweetalert.js"></script>
     <script>
-
-        function edit_zipcode(element) {
+        //Modal內容重置
+        function clearModal() {
+            //關閉modal事件
             $('.modal').on('hidden.bs.modal', function (e) {
-                $(this).find('form').get(0).reset();
+                //移除表單驗證類
+                const form = $('.needs-validation');
+                console.log(form)
+                form.removeClass('was-validated');
+                //重置表單
+                form.trigger('reset');
             });
+            const form = document.querySelector('.needs-validation');
+        }
+        
+        //初始化edit_zipcode
+        function edit_zipcode(element) {
             var itemId = $(element).attr('data-bs-target');
             var splitAddress = $(`${itemId}`).find('.fullAddress').val().split("_");
             $('.road').val(splitAddress[2]);
@@ -166,20 +177,24 @@
         }
         $(document).ready(function () {
             $('.editForm').on('submit',function (e) {
+                clearModal(); //關閉modal時清除驗證
                 e.preventDefault(); // 防止表單立即提交
-                console.log(e.target)
+                e.stopPropagation()//防止冒泡
+                e.target.classList.add('was-validated')
+               
                 if (!e.target.checkValidity()) {
+                    //表單驗證不通過
                     console.log('Form is invalid');
-                    event.stopPropagation()//防止冒泡
+                   
                 } else {
+                    //表單驗證通過
+                    //把完整地址組合好並提交表單
                     console.log('Form is valid');
                     let $form = $(this);
                     console.log("$form:", $form);
                     let county = $('.county select').val() + "_";
                     let district = $('.district select').val() + "_";
                     let road = e.target.road.value;
-                    // console.log("Road:", road);
-                    //let road = $('.road').val();
                     let fullAddress = county + district + road;
                     // alert(road);
                     $('.fullAddress').val(fullAddress); // 將完整地址設置到隱藏輸入欄位
@@ -189,45 +204,31 @@
 
                 }
 
-                e.target.classList.add('was-validated')
-
-
-                
-
+            });
+            $('.phoneNumber').on('input', function () {
+                //輸入時驗證手機格式
+                validatePhoneNumber();
             });
 
-            // $('.modal').on('hidden.bs.modal', function (e) {
-            //     $(this).find('form').get(0).reset();
-            // });
-
+            
 
             
         });
+        //驗證手機號碼格式的方法
+        function validatePhoneNumber() {
+            const phoneNumber = $('#phoneNumber').val();
+            console.log(phoneNumber)
+            const phoneNumberPattern = /^09\d{8}$/;
 
-        // // Example starter JavaScript for disabling form submissions if there are invalid fields
-        // (function () {
-        //     'use strict'
-
-        //     // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        //     var forms = document.querySelectorAll('.needs-validation')
-
-        //     // Loop over them and prevent submission
-        //     Array.prototype.slice.call(forms)
-        //         .forEach(function (form) {
-        //             form.addEventListener('submit', function (event) {
-        //                 event.preventDefault()
-        //                 if (!form.checkValidity()) {
-        //                     console.log('Form is invalid');
-        //                     event.preventDefault()
-        //                     event.stopPropagation()
-        //                 } else {
-        //                     console.log('Form is valid');
-        //                 }
-
-        //                 form.classList.add('was-validated')
-        //                 return false;
-        //             }, false)
-        //         })
-        // })()
+            if (phoneNumberPattern.test(phoneNumber)) {
+                //通過驗證
+                $('#phoneError').text(''); // 清除錯誤訊息
+                $('#phoneNumber').removeClass('is-invalid').addClass('is-valid');
+            } else {
+                //沒通過驗證
+                $('#phoneError').text('請輸入有效的台灣手機號碼');
+                $('#phoneNumber').removeClass('is-valid').addClass('is-invalid');
+            }
+        }
     </script>
 }

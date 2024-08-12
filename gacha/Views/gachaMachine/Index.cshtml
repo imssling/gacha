@@ -6,8 +6,6 @@
 @section Styles {
     <link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/datatables.css" rel="stylesheet" />
-
-
 }
 <h3>機台管理</h3>
 
@@ -18,61 +16,43 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.machineName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.machineDescription)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.machinePictureName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.createTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.price)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.theme)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.machineName)
+            </th>        
+            <th>
+                @Html.DisplayNameFor(model => model.price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.status)
+            </th>
+            <th>功能</th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.machineName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.machineDescription)
-            </td>
-            <td>
                     <partial name="_ShowMachineImagePartial" model="item" />
-            </td>
-            <td>
-                    @Html.DisplayFor(modelItem => item.status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.createTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.price)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.theme.themeName)
             </td>
             <td>
-                    <a class="button" asp-action="Edit" asp-route-id="@item.id"><i class="fa-solid fa-pen-to-square"></i></a>
+                @Html.DisplayFor(modelItem => item.machineName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.price)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.status)
+            </td>
+            <td>
+                    <a class="button" data-bs-toggle="modal" data-bs-target="#editModal-@item.id" asp-action="Edit" asp-route-id="@item.id"><i class="fa-solid fa-pen-to-square"></i></a>
                     <a class="button" asp-action="Details" asp-route-id="@item.id"><i class="fa-solid fa-list"></i></a>
                     <a class="button" asp-action="Delete" asp-route-id="@item.id"><i class="fa-solid fa-trash"></i></a>
             </td>
@@ -80,8 +60,127 @@
 }
     </tbody>
 </table>
+@foreach (var item in Model)
+{
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal-@item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form asp-action="Edit" enctype="multipart/form-data" class="needs-validation" novalidate>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">修改機台</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">                  
+                            <partial name="_Machine_edit_partial" model="@item" />                   
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn button"><i class="fa-solid fa-floppy-disk"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+
 @section Scripts {
     <script src="~/lib/datatables/js/jquery.datatables.min.js" asp-append-version="true"></script>
     <script src="//cdn.datatables.net/fixedheader/3.3.1/js/dataTables.fixedHeader.min.js"></script>
     <script src="~/js/datatables.js"></script>
+    <script>
+        $(document).ready(function () {
+            let originImageSrc = {};
+            let originImageTitle = {};
+            $('.modal').on('show.bs.modal', function (e) {
+                //開啟modal事件
+                const imageId = $(this).data('image-id'); //id
+                const showPicture = $(`#${imageId}`); //元素
+
+                console.log(imageId)
+                console.log(showPicture)
+
+                //存原始圖片的src,title
+                originImageSrc[imageId] = showPicture.attr('src');
+                originImageTitle[imageId] = showPicture.attr('title');
+            });
+
+            
+            $('.modal').on('hidden.bs.modal', function (e) {
+                //關閉modal事件
+                // 更換成沒照片的圖
+                // alert('123')
+                const imageId = $(this).data('image-id'); //id
+                const showPicture = $(`#${imageId}`); //元素
+
+                console.log(imageId)
+                console.log(showPicture)
+                // 恢復原始圖片的src title
+                showPicture.attr("src", originImageSrc[imageId]);
+                showPicture.attr("title", originImageTitle[imageId]);
+
+                //移除表單驗證類
+                const form = $('.needs-validation');
+                console.log(form)
+                form.removeClass('was-validated');
+                //重置表單
+                form.trigger('reset');
+            });
+        });
+
+        //圖片預覽方法 綁定照片onchange事件
+        function PreviewImage(_this){
+            // alert($(_this).prev().attr('src'));
+            if ($(_this).val() == "") {
+                // 更換成沒照片的圖
+                $(_this).prev().attr("src", "/img/no-photo.png");
+            }
+
+            // 允許的副檔名
+            var allowType = "image.*";
+            // 上傳的第一個檔案
+            var file = _this.files[0];
+            // 抓取檔案的型態是否為allowType的格式
+            if (file && file.type.match(allowType)) {
+                // 讀取圖片
+                var reader = new FileReader();
+                // 檔案讀取完成的事件
+                reader.onload = function (e) {
+                    // 選到#Picture的上一個元素修改src屬性
+                    $(_this).prev().attr("src", e.target.result);
+                    // 選到#Picture的上一個元素修改title屬性
+                    $(_this).prev().attr("title", file.name);
+                }
+                // 用圖片的URL讀取圖片
+                reader.readAsDataURL(file);
+                // 解除鎖定按鈕
+                $('.btn').prop("disabled", false);
+            } else {
+                alert("不支援的檔案上傳類型");
+                // 鎖定按鈕
+                $('.btn').prop("disabled", true);
+            }
+        }
+
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+
+    </script>
 }

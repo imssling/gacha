@@ -7,6 +7,7 @@ namespace gacha.Controllers
     //[SessionCheckFilter]
     public class HomeController : Controller
     {
+        private readonly gachaContext _context;
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)

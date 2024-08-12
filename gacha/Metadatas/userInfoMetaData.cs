@@ -25,8 +25,8 @@ namespace gacha.Metadatas
         [StringLength(200)]
         public string email { get; set; }
 
-        [Display(Name = "收貨地址")]
-        [Required(ErrorMessage = "收貨地址必填")]
+        [Display(Name = "聯絡地址")]
+        [Required(ErrorMessage = "聯絡地址必填")]
         [StringLength(100)]
         public string address { get; set; }
 

@@ -18,13 +18,13 @@ namespace gacha.Metadatas
         [Display(Name = "機台詳細資訊")]
         public string? machineDescription { get; set; }
 
-        [Display(Name = "相片名稱")]
+        [Display(Name = "照片")]
         public string? machinePictureName { get; set; }
 
-        [Display(Name = "創建時間")]
+        [Display(Name = "更新時間")]
         public DateTime? createTime { get; set; }
 
-        [Range(1, 5000, ErrorMessage = "範圍為1-5000")]
+        [Range(1, int.MaxValue, ErrorMessage = "最低為0")]
         [Display(Name = "價錢")]
         [Required(ErrorMessage = "價錢必填")]
         public int price { get; set; }

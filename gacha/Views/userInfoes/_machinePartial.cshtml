@@ -1,0 +1,83 @@
+﻿@model IEnumerable<gacha.Models.gachaMachine>
+@{
+    ViewData["Title"] = "";
+}
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-chart-pie me-1"></i>
+                追蹤機台分析
+            </div>
+            <div class="card-body"><canvas id="tracking" width="100%" height="50"></canvas></div>
+            <div class="card-footer small text-muted">上次更新時間 :</div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // 追蹤長條圖
+        function updateTracking() {
+            $.ajax({
+                type: "GET",
+                url: `@Url.Action("machine", "userInfoes")`,
+            }).done(data => {
+                // 抓到orders資料換成data
+                console.log(data)
+                // $('card').html(data);
+            }).fail(err => {
+                alert(err.responseText);
+            });
+        }
+
+        const tracking = document.getElementById('tracking').getContext('2d');
+
+        const labels = ['男', '女', '男', '女', '男', '女', '男',]
+
+        const trackingData = {
+            labels: labels,
+            datasets: [{
+                label: '追蹤數量',
+                data: machineNames,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 205, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(201, 203, 207, 0.2)'
+                ],
+                borderColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(255, 159, 64)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(54, 162, 235)',
+                    'rgb(153, 102, 255)',
+                    'rgb(201, 203, 207)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        const config = {
+            type: 'bar',
+            data: trackingData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            },
+        };
+        new Chart(tracking, config);
+    </script>
+}
+
+

@@ -22,6 +22,7 @@ namespace gacha.Controllers
         // GET: gachaMachine
         public async Task<IActionResult> Index()
         {
+            ViewData["themeId"] = new SelectList(_context.gachaTheme, "id", "themeName");
             var gachaContext = _context.gachaMachine.Include(g => g.theme);
             return View(await gachaContext.ToListAsync());
         }
@@ -67,7 +68,7 @@ namespace gacha.Controllers
                     var pictureFile = Request.Form.Files["machinePictureName"];
 
                     // 新增存圖檔路徑
-                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img");
+                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "C:\\資展\\結業專題\\0812\\gacha\\wwwroot\\imgs", "C:\\資展\\結業專題\\gacha_v6\\gacha\\wwwroot\\img");
                     // 確保目標目錄存在
                     if (!Directory.Exists(uploadsFolder))
                     {
@@ -121,12 +122,9 @@ namespace gacha.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id,[Bind("id,themeId,machineName,machineDescription,machinePictureName,price")] gachaMachine gachaMachine)
+        public async Task<IActionResult> Edit([Bind("id,themeId,machineName,machineDescription,machinePictureName,price")] gachaMachine gachaMachine)
         {
-            if (id != gachaMachine.id)
-            {
-                return NotFound();
-            }
+
 
             if (ModelState.IsValid)
             {
@@ -134,8 +132,6 @@ namespace gacha.Controllers
                 {
                     // 取出原先所有資料
                     gachaMachine p = await _context.gachaMachine.FindAsync(gachaMachine.id);
-
-                    gachaMachine.createTime = p.createTime;
 
 
                     // 判斷是否有上傳檔案
@@ -168,14 +164,19 @@ namespace gacha.Controllers
 
                             // 更新圖片路徑
                             gachaMachine.machinePictureName = uniqueFileName;
+                            gachaMachine.createTime = DateTime.Now;
                     }
                     else
                     {
                             // 放入原先資料
                             gachaMachine.machinePictureName = p.machinePictureName;
+                            gachaMachine.createTime = DateTime.Now;
+
+
+
                     }
-                            // 解除追蹤
-                            _context.Entry(p).State = EntityState.Detached;
+                    // 解除追蹤
+                    _context.Entry(p).State = EntityState.Detached;
                             _context.Update(gachaMachine);
                             await _context.SaveChangesAsync();
 

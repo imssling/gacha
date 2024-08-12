@@ -12,19 +12,101 @@
         .btn-selected {
             background-color: #F6EEA2;
         }
-
-        .btn-group .card.btn {
-            transition: none;
-        }
-       
-        .btn-group:hover {
+        .card:hover {
             background-color: #FFFFCE;
             }
     </style>
 }
 
 <h1>出貨單</h1>
-<div class="btn-group" role="group" aria-label="Status Filters">
+
+<!-- Content Row -->
+<div class="row">
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div id ="shipping" class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="fs-3 font-weight-bold text-primary text-uppercase mb-1">
+                            已發貨
+                        </div>
+                        <div class="h3 mb-0 font-weight-bold text-gray-800">@ViewBag.shipping_count</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa-solid fa-truck-fast fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div id="await" class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="fs-3 font-weight-bold text-success text-uppercase mb-1">
+                            待處理
+                        </div>
+                        <div class="h3 mb-0 font-weight-bold text-gray-800">@ViewBag.await_count</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa-solid fa-cubes fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div id="cancel" class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="fs-3 font-weight-bold text-info text-uppercase mb-1">
+                            已取消
+                        </div>
+                        <div class="row no-gutters align-items-center">
+                            <div class="col-auto">
+                                <div class="h3 mb-0 mr-3 font-weight-bold text-gray-800">@ViewBag.cancel_count</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa-solid fa-rotate-left fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Requests Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div id="done" class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="fs-3 font-weight-bold text-warning text-uppercase mb-1">
+                            已完成
+                        </div>
+                        <div class="h3 mb-0 font-weight-bold text-gray-800">@ViewBag.done_count</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa-solid fa-hand-holding-dollar fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Content Row -->
+
+@* <div class="btn-group" role="group" aria-label="Status Filters">
     <div id="all" class="card btn btn-selected">
         <div class="card-body">
             <h5 class="card-title">全部</h5>
@@ -56,7 +138,7 @@
         </div>
     </div>
 </div>
-
+ *@
 <table id="table" class="table my-3">
 
 </table>

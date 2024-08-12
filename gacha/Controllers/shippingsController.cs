@@ -45,7 +45,6 @@ namespace gacha.Controllers
             //return PartialView("_ShippingStautsPartial", sp);
 
             return PartialView("_ShippingStautsPartial", statusChinese == "全部"? await _context.shipping.ToListAsync() : await _context.shipping.Where(s => s.shippingStatus == statusChinese).ToListAsync());
-
         }
 
         // GET: shippings

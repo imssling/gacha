@@ -11,49 +11,66 @@
         <form asp-controller="userInfoes" asp-action="Edit" id="editForm-@Model.id" class="editForm needs-validation" novalidate>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="id" />
-            <div class="form-group">
-                <label asp-for="userName" class="control-label" for="validationCustom01"></label>
-                <input asp-for="userName" class="form-control" id="validationCustom01" required />
-                <span asp-validation-for="userName" class="text-danger"></span>
-                <div class="valid-feedback">
-                    Looks good!
+
+            <!-- 第一行: 名稱, 手機號碼, 性別 -->
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label asp-for="userName" class="control-label" for="validationCustom01"></label>
+                    <input asp-for="userName" class="form-control" id="validationCustom01" required />
+                    <span asp-validation-for="userName" class="text-danger"></span>
+                    <div class="invalid-feedback">
+                        姓名必填
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="phoneNumber" class="control-label"></label>
+                    <input asp-for="phoneNumber" class="form-control phoneNumber" pattern="09\d{8}" required placeholder="09xx xxx xxx" />
+                    <span asp-validation-for="phoneNumber" class="text-danger" ></span>
+                    <div class="invalid-feedback" id="phoneError">
+                        聯絡方式必填
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="gender" class="control-label"></label>
+                    <select asp-for="gender" class="form-control">
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        性別必填
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label asp-for="phoneNumber" class="control-label"></label>
-                <input asp-for="phoneNumber" class="form-control" required />
-                <span asp-validation-for="phoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="email" class="control-label"></label>
-                <input asp-for="email" class="form-control" required />
-                <span asp-validation-for="email" class="text-danger"></span>
-            </div>
 
-
-            <label asp-for="address" class="control-label"></label>
-            <div class="form-group d-flex justify-content-start twzipcode-modal">
-                <div class="county" data-role="county"></div>                      
-                <div class="district" data-role="district"></div>
-                <input type="text" id="road" class="road form-control" required />
-                <input type="hidden" asp-for="address" id="fullAddress" class="fullAddress" />
+            <!-- 第二行: 地址 -->
+            <div class="form-group row">
+                <label asp-for="address" class="control-label"></label>
+                <div class="twzipcode-modal">
+                    <div class="d-flex justify-content-start">
+                        <div class="county" data-role="county"></div>
+                        <div class="district" data-role="district"></div>
+                        <input type="text" id="road" class="road form-control" required />
+                        <input type="hidden" asp-for="address" id="fullAddress" class="fullAddress" />
+                    </div>                 
+                </div>
+                <div class="invalid-feedback">
+                    詳細地址必填
+                </div>
             </div>
 
-            @*  <div class="form-group">
-            <label asp-for="address" class="control-label"></label>
-            <input asp-for="address" class="form-control" />
-            <span asp-validation-for="address" class="text-danger"></span>
-            </div> *@
 
-            <div class="form-group">
-                <label asp-for="gender" class="control-label"></label>
-                @* <input asp-for="gender" class="form-control" />
-                <span asp-validation-for="gender" class="text-danger"></span> *@
-                <select asp-for="gender" class="form-control" >
-                    <option value="男">男</option>
-                    <option value="女">女</option>
-                </select>
+            <!-- 第三行: 電子郵件 -->
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label asp-for="email" class="control-label"></label>
+                    <input asp-for="email" class="form-control" required />
+                    <span asp-validation-for="email" class="text-danger"></span>
+                    <div class="invalid-feedback">
+                        信箱必填
+                    </div>
+                </div>                
             </div>
+
             <div class="form-group">
                 <button type="submit" class="btn button">
                     <i class="fa-solid fa-floppy-disk"></i>
@@ -62,6 +79,7 @@
         </form>
     </div>
 </div>
+
 
 @section Scripts {
     @{
