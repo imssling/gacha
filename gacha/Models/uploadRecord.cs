@@ -11,9 +11,13 @@ public partial class uploadRecord
 
     public int bagId { get; set; }
 
+    public int wantProductId { get; set; }
+
     public DateTime? uploadDate { get; set; }
 
     public virtual bag bag { get; set; }
 
     public virtual ICollection<gachaDetailList> gachaDetailList { get; set; } = new List<gachaDetailList>();
+
+    public virtual gachaProduct wantProduct { get; set; }
 }

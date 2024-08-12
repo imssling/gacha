@@ -17,6 +17,8 @@ public partial class bag
 
     public string gachaStatus { get; set; }
 
+    public bool isViewed { get; set; }
+
     public virtual ICollection<gachaDetailList> gachaDetailList { get; set; } = new List<gachaDetailList>();
 
     public virtual gachaProduct gachaProduct { get; set; }

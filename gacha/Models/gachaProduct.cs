@@ -26,4 +26,6 @@ public partial class gachaProduct
     public virtual ICollection<exchangeRecord> exchangeRecordgachaIdToNavigation { get; set; } = new List<exchangeRecord>();
 
     public virtual gachaMachine machine { get; set; }
+
+    public virtual ICollection<uploadRecord> uploadRecord { get; set; } = new List<uploadRecord>();
 }

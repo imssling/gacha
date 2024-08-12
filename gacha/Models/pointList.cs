@@ -15,6 +15,8 @@ public partial class pointList
 
     public int? achievementId { get; set; }
 
+    public int? changedPoint { get; set; }
+
     public virtual achievement achievement { get; set; }
 
     public virtual bag bag { get; set; }
