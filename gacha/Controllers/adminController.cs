@@ -73,24 +73,46 @@ namespace gacha.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("account,name,roleId,email,phoneNumber,password")] admin admin)
         {
+            ViewData["roleId"] = new SelectList(_context.role, "id", "title", admin.roleId);
+            //verify if account exist
+            var adminConfirm = await _context.admin.AnyAsync(a=>a.account == admin.account);
+            if (adminConfirm) 
+            {          
+                return Json(new { success = false, message= "此帳號已存在" });
+            }
+
             //密碼加密
             var hashPassword = BCrypt.Net.BCrypt.HashPassword(admin.password);
-
-            //把加密和輸入的密碼做比較,一致才存(測試用)
-            bool verify = BCrypt.Net.BCrypt.Verify(admin.password, hashPassword);
+            ////把加密和輸入的密碼做比較,一致才存(測試用)
+            //bool verify = BCrypt.Net.BCrypt.Verify(admin.password, hashPassword);
             admin.password = hashPassword;
-
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(admin);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(admin);
+                    await _context.SaveChangesAsync();
+                    //return RedirectToAction(nameof(Index));
+
+                    // 返回一個 JSON 結果而不是重定向
+                    return Json(new { success = true });
+                }
+                else
+                {
+                    // 返回一個 JSON 結果，表示數據驗證失敗
+                    return Json(new { success = false, errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
+                }
             }
-            ViewData["roleId"] = new SelectList(_context.role, "id", "title", admin.roleId);
-            return View(admin);
+            catch(Exception ex)
+            {
+            
+                //Record outstanding actvity and return JSON result
+                //可以用Log.Error(ex)紀錄
+                return Json(new { success = false, message = "建立帳號有誤", exception = ex.Message });
+            }
         }
 
         // GET: admin/Edit/5

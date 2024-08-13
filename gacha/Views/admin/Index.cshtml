@@ -4,16 +4,16 @@
     ViewData["Title"] = "Index";
 }
 @section Styles {
-    <link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" asp-append-version="true" />
+
     <link href="~/css/datatables.css" rel="stylesheet" />
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+
 }
 
 <h1>管理員</h1>
 
 <p>
     @* <a asp-action="Create">Create New</a> *@
-    <a class="btn button" asp-action="Create" data-bs-toggle="modal" data-bs-target="#adminCreateModal">
+    <a class="btn button" data-bs-toggle="modal" data-bs-target="#adminCreateModal">
         <i class="fa-solid fa-plus fa-lg"></i>
     </a>
     @* creat new modal start *@
@@ -121,6 +121,7 @@
             });
         });
 
+
         // Bootstrap validation for create/edit forms
         (function () {
             'use strict';
@@ -148,13 +149,20 @@
                                 password: $('#createAdminForm [name="password"]').val(),
                                 confirmPassword: $('#createAdminForm [name="confirmPassword"]').val()
                             };
-                       
-
-                            // Client-side password validation
+                            
+                            //phone validation
+                            var phonenumber = formData.phoneNumber;
+                            var phonenumberPattern = /^(09)([0-9]{8})/;
+                            if (!phonenumberPattern.test(phonenumber)) {
+                                alert("請輸入有效的台灣手機號碼，格式為09開頭的十位數字");
+                                return;
+                            }
+                            
+                            //password validation
                             var password = formData.password;
                             var confirmPassword = formData.confirmPassword;
 
-                            var passwordPattern = `/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@@$!%*?&])[A-Za-z\d@@$!%*?&]{6,}$/`;
+                            var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@@$!%*?&])[A-Za-z\d@@$!%*?&]{6,}$/;
                             if (!passwordPattern.test(password)) {
                                 alert("密碼必須至少6個字符長, 且包含數字和特殊字符");
                                 return;
@@ -166,23 +174,31 @@
                             }
 
                             $.ajax({
-                                url: `@Url.Action("ValidateAndCreate", "Admin")`,
+                                url: '@Url.Action("Create", "admin")',
                                 type: 'POST',
-                                data: formData, // Send the form data in the AJAX request
+                                data: formData, // 這是你要提交的表單數據
                                 success: function (response) {
                                     if (response.success) {
                                         $('#createAdminModal').modal('hide');
                                         alert("帳戶建立成功^^");
-                                        location.reload(); // Reload the page
+                                        location.href = '@Url.Action("Index", "admin")'; // 成功後重定向到Index頁面
                                     } else {
-                                        // Validation Error
-                                        $.each(response.errors, function (key, value) {
-                                            $('#createAdminForm [name="' + key + '"]').siblings('.text-danger').text(value);
-                                        });
+                                        // 處理從後端返回的錯誤或驗證失敗信息
+                                        if (response.errors) {
+                                            // Validation Error
+                                            $.each(response.errors, function (key, value) {
+                                                $('#createAdminForm [name="' + key + '"]').siblings('.text-danger').text(value);
+                                            });
+                                        } else {
+                                            // 其他錯誤（例如帳號已存在等）
+                                            alert(response.message);
+                                        }
                                     }
                                 },
-                                error: function () {
-                                    alert("建立失敗");
+                                error: function (xhr, status, error) {
+                                    // 處理異常錯誤
+                                    var errorMessage = xhr.responseJSON?.message || "建立失敗，請稍後再試。";
+                                    alert(errorMessage);
                                 }
                             });
                         }
