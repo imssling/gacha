@@ -6,7 +6,7 @@ namespace gacha.ViewModels
     {
         [Display(Name = "帳號")]
         [Required(ErrorMessage = "帳號必填")]
-        [StringLength(30, ErrorMessage =" 最多30個字")]
+        [StringLength(30, ErrorMessage = " 最多30個字")]
         public string account { get; set; }
 
         [Display(Name = "名稱")]
@@ -26,13 +26,14 @@ namespace gacha.ViewModels
 
         [Display(Name = "信箱")]
         [Required(ErrorMessage = "信箱必填")]
+        [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", ErrorMessage = "請輸入有效的電子郵件地址")]
         [StringLength(50, ErrorMessage = " 最長50個字")]
-
         public string email { get; set; }
 
         [Display(Name = "電話")]
         [Required(ErrorMessage = "電話必填")]
-        [StringLength(20, ErrorMessage = " 最長20個字")]
+        [RegularExpression(@"^09\d{8}$", ErrorMessage = "請輸入有效的台灣手機號碼，格式為09開頭的十位數字")]
+        [StringLength(10, ErrorMessage = "請輸入有效的台灣手機號碼，格式為09開頭的十位數字")]
         public string phoneNumber { get; set; }
 
 

@@ -9,6 +9,7 @@ using gacha.Models;
 using System.Runtime.Intrinsics.X86;
 using gacha.ViewModels;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using System.Text.RegularExpressions;
 
 namespace gacha.Controllers
 {
@@ -77,6 +78,23 @@ namespace gacha.Controllers
         public async Task<IActionResult> Create([Bind("account,name,roleId,email,phoneNumber,password, confirmPassword")] admin_ViewModel admin)
         {
             ViewData["roleId"] = new SelectList(_context.role, "id", "title", admin.roleId);
+
+            //verify if email valid
+            var validEmail = admin.email;
+            var regexEmail = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+            if (!regexEmail.IsMatch(validEmail))
+            {
+                return Json(new { success = false, message = "請輸入有效的電子郵件地址" });
+            }
+
+            //verify if taiwan phone number
+            var twnumber = admin.phoneNumber;
+            var regex = new Regex(@"^09\d{8}$");
+            if (!regex.IsMatch(twnumber))
+            {
+                return Json(new { success = false, message = "請輸入有效的台灣手機號碼，格式為09開頭的十位數字" });
+            }
+
             //verify if account exist
             var adminConfirm = await _context.admin.AnyAsync(a => a.account == admin.account);
             if (adminConfirm)
@@ -120,7 +138,7 @@ namespace gacha.Controllers
             {
 
                 //Record outstanding actvity and return JSON result
-                //可以用Log.Error(ex)紀錄
+                //可以用紀錄Log.Error(ex)
                 return Json(new { success = false, message = "建立帳號有誤", exception = ex.Message });
             }
         }
