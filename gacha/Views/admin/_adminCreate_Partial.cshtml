@@ -10,7 +10,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <form id="createAdminForm" asp-action="Create" class="needs-validation" novalidate>
+            <form id="createForm" asp-action="Create" method="post" class="needs-validation" novalidate>
                 <!-- ADD validation if required -->
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
@@ -18,7 +18,7 @@
                     <!-- Added mb-3 for margin -->
                     <label asp-for="account" class="col-sm-3 col-form-label fw-bold"></label>
                     <div class="col-sm-9">
-                        <input asp-for="account" class="form-control" required  maxlength="30"/>
+                        <input asp-for="account" class="form-control" required maxlength="30" />
                         <span asp-validation-for="account" class="text-danger"></span>
                         <!-- Add Validation messsage if required -->
                         <div class="valid-feedback">漂漂亮亮</div>
@@ -73,7 +73,11 @@
                 <div class="form-group row mb-3">
                     <label asp-for="password" class="col-sm-3 col-form-label fw-bold"></label>
                     <div class="col-sm-9">
-                        <input type="password" asp-for="password" class="form-control" required />
+                        <input type="password" asp-for="password" class="form-control" required
+                               data-val="true"
+                               data-val-regex="密碼必須至少6個字符長, 且包含數字和特殊字符"
+                               data-val-regex-pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@@$!%*?&])[A-Za-z\d@@$!%*?&]{6,}$" />
+
                         <span asp-validation-for="password" class="text-danger"></span>
                         <div class="valid-feedback">漂漂亮亮</div>
                         <div class="invalid-feedback">密碼必填,誠實招來</div>
@@ -94,7 +98,7 @@
                         <button type="submit" class="btn button">
                             <i class="fa-solid fa-floppy-disk fa-lg"></i>
                         </button>
-                       @*  <a asp-action="Index" class="btn btn-link">Back to List</a> *@
+                        @*  <a asp-action="Index" class="btn btn-link">Back to List</a> *@
                     </div>
                 </div>
             </form>

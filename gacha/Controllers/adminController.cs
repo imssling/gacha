@@ -74,14 +74,14 @@ namespace gacha.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("account,name,roleId,email,phoneNumber,password")] admin admin)
+        public async Task<IActionResult> Create([Bind("account,name,roleId,email,phoneNumber,password, confirmPassword")] admin_ViewModel admin)
         {
             ViewData["roleId"] = new SelectList(_context.role, "id", "title", admin.roleId);
             //verify if account exist
-            var adminConfirm = await _context.admin.AnyAsync(a=>a.account == admin.account);
-            if (adminConfirm) 
-            {          
-                return Json(new { success = false, message= "此帳號已存在" });
+            var adminConfirm = await _context.admin.AnyAsync(a => a.account == admin.account);
+            if (adminConfirm)
+            {
+                return Json(new { success = false, message = "此帳號已存在" });
             }
 
             //密碼加密
@@ -93,22 +93,32 @@ namespace gacha.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _context.Add(admin);
+                    admin newadmin = new admin()
+                    {
+                        account = admin.account,
+                        roleId = admin.roleId,
+                        name = admin.name,
+                        email = admin.email,
+                        phoneNumber = admin.phoneNumber,
+                        password = hashPassword
+                    };
+
+                    _context.Add(newadmin);
                     await _context.SaveChangesAsync();
                     //return RedirectToAction(nameof(Index));
 
                     // 返回一個 JSON 結果而不是重定向
-                    return Json(new { success = true });
+                    return Json(new { success = true, message="成功" });
                 }
                 else
                 {
                     // 返回一個 JSON 結果，表示數據驗證失敗
-                    return Json(new { success = false, errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
+                    return Json(new { success = false, message = "建立帳號失敗" });
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-            
+
                 //Record outstanding actvity and return JSON result
                 //可以用Log.Error(ex)紀錄
                 return Json(new { success = false, message = "建立帳號有誤", exception = ex.Message });

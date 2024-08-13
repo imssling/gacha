@@ -21,7 +21,7 @@ namespace gacha.ViewModels
 
         [Display(Name = "角色稱號")]
         //[Required(ErrorMessage = "角色稱號必選")]
-        public string title { get; set; }
+        public string? title { get; set; }
 
 
         [Display(Name = "信箱")]

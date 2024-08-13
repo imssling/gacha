@@ -89,6 +89,9 @@
 @section Scripts {
     <script src="~/lib/datatables/js/jquery.datatables.min.js" asp-append-version="true"></script>
     <script src="//cdn.datatables.net/fixedheader/3.3.1/js/dataTables.fixedHeader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+
     <script src="~/js/datatables.js"></script>
     <script>
         $(document).ready(function () {
@@ -121,92 +124,130 @@
             });
         });
 
+        
 
-        // Bootstrap validation for create/edit forms
-        (function () {
-            'use strict';
 
-            // Fetch all forms to apply custom Bootstrap validation styles
-            var forms = document.querySelectorAll('.needs-validation');
+        $("#createForm").submit(function (e) {
+            e.preventDefault();
 
-            // Loop over them and prevent submission
-            Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault();
-                            event.stopPropagation();
+            // 手動觸發客戶端驗證
+            var form = $(this);
+            if (form.valid()) {
+                $.ajax({
+                    url: form.attr("action"),
+                    type: "POST",
+                    data: form.serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            // 成功邏輯
+                            $('#createModal').modal('hide');
+                            alert(response.message);
+                            location.reload();
                         } else {
-                            event.preventDefault(); // Prevent default form submission
-
-                            // Collect form data
-                            var formData = {
-                                account: $('#createAdminForm [name="account"]').val(),
-                                name: $('#createAdminForm [name="name"]').val(),
-                                roleId: $('#createAdminForm [name="roleId"]').val(),
-                                email: $('#createAdminForm [name="email"]').val(),
-                                phoneNumber: $('#createAdminForm [name="phoneNumber"]').val(),
-                                password: $('#createAdminForm [name="password"]').val(),
-                                confirmPassword: $('#createAdminForm [name="confirmPassword"]').val()
-                            };
-                            
-                            //phone validation
-                            var phonenumber = formData.phoneNumber;
-                            var phonenumberPattern = /^(09)([0-9]{8})/;
-                            if (!phonenumberPattern.test(phonenumber)) {
-                                alert("請輸入有效的台灣手機號碼，格式為09開頭的十位數字");
-                                return;
-                            }
-                            
-                            //password validation
-                            var password = formData.password;
-                            var confirmPassword = formData.confirmPassword;
-
-                            var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@@$!%*?&])[A-Za-z\d@@$!%*?&]{6,}$/;
-                            if (!passwordPattern.test(password)) {
-                                alert("密碼必須至少6個字符長, 且包含數字和特殊字符");
-                                return;
-                            }
-
-                            if (password !== confirmPassword) {
-                                alert("新密碼和確認密碼不同");
-                                return;
-                            }
-
-                            $.ajax({
-                                url: '@Url.Action("Create", "admin")',
-                                type: 'POST',
-                                data: formData, // 這是你要提交的表單數據
-                                success: function (response) {
-                                    if (response.success) {
-                                        $('#createAdminModal').modal('hide');
-                                        alert("帳戶建立成功^^");
-                                        location.href = '@Url.Action("Index", "admin")'; // 成功後重定向到Index頁面
-                                    } else {
-                                        // 處理從後端返回的錯誤或驗證失敗信息
-                                        if (response.errors) {
-                                            // Validation Error
-                                            $.each(response.errors, function (key, value) {
-                                                $('#createAdminForm [name="' + key + '"]').siblings('.text-danger').text(value);
-                                            });
-                                        } else {
-                                            // 其他錯誤（例如帳號已存在等）
-                                            alert(response.message);
-                                        }
-                                    }
-                                },
-                                error: function (xhr, status, error) {
-                                    // 處理異常錯誤
-                                    var errorMessage = xhr.responseJSON?.message || "建立失敗，請稍後再試。";
-                                    alert(errorMessage);
-                                }
+                            // 顯示伺服器端驗證錯誤
+                            let errorList = $('#errorList');
+                            errorList.empty();  // 清空以前的錯誤訊息
+                            alert(response.message);
+                            response.errors.forEach(function (error) {
+                                errorList.append('<li class="text-danger">' + error + '</li>');
                             });
                         }
-
-                        form.classList.add('was-validated');
-                    }, false);
+                    }
                 });
-        })();
+            } else {
+                // 如果表單無效，則不進行AJAX提交
+                console.log("表單驗證失敗");
+            }
+        });
+
+        // // Bootstrap validation for create/edit forms
+        // (function () {
+        //     'use strict';
+
+        //     // Fetch all forms to apply custom Bootstrap validation styles
+        //     var forms = document.querySelectorAll('.needs-validation');
+
+        //     // Loop over them and prevent submission
+        //     Array.prototype.slice.call(forms)
+        //         .forEach(function (form) {
+        //             form.addEventListener('submit', function (event) {
+        //                 if (!form.checkValidity()) {
+        //                     event.preventDefault();
+        //                     event.stopPropagation();
+        //                 }
+        //                 form.classList.add('was-validated');
+        //             }, false);
+        //                 // else {
+        //                 //     event.preventDefault(); // Prevent default form submission
+
+        //                     // // Collect form data
+        //                     // var formData = {
+        //                     //     account: $('#createAdminForm [name="account"]').val(),
+        //                     //     name: $('#createAdminForm [name="name"]').val(),
+        //                     //     roleId: $('#createAdminForm [name="roleId"]').val(),
+        //                     //     email: $('#createAdminForm [name="email"]').val(),
+        //                     //     phoneNumber: $('#createAdminForm [name="phoneNumber"]').val(),
+        //                     //     password: $('#createAdminForm [name="password"]').val(),
+        //                     //     confirmPassword: $('#createAdminForm [name="confirmPassword"]').val()
+        //                     // };
+
+        //                     //phone validation
+        //                     // var phonenumber = formData.phoneNumber;
+        //                     // var phonenumberPattern = /^(09)([0-9]{8})/;
+        //                     // if (!phonenumberPattern.test(phonenumber)) {
+        //                     //     alert("請輸入有效的台灣手機號碼，格式為09開頭的十位數字");
+        //                     //     return;
+        //                     // }
+
+        //                     // //password validation
+        //                     // var password = formData.password;
+        //                     // var confirmPassword = formData.confirmPassword;
+
+        //                     // var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@@$!%*?&])[A-Za-z\d@@$!%*?&]{6,}$/;
+        //                     // if (!passwordPattern.test(password)) {
+        //                     //     alert("密碼必須至少6個字符長, 且包含數字和特殊字符");
+        //                     //     return;
+        //                     // }
+
+        //                     // if (password !== confirmPassword) {
+        //                     //     alert("新密碼和確認密碼不同");
+        //                     //     return;
+        //                     // }
+        //                 //     $('.text-danger').text('');
+                            
+        //                 //     $.ajax({
+        //                 //         url: '@@Url.Action("Create", "admin")',
+        //                 //         type: 'POST',
+        //                 //         data: $(this).serialize(), // 這是你要提交的表單數據
+        //                 //         success: function (response) {
+        //                 //             if (response.success) {
+        //                 //                 $('#createAdminModal').modal('hide');
+        //                 //                 alert("帳戶建立成功^^");
+        //                 //                 location.href = '@@Url.Action("Index", "admin")'; // 成功後重定向到Index頁面
+        //                 //             } else {
+        //                 //                 // 處理從後端返回的錯誤或驗證失敗信息
+        //                 //                 if (response.errors) {
+        //                 //                     // Validation Error
+        //                 //                     $.each(response.errors, function (key, value) {
+        //                 //                         $('#createAdminForm [name="' + key + '"]').siblings('.text-danger').text(value);
+        //                 //                     });
+        //                 //                 } else {
+        //                 //                     // 其他錯誤（例如帳號已存在等）
+        //                 //                     alert(response.message);
+        //                 //                 }
+        //                 //             }
+        //                 //         },
+        //                 //         error: function (xhr, status, error) {
+        //                 //             // 處理異常錯誤
+        //                 //             var errorMessage = xhr.responseJSON?.message || "建立失敗，請稍後再試。";
+        //                 //             alert(errorMessage);
+        //                 //         }
+        //                 //     });
+        //                 // }
+
+                      
+        //         });
+        // })();
     </script>
 }
 
