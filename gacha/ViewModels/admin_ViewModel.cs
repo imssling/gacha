@@ -38,15 +38,39 @@ namespace gacha.ViewModels
 
 
         [Display(Name = "密碼")]
-        [Required(ErrorMessage = "密碼必填")]
+        [ConditionalRequired(ErrorMessage = "密碼必填")]
         [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$",
             ErrorMessage = "密碼必須至少6個字符長, 且包含數字和特殊字符")]
         public string password { get; set; }
 
 
         [Display(Name = "確認密碼")]
-        [Required(ErrorMessage = "確認密碼必填")]
+        [ConditionalRequired(ErrorMessage = "確認密碼必填")]
         [Compare("password", ErrorMessage = "新密碼和確認密碼不同")]
         public string confirmPassword { get; set; }
     }
+    //For Edit Partial Validation
+    public class ConditionalRequiredAttribute : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            var instance = validationContext.ObjectInstance as admin_ViewModel;
+            if (instance != null)
+            {
+                // 如果密碼字段不為空，則需要進行驗證
+                if (!string.IsNullOrEmpty(instance.password) || !string.IsNullOrEmpty(instance.confirmPassword))
+                {
+                    if (string.IsNullOrEmpty((string)value))
+                    {
+                        return new ValidationResult(ErrorMessage);
+                    }
+                }
+            }
+
+            return ValidationResult.Success;
+        }
+    }
+
+
+
 }

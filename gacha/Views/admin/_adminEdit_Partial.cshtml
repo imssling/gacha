@@ -1,0 +1,151 @@
+﻿@model gacha.ViewModels.admin_ViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+<h4>管理員</h4>
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form  asp-action="Edit" method="post" class="needs-validation" novalidate>
+                <!-- ADD validation if required -->
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="form-group row mb-3">
+                    <!-- Added mb-3 for margin -->
+                    <label asp-for="account" class="col-sm-3 col-form-label fw-bold"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="account" class="form-control" readonly="readonly" required maxlength="30" />
+                        <span asp-validation-for="account" class="text-danger"></span>
+                        <!-- Add Validation messsage if required -->
+                        <div class="valid-feedback">漂漂亮亮</div>
+                        <div class="invalid-feedback">帳號必填,誠實招來</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <!-- Added mb-3 for margin -->
+                    <label asp-for="name" class="col-sm-3 col-form-label fw-bold"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="name" class="form-control" required maxlength="10" />
+                        <span asp-validation-for="name" class="text-danger"></span>
+                        <div class="valid-feedback">漂漂亮亮</div>
+                        <div class="invalid-feedback">名稱必填,誠實招來</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <!-- Added mb-3 for margin -->
+                    <label asp-for="roleId" class="col-sm-3 col-form-label fw-bold"></label>
+                    <div class="col-sm-9">
+                        <select asp-for="roleId" class="form-control" asp-items="ViewBag.roleId" required></select>
+                        <span asp-validation-for="roleId" class="text-danger"></span>
+                        <div class="valid-feedback">漂漂亮亮</div>
+                        <div class="invalid-feedback">角色稱號必選,誠實招來</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <!-- Added mb-3 for margin -->
+                    <label asp-for="email" class="col-sm-3 col-form-label fw-bold"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="email" class="form-control" required type="email" maxlength="50" />
+                        <span asp-validation-for="email" class="text-danger"></span>
+                        <div class="valid-feedback">漂漂亮亮</div>
+                        <div class="invalid-feedback">信箱必填,誠實招來</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <!-- Added mb-3 for margin -->
+                    <label asp-for="phoneNumber" class="col-sm-3 col-form-label fw-bold"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="phoneNumber" class="form-control" required maxlength="20" />
+                        <span asp-validation-for="phoneNumber" class="text-danger"></span>
+                        <div class="valid-feedback">漂漂亮亮</div>
+                        <div class="invalid-feedback">電話必填,誠實招來</div>
+                    </div>
+                </div>
+
+                <!-- Current Password Field -->
+                <div class="form-group row mb-3">
+                    <label asp-for="password" class="col-sm-3 col-form-label fw-bold"></label>
+                    <div class="col-sm-9">
+                        <input type="password" asp-for="password" class="form-control" placeholder="輸入新密碼以更改"  />
+                        <span asp-validation-for="password" class="text-danger"></span>
+                        <div class="valid-feedback">漂漂亮亮</div>
+                        <div class="invalid-feedback">新密碼必填,誠實招來</div>
+                    </div>
+                </div>
+
+                <!-- Confirm Password Field -->
+                <div class="form-group row mb-3">
+                    <label asp-for="confirmPassword" class="col-sm-3 col-form-label fw-bold"></label>
+                    <div class="col-sm-9">
+                        <input type="password" asp-for="confirmPassword" placeholder="再輸入一次新密碼以更改" class="form-control"  />
+                        <span asp-validation-for="confirmPassword" class="text-danger"></span>
+                        <div class="valid-feedback">漂漂亮亮</div>
+                        <div class="invalid-feedback">確認密碼必填, 誠實招來</div>
+                    </div>
+                </div>
+                <div class="form-group row justify-content-end">
+                    <div class="col-sm-10 d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa-solid fa-floppy-disk fa-lg"></i> Save
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+
+}
+@* <div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="account" />
+            <div class="form-group">
+                <label asp-for="name" class="control-label"></label>
+                <input asp-for="name" class="form-control" />
+                <span asp-validation-for="name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="roleId" class="control-label"></label>
+                <select asp-for="roleId" class="form-control" asp-items="ViewBag.roleId"></select>
+                <span asp-validation-for="roleId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="email" class="control-label"></label>
+                <input asp-for="email" class="form-control" />
+                <span asp-validation-for="email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="phoneNumber" class="control-label"></label>
+                <input asp-for="phoneNumber" class="form-control" />
+                <span asp-validation-for="phoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="password" class="control-label"></label>
+                <input asp-for="password" class="form-control" />
+                <span asp-validation-for="password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div> *@
+
+@* <div>
+    <a asp-action="Index">Back to List</a>
+</div> *@
+

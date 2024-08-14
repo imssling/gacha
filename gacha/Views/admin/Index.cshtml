@@ -79,6 +79,11 @@
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.account">Edit</a> |
+                    <div class="#">
+                        <a class="btn button mb-2" href="" data-bs-toggle="modal" data-bs-target="#adminEditModal-@item.account">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                    </div>
                     <a asp-action="Details" asp-route-id="@item.account">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.account">Delete</a>
                 </td>
@@ -86,12 +91,35 @@
         }
     </tbody>
 </table>
+@foreach (var item in Model)
+{
+    @* edit modal start *@
+    <div class="modal fade" id="adminEditModal-@item.account" tabindex="-1" aria-labelledby="adminEditModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    @* <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> *@
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                     <partial name="_adminEdit_Partial" model="@item" />
+                </div>
+                @* <div class="modal-footer justify-content-end d-flex">
+            <button type="button" class="btn btn-secondary justify-content-end" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save</button>
+            </div> *@
+            </div>
+        </div>
+    </div>
+    @* edit modal end *@
+}
 @section Scripts {
     <script src="~/lib/datatables/js/jquery.datatables.min.js" asp-append-version="true"></script>
     <script src="//cdn.datatables.net/fixedheader/3.3.1/js/dataTables.fixedHeader.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/localization/messages_zh_TW.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="~/js/datatables.js"></script>
     <script>
         $(document).ready(function () {
@@ -124,9 +152,6 @@
             });
         });
 
-        
-
-
         $("#createForm").submit(function (e) {
             e.preventDefault();
 
@@ -141,16 +166,32 @@
                         if (response.success) {
                             // 成功邏輯
                             $('#createModal').modal('hide');
-                            alert(response.message);
-                            location.reload();
+                            //alert(response.message); //change to sweetalert
+                            Swal.fire({
+                                title: '成功',
+                                text: response.message,
+                                icon: 'success',
+                                confirmButtonText:'Ok'
+
+                            }).then((result) => {
+                                location.reload();
+                            });
                         } else {
                             // 顯示伺服器端驗證錯誤
                             let errorList = $('#errorList');
                             errorList.empty();  // 清空以前的錯誤訊息
-                            alert(response.message);
+                            //alert(response.message);
+                            Swal.fire({
+                                title: '失敗',
+                                text: response.message,
+                                icon: 'error',
+                                confirmButtonText: 'Ok'
+
+                            });
                             response.errors.forEach(function (error) {
                                 errorList.append('<li class="text-danger">' + error + '</li>');
                             });
+                            
                         }
                     }
                 });
@@ -159,6 +200,40 @@
                 console.log("表單驗證失敗");
             }
         });
+
+
+        // $("#createForm").submit(function (e) {
+        //     e.preventDefault();
+
+        //     // 手動觸發客戶端驗證
+        //     var form = $(this);
+        //     if (form.valid()) {
+        //         $.ajax({
+        //             url: form.attr("action"),
+        //             type: "POST",
+        //             data: form.serialize(),
+        //             success: function (response) {
+        //                 if (response.success) {
+        //                     // 成功邏輯
+        //                     $('#createModal').modal('hide');
+        //                     alert(response.message);
+        //                     location.reload();
+        //                 } else {
+        //                     // 顯示伺服器端驗證錯誤
+        //                     let errorList = $('#errorList');
+        //                     errorList.empty();  // 清空以前的錯誤訊息
+        //                     alert(response.message);
+        //                     response.errors.forEach(function (error) {
+        //                         errorList.append('<li class="text-danger">' + error + '</li>');
+        //                     });
+        //                 }
+        //             }
+        //         });
+        //     } else {
+        //         // 如果表單無效，則不進行AJAX提交
+        //         console.log("表單驗證失敗");
+        //     }
+        // });
 
         // // Bootstrap validation for create/edit forms
         // (function () {

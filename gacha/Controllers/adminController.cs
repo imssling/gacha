@@ -126,7 +126,7 @@ namespace gacha.Controllers
                     //return RedirectToAction(nameof(Index));
 
                     // 返回一個 JSON 結果而不是重定向
-                    return Json(new { success = true, message="成功" });
+                    return Json(new { success = true, message = "建立成功" });
                 }
                 else
                 {
@@ -165,8 +165,9 @@ namespace gacha.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("account,name,roleId,email,phoneNumber,password")] admin admin)
+        public async Task<IActionResult> Edit(string id,  admin_ViewModel admin)
         {
+
             if (id != admin.account)
             {
                 return NotFound();
@@ -174,6 +175,36 @@ namespace gacha.Controllers
 
             if (ModelState.IsValid)
             {
+
+                var existingAdmin = await _context.admin.FindAsync(id);
+                if (existingAdmin == null)
+                {
+                    return NotFound();
+                }
+
+                //update non password column
+                existingAdmin.name = admin.name;
+                existingAdmin.roleId = admin.roleId;
+                existingAdmin.email = admin.email;
+                existingAdmin.phoneNumber = admin.phoneNumber;
+
+                //update password only when user input new password
+                if (!string.IsNullOrEmpty(admin.password) && !string.IsNullOrEmpty(admin.confirmPassword))
+                {
+                    //check password = confirm password
+                    if (admin.password == admin.confirmPassword)
+                    {
+                        existingAdmin.password = BCrypt.Net.BCrypt.HashPassword(admin.password);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("confirmPassword", "密碼和確認密碼不一致");
+                        ViewData["roleId"] = new SelectList(_context.role, "id", "title", admin.roleId);
+
+                        return View(admin);
+                    }
+                    
+                }
                 try
                 {
                     _context.Update(admin);
