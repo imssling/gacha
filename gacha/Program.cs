@@ -35,10 +35,10 @@ builder.Services.AddSession(options =>
 //註冊HttpContext.session(讓Razor文件可以取得session)
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddControllersWithViews(options =>
-{
-    options.Filters.Add<SessionCheckFilter>(); // 全局應用過濾器
-});
+//builder.Services.AddControllersWithViews(options =>
+//{
+//    options.Filters.Add<SessionCheckFilter>(); // 全局應用過濾器
+//});
 
 var app = builder.Build();
 
