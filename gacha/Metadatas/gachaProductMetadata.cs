@@ -23,11 +23,11 @@ namespace gacha.Metadatas
         [Required(ErrorMessage = "庫存必填")]
         public int stock { get; set; }
 
-        [Display(Name = "照片名稱")]
+        [Display(Name = "照片")]
         //[Required(ErrorMessage = "照片名稱必填")]
         public string productPictureName { get; set; }
 
-        [Display(Name = "創建時間")]
+        [Display(Name = "更新時間")]
         public DateTime? createTime { get; set; }
 
     }

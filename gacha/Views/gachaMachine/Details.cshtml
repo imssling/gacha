@@ -9,8 +9,6 @@
 }
 
 <div>
-    <h4>查看機台</h4>
-    <hr />
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.id)
@@ -61,8 +59,4 @@
             @Html.DisplayFor(model => model.status)
         </dd>
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.id" class="btn button"><i class="fa-solid fa-pen-to-square"></i></a>
-    <a asp-action="Index" class="btn button"><i class="fa-solid fa-backward"></i></a>
 </div>

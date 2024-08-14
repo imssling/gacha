@@ -10,7 +10,8 @@
 <h3>機台管理</h3>
 
 <p>
-    <a asp-action="Create" class="btn button"><i class="fa-solid fa-plus"></i></a>
+    @* <a asp-action="Create" class="btn button"><i class="fa-solid fa-plus"></i></a> *@
+    <a class="button" data-bs-toggle="modal" data-bs-target="#createModal"><i class="fa-solid fa-plus"></i></a>
 </p>
 <table class="table">
     <thead>
@@ -49,12 +50,14 @@
                 @Html.DisplayFor(modelItem => item.price)
             </td>
             <td>
-                    @Html.DisplayFor(modelItem => item.status)
+                @Html.DisplayFor(modelItem => item.status)
             </td>
             <td>
                     <a class="button" data-bs-toggle="modal" data-bs-target="#editModal-@item.id" asp-action="Edit" asp-route-id="@item.id"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a class="button" asp-action="Details" asp-route-id="@item.id"><i class="fa-solid fa-list"></i></a>
-                    <a class="button" asp-action="Delete" asp-route-id="@item.id"><i class="fa-solid fa-trash"></i></a>
+                    <!-- Detail Button Modal -->
+                    <button type="button" class="btn button" data-bs-toggle="modal" data-bs-target="#detailModal-@item.id">
+                        <i class="fa-solid fa-list"></i>
+                    </button>
             </td>
         </tr>
 }
@@ -63,7 +66,7 @@
 @foreach (var item in Model)
 {
     <!-- Edit Modal -->
-    <div class="modal fade" id="editModal-@item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editModal-@item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-image-id="showPicture-@item.id">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <form asp-action="Edit" enctype="multipart/form-data" class="needs-validation" novalidate>
@@ -83,6 +86,45 @@
     </div>
 }
 
+@foreach (var item in Model)
+{
+    <!-- Detail Modal -->
+    <div class="modal fade" id="detailModal-@item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="exampleModalLabel">詳細機台資訊</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <partial name="_Machine_detail_partial" model="@item" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<!-- Create_Modal -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-image-id="showPicture-0">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form asp-action="Create" enctype="multipart/form-data" class="needs-validation" novalidate>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">新增機台</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <partial name="_Machine_create_partial" model="new gachaMachine()" />
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn button"><i class="fa-solid fa-floppy-disk"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 @section Scripts {
     <script src="~/lib/datatables/js/jquery.datatables.min.js" asp-append-version="true"></script>
     <script src="//cdn.datatables.net/fixedheader/3.3.1/js/dataTables.fixedHeader.min.js"></script>
@@ -91,6 +133,8 @@
         $(document).ready(function () {
             let originImageSrc = {};
             let originImageTitle = {};
+            const form = document.querySelector('.needs-validation');
+
             $('.modal').on('show.bs.modal', function (e) {
                 //開啟modal事件
                 const imageId = $(this).data('image-id'); //id
@@ -101,6 +145,8 @@
 
                 //存原始圖片的src,title
                 originImageSrc[imageId] = showPicture.attr('src');
+                console.log(originImageSrc[imageId]);
+
                 originImageTitle[imageId] = showPicture.attr('title');
             });
 
@@ -112,9 +158,11 @@
                 const imageId = $(this).data('image-id'); //id
                 const showPicture = $(`#${imageId}`); //元素
 
-                console.log(imageId)
-                console.log(showPicture)
+                // console.log(imageId)
+                // console.log(showPicture)
                 // 恢復原始圖片的src title
+                // const a = $('#machinePictureName');
+
                 showPicture.attr("src", originImageSrc[imageId]);
                 showPicture.attr("title", originImageTitle[imageId]);
 
@@ -140,25 +188,37 @@
             // 上傳的第一個檔案
             var file = _this.files[0];
             // 抓取檔案的型態是否為allowType的格式
-            if (file && file.type.match(allowType)) {
-                // 讀取圖片
-                var reader = new FileReader();
-                // 檔案讀取完成的事件
-                reader.onload = function (e) {
-                    // 選到#Picture的上一個元素修改src屬性
-                    $(_this).prev().attr("src", e.target.result);
-                    // 選到#Picture的上一個元素修改title屬性
-                    $(_this).prev().attr("title", file.name);
+            if (file != undefined) {
+                if (file.type.match(allowType)) {
+                    // 讀取圖片
+                    var reader = new FileReader();
+                    // 檔案讀取完成的事件
+                    reader.onload = function (e) {
+                        // 選到#Picture的上一個元素修改src屬性
+                        $(_this).prev().attr("src", e.target.result);
+                        // 選到#Picture的上一個元素修改title屬性
+                        $(_this).prev().attr("title", file.name);
+                    }
+                    // 用圖片的URL讀取圖片
+                    reader.readAsDataURL(file);
+                    // 解除鎖定按鈕
+                    $('.btn').prop("disabled", false);
+                } 
+                else 
+                {
+                    Swal.fire({
+                        title: "請重新上傳!",
+                        text: "不支援的檔案上傳類型",
+                        icon: "error",
+                        timer: 1500,
+                        showConfirmButton: false
+
+                    });
+                    // 鎖定按鈕
+                    $('.btn').prop("disabled", true);
                 }
-                // 用圖片的URL讀取圖片
-                reader.readAsDataURL(file);
-                // 解除鎖定按鈕
-                $('.btn').prop("disabled", false);
-            } else {
-                alert("不支援的檔案上傳類型");
-                // 鎖定按鈕
-                $('.btn').prop("disabled", true);
-            }
+                
+            } 
         }
 
         // Example starter JavaScript for disabling form submissions if there are invalid fields

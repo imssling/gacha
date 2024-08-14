@@ -19,13 +19,13 @@ namespace gacha.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(login_ViewModel lvm) //前端輸入的帳號密碼
+        public async Task<IActionResult> login(login_ViewModel lvm) //前端輸入的帳號密碼
         {
-            var isAccountExist = await _context.admin.FindAsync(lvm.account); //帳號是否存在
+            var admin = await _context.admin.FindAsync(lvm.account); //帳號是否存在
 
             if (ModelState.IsValid)
             {
-                if (isAccountExist == null)
+                if (admin == null)
                 {
                     // 丟給畫面判斷錯誤
                     ViewBag.userExist = new { errorCode = 1 , errorMessage = "帳號不存在" } ; 
@@ -33,16 +33,16 @@ namespace gacha.Controllers
                 }
 
                 //確認資料庫的密碼和輸入的密碼是否相同
-                if (!BCrypt.Net.BCrypt.Verify(lvm.password, isAccountExist.password))
+                if (!BCrypt.Net.BCrypt.Verify(lvm.password, admin.password))
                 {
                     ViewBag.userExist = new { errorCode = 2, errorMessage = "密碼錯誤" }; 
                     return View();
                 }
 
                 //登入成功建立session 存名字
-                HttpContext.Session.SetString("Login_Name", $"{isAccountExist.name}");
+                HttpContext.Session.SetString("Login_Name", $"{admin.name}");
                 //登入成功建立session 存帳號
-                HttpContext.Session.SetString("Login_Account", $"{isAccountExist.account}");
+                HttpContext.Session.SetString("Login_Account", $"{admin.account}");
                 return RedirectToAction("Index", "Home");
             }
             return View();
@@ -51,7 +51,7 @@ namespace gacha.Controllers
         public IActionResult Logout()
         {
             // 清除所有 Session 數據
-            HttpContext.Session.Clear();
+            HttpContext.Session.Clear();          
             return RedirectToAction("login", "login");
         }
 

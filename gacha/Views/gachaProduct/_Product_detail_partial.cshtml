@@ -1,0 +1,29 @@
+﻿@model gacha.Models.gachaProduct
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="row">
+    <!-- 左邊的内容 -->
+    <div class="col-md-6">
+        <dl class="row">
+            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.productName)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.productName)</dd>
+
+            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.stock)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.stock)</dd>
+
+            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.createTime)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.createTime)</dd>
+
+            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.machine)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.machine.machineName)</dd>
+        </dl>
+    </div>
+
+    <!-- 右邊圖片 -->
+    <div class="col-md-6">
+        <img src="~/img/@Html.DisplayFor(model => model.productPictureName)" style="width:100%;height:auto" onerror="this.onerror=null; this.src='/img/no-photo.png';" />
+    </div>
+</div>

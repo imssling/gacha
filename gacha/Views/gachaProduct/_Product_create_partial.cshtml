@@ -1,0 +1,90 @@
+﻿@model gacha.Models.gachaProduct
+
+@{
+    ViewData["Title"] = "Edit";
+}
+@section Styles {
+    <link href="~/css/datatables.min.css" rel="stylesheet" />
+}
+
+@* <div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="id" class="control-label"></label>
+                <input asp-for="id" class="form-control" readonly="readonly" />
+                <span asp-validation-for="id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="machineId" class="control-label"></label>
+                <select class="form-select" asp-for="machineId" class="form-control" asp-items="ViewBag.machineId"></select>
+                <span asp-validation-for="machineId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="productName" class="control-label"></label>
+                <input asp-for="productName" class="form-control" />
+                <span asp-validation-for="productName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="stock" class="control-label"></label>
+                <input asp-for="stock" class="form-control" />
+                <span asp-validation-for="stock" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="productPictureName" class="control-label"></label>
+                <partial name="_ShowProductImagePartial">
+                    <input asp-for="productPictureName" class="form-control" type="file" accept="image/*" />
+                    <span asp-validation-for="productPictureName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="儲存" class="btn button" />
+            </div>
+        </form>
+    </div>
+</div> *@
+<div class="row">
+    <!-- 表單部分 -->
+    <div class="col-md-6">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+        <div class="form-group mb-3">
+            <label asp-for="machineId" class="control-label"></label>
+            <select class="form-select" asp-for="machineId" asp-items="ViewBag.machineId" required></select>
+            <span asp-validation-for="machineId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="productName" class="control-label "></label>
+            <input asp-for="productName" class="form-control " required />
+            <span asp-validation-for="productName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="stock" class="control-label"></label>
+            <input asp-for="stock" class="form-control" required />
+            <span asp-validation-for="stock" class="text-danger"></span>
+        </div>
+
+    </div>
+    <!-- 圖片顯示部分 -->
+    <div class="col-md-6">
+        <label asp-for="productPictureName" class="control-label"></label>
+        <div class="form-group">
+            <img id="showPicture-0" src="~/img/no-photo.png" title="尚無圖案" style="width:280px;height:200px" class="my-3" />
+            <input id ="createImg_0" asp-for="productPictureName" class="form-control" type="file" accept="image/*" onchange="PreviewImage(this)" required />
+            <span asp-validation-for="productPictureName" class="text-danger"></span>
+            <div class="invalid-feedback">
+                必須上傳一張照片
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

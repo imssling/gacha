@@ -10,7 +10,8 @@
 <h3>主題管理</h3>
 
 <p>
-    <a asp-action="Create" class="btn button"><i class="fa-solid fa-plus"></i></a>
+    @* <a asp-action="Create" class="btn button"><i class="fa-solid fa-plus"></i></a> *@
+    <a class="button" data-bs-toggle="modal" data-bs-target="#createModal"><i class="fa-solid fa-plus"></i></a>
 </p>
 <table class="table">
     <thead>
@@ -40,14 +41,54 @@
                 @Html.DisplayFor(modelItem => item.status)
             </td>
             <td>
-                    <a class="button" asp-action="Edit" asp-route-id="@item.id"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a class="button" asp-action="Details" asp-route-id="@item.id"><i class="fa-solid fa-list"></i></a>
-                    <a class="button" asp-action="Delete" asp-route-id="@item.id"><i class="fa-solid fa-trash"></i></a>
+                    <a class="button" data-bs-toggle="modal" data-bs-target="#editModal-@item.id" asp-action="Edit" asp-route-id="@item.id"><i class="fa-solid fa-pen-to-square"></i></a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+@foreach (var item in Model)
+{
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal-@item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form asp-action="Edit" class="needs-validation" novalidate>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">修改主題</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <partial name="_Theme_edit_partial" model="@item" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn button"><i class="fa-solid fa-floppy-disk"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+<!-- Create_Modal -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <form asp-action="Create"  class="needs-validation" novalidate>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">新增主題</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <partial name="_Theme_create_partial" model="new gachaTheme()" />
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn button"><i class="fa-solid fa-floppy-disk"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @section Scripts {
     <script src="~/lib/datatables/js/jquery.datatables.min.js" asp-append-version="true"></script>
     <script src="//cdn.datatables.net/fixedheader/3.3.1/js/dataTables.fixedHeader.min.js"></script>
@@ -73,7 +114,35 @@
                     scrollTop: $(".dataTables_wrapper").offset().top
                 }, 50);
             });
-        });
 
+            $('.modal').on('hidden.bs.modal', function (e) {
+                //關閉modal事件
+                //移除表單驗證類
+                const form = $('.needs-validation');
+                form.removeClass('was-validated');
+                //重置表單
+                form.trigger('reset');
+            });
+        });
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
     </script>
 }

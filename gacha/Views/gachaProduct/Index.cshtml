@@ -10,13 +10,15 @@
 
 <h3>商品管理</h3>
 <p>
-    <a asp-action="Create" class="btn button"><i class="fa-solid fa-plus"></i></a>
+
+    @* <a asp-action="Create" class="btn button"><i class="fa-solid fa-plus"></i></a> *@
+    <a class="button" data-bs-toggle="modal" data-bs-target="#createModal"><i class="fa-solid fa-plus"></i></a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.id)
+                @Html.DisplayNameFor(model => model.productPictureName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.productName)
@@ -25,22 +27,17 @@
                 @Html.DisplayNameFor(model => model.stock)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.productPictureName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.createTime)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.machine)
             </th>
-            <th></th>
+            <th>功能</th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                    @Html.DisplayFor(modelItem => item.id)
+                <partial name="_ShowProductImagePartial" model="@item" />
+                @* @Html.DisplayFor(modelItem => item.productPictureName) *@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.productName)
@@ -49,26 +46,195 @@
                 @Html.DisplayFor(modelItem => item.stock)
             </td>
             <td>
-                <partial name="_ShowProductImagePartial" model="item" />
-                @* @Html.DisplayFor(modelItem => item.productPictureName) *@
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.createTime)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.machine.machineName)
             </td>
              <td>
-                    <a class="button" asp-action="Edit" asp-route-id="@item.id"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a class="button" asp-action="Details" asp-route-id="@item.id"><i class="fa-solid fa-list"></i></a>
-                    <a class="button" asp-action="Delete" asp-route-id="@item.id"><i class="fa-solid fa-trash"></i></a>
+                    <!-- Edit Button Modal -->
+                    <button type="button" class="btn button" data-bs-toggle="modal" data-bs-target="#editModal-@item.id">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <!-- Detail Button Modal -->
+                    <button type="button" class="btn button" data-bs-toggle="modal" data-bs-target="#detailModal-@item.id">
+                        <i class="fa-solid fa-list"></i>
+                    </button>
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+
+@foreach (var item in Model)
+{
+<!-- Edit Modal -->
+    <div class="modal fade" id="editModal-@item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-image-id="showPicture-@item.id">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form asp-action="Edit" enctype="multipart/form-data" class="needs-validation" novalidate>
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="exampleModalLabel">修改商品</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                        <partial name="_Product_edit_partial" model="@item" />
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn button submitBtn"><i class="fa-solid fa-floppy-disk"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>  
+}
+@foreach (var item in Model)
+{
+    <!-- Detail Modal -->
+    <div class="modal fade" id="detailModal-@item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-image-id="showPicture-@item.id">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                    <div class="modal-header">
+
+                        <h5 class="modal-title" id="exampleModalLabel">詳細商品資訊</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <partial name="_Product_detail_partial" model="@item" />
+                    </div>
+            </div>
+        </div>
+    </div>
+}
+<!-- Create_Modal -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-image-id="showPicture-0">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form asp-action="Create" enctype="multipart/form-data" class="needs-validation" novalidate>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">新增機台</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <partial name="_Product_create_partial" model="new gachaProduct()" />
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn button"><i class="fa-solid fa-floppy-disk"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @section Scripts {
     <script src="~/lib/datatables/js/jquery.datatables.min.js" asp-append-version="true"></script>
     <script src="//cdn.datatables.net/fixedheader/3.3.1/js/dataTables.fixedHeader.min.js"></script>
     <script src="~/js/datatables.js"></script>
+    <script>
+        $(document).ready(function () {
+            let originImageSrc = {};
+            let originImageTitle = {};
+            const form = document.querySelector('.needs-validation');
+
+            $('.modal').on('show.bs.modal', function (e) {
+                //開啟modal事件
+                const imageId = $(this).data('image-id'); //id
+                const showPicture = $(`#${imageId}`); //元素
+
+                console.log(imageId)
+                console.log(showPicture)
+
+                //存原始圖片的src,title
+                originImageSrc[imageId] = showPicture.attr('src');
+                console.log(originImageSrc[imageId]);
+
+                originImageTitle[imageId] = showPicture.attr('title');
+            });
+
+            
+            $('.modal').on('hidden.bs.modal', function (e) {
+                //關閉modal事件
+                // 更換成沒照片的圖
+                // alert('123')
+                const imageId = $(this).data('image-id'); //id
+                const showPicture = $(`#${imageId}`); //元素
+
+                showPicture.attr("src", originImageSrc[imageId]);
+                showPicture.attr("title", originImageTitle[imageId]);
+
+                //移除表單驗證類
+                const form = $('.needs-validation');
+                console.log(form)
+                form.removeClass('was-validated');
+                //重置表單
+                form.trigger('reset');
+            });
+        });
+
+        //圖片預覽方法 綁定照片onchange事件
+        function PreviewImage(_this){
+            // alert($(_this).prev().attr('src'));
+            if ($(_this).val() == "") {
+                // 更換成沒照片的圖
+                $(_this).prev().attr("src", "/img/no-photo.png");
+            }
+
+            // 允許的副檔名
+            var allowType = "image.*";
+            // 上傳的第一個檔案
+            var file = _this.files[0];
+            // 抓取檔案的型態是否為allowType的格式
+            if (file != undefined) {
+                if (file.type.match(allowType)) {
+                    // 讀取圖片
+                    var reader = new FileReader();
+                    // 檔案讀取完成的事件
+                    reader.onload = function (e) {
+                        // 選到#Picture的上一個元素修改src屬性
+                        $(_this).prev().attr("src", e.target.result);
+                        // 選到#Picture的上一個元素修改title屬性
+                        $(_this).prev().attr("title", file.name);
+                    }
+                    // 用圖片的URL讀取圖片
+                    reader.readAsDataURL(file);
+                    // 解除鎖定按鈕
+                    $('.submitBtn').prop("disabled", false);
+                } 
+                else 
+                {
+                    Swal.fire({
+                        title: "請重新上傳!",
+                        text: "不支援的檔案上傳類型",
+                        icon: "error",
+                        timer: 1500,
+                        showConfirmButton: false
+
+                    });
+                    // 鎖定按鈕
+                    $('.submitBtn').prop("disabled", true);
+                }
+                
+            } 
+        }
+
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+
+    </script>
 }

@@ -1,0 +1,35 @@
+﻿@model gacha.Models.gachaMachine
+
+<div class="row">
+    <!-- 左邊的內容 -->
+    <div class="col-md-6">
+        <dl class="row">
+            <dt class="col-sm-4 mb-3 ">@Html.DisplayNameFor(model => model.id)</dt>
+            <dd class="col-sm-8 mb-3 ">@Html.DisplayFor(model => model.id)</dd>
+
+            <dt class="col-sm-4 mb-3">@Html.DisplayNameFor(model => model.machineName)</dt>
+            <dd class="col-sm-8 mb-3">@Html.DisplayFor(model => model.machineName)</dd>
+
+            <dt class="col-sm-4 mb-3">@Html.DisplayNameFor(model => model.machineDescription)</dt>
+            <dd class="col-sm-8 mb-3">@Html.DisplayFor(model => model.machineDescription)</dd>
+
+            <dt class="col-sm-4 mb-3">@Html.DisplayNameFor(model => model.createTime)</dt>
+            <dd class="col-sm-8 mb-3">@Html.DisplayFor(model => model.createTime)</dd>
+
+            <dt class="col-sm-4 mb-3">@Html.DisplayNameFor(model => model.price)</dt>
+            <dd class="col-sm-8 mb-3">@Html.DisplayFor(model => model.price)</dd>
+
+            <dt class="col-sm-4 mb-3">@Html.DisplayNameFor(model => model.theme)</dt>
+            <dd class="col-sm-8 mb-3">@Html.DisplayFor(model => model.theme.themeName)</dd>
+
+            <dt class="col-sm-4 mb-3">@Html.DisplayNameFor(model => model.status)</dt>
+            <dd class="col-sm-8 mb-3">@Html.DisplayFor(model => model.status)</dd>
+        </dl>
+    </div>
+
+    <!-- 右邊的圖片 -->
+    <div class="col-md-6">
+        <img src="~/img/@Html.DisplayFor(model => model.machinePictureName)" style="width:100%;height:auto" />
+    </div>
+</div>
+

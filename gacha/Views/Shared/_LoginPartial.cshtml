@@ -11,14 +11,13 @@
     <div class="navbar-collapse navbar">
         <ul class="navbar-nav">
             <li class="nav-item dropdown">
-                @* 取出使用者名字並給招呼語 *@
-                Hello!@HttpContextAccessor.HttpContext.Session.GetString("Login_Name")
+                
                 <a href="#" data-bs-toggle="dropdown" class="nav-icon pe-md-0">
-                    <img src="~/img/dog.jpg" style="object-fit:inherit " class="avatar img-fluid rounded" alt="" />
+                    <i class="fa-solid fa-circle-user fa-2xl" style="color: #293E60"></i>
                 </a>
+                @* 取出使用者名字 *@
+                @HttpContextAccessor.HttpContext.Session.GetString("Login_Name")
                 <div class="dropdown-menu dropdown-menu-end">
-                    <a href="#" class="dropdown-item">個人資料</a>
-                    <a href="#" class="dropdown-item">設定</a>
                     <a asp-controller="login" asp-action="logout" class="dropdown-item">登出</a>
                 </div>
             </li>

@@ -5,7 +5,7 @@ namespace gacha.Models
 {
     public class SessionCheckFilter: ActionFilterAttribute
     {
-        /*public override void OnActionExecuting(ActionExecutingContext context)
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
             // 獲取當前的controller和action
             var controllerName = context.RouteData.Values["controller"].ToString();
@@ -23,6 +23,6 @@ namespace gacha.Models
                 // 如果用戶未登入，重定向到登入頁面
                 context.Result = new RedirectToActionResult("login", "login", null);
             }
-        }*/
+        }
     }
 }

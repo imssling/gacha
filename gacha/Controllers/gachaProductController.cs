@@ -21,6 +21,7 @@ namespace gacha.Controllers
         // GET: gachaProduct
         public async Task<IActionResult> Index()
         {
+            ViewData["machineId"] = new SelectList(_context.gachaMachine, "id", "machineName");
             var gachaContext = _context.gachaProduct.Include(g => g.machine);
             return View(await gachaContext.ToListAsync());
         }

@@ -85,7 +85,7 @@ namespace gacha.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,themeName")] gachaTheme gachaTheme)
+        public async Task<IActionResult> Edit(int id, [Bind("id,themeName,status")] gachaTheme gachaTheme)
         {
             if (id != gachaTheme.id)
             {

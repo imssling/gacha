@@ -106,9 +106,6 @@
                 </div>
                 <div class="modal-body">
                     <partial name="_userInfoes_edit_partial" model="@item">
-                    <div>
-                        <a class="btn button" asp-action="Index"><i class="fa-solid fa-backward"></i> </a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -143,6 +140,16 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.15-rc1/jquery.twzipcode.min.js"></script>
     <script src="~/js/delete_function_sweetalert.js"></script>
     <script>
+        function openModal(){
+            $('.modal').on('show.bs.modal', function (e) {
+                //開啟modal事件
+                $('.phoneNumber').each(function () {
+                        $(this).removeClass('is-invalid').removeClass('is-valid');
+                        $(this).siblings('#phoneError').text(''); // 清除錯誤訊息
+                   
+                });
+            });
+        }
         //Modal內容重置
         function clearModal() {
             //關閉modal事件
@@ -176,8 +183,9 @@
 
         }
         $(document).ready(function () {
+            openModal();
+            clearModal(); //關閉modal時清除驗證
             $('.editForm').on('submit',function (e) {
-                clearModal(); //關閉modal時清除驗證
                 e.preventDefault(); // 防止表單立即提交
                 e.stopPropagation()//防止冒泡
                 e.target.classList.add('was-validated')
@@ -205,30 +213,32 @@
                 }
 
             });
-            $('.phoneNumber').on('input', function () {
-                //輸入時驗證手機格式
-                validatePhoneNumber();
-            });
-
-            
-
             
         });
+
+        $('.phoneNumber').each(function () {
+            $(this).on('input', function () {
+                // 輸入時驗證手機格式
+                validatePhoneNumber($(this));
+            });
+        });
+
         //驗證手機號碼格式的方法
-        function validatePhoneNumber() {
-            const phoneNumber = $('#phoneNumber').val();
-            console.log(phoneNumber)
+        function validatePhoneNumber(inputElement) {
+            const phoneNumber = inputElement.val();
+            console.log(phoneNumber);
             const phoneNumberPattern = /^09\d{8}$/;
 
             if (phoneNumberPattern.test(phoneNumber)) {
-                //通過驗證
-                $('#phoneError').text(''); // 清除錯誤訊息
-                $('#phoneNumber').removeClass('is-invalid').addClass('is-valid');
+                // 通過驗證
+                inputElement.removeClass('is-invalid').addClass('is-valid');
+                inputElement.siblings('#phoneError').text(''); // 清除錯誤訊息
             } else {
-                //沒通過驗證
-                $('#phoneError').text('請輸入有效的台灣手機號碼');
-                $('#phoneNumber').removeClass('is-valid').addClass('is-invalid');
+                // 沒通過驗證
+                inputElement.removeClass('is-valid').addClass('is-invalid');
+                inputElement.siblings('#phoneError').text('請輸入有效的台灣手機號碼');
             }
         }
+
     </script>
 }
