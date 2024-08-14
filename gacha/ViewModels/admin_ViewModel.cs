@@ -38,14 +38,14 @@ namespace gacha.ViewModels
 
 
         [Display(Name = "密碼")]
-        [ConditionalRequired(ErrorMessage = "密碼必填")]
+        [Required(ErrorMessage = "密碼必填")]
         [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$",
             ErrorMessage = "密碼必須至少6個字符長, 且包含數字和特殊字符")]
         public string password { get; set; }
 
 
         [Display(Name = "確認密碼")]
-        [ConditionalRequired(ErrorMessage = "確認密碼必填")]
+        [Required(ErrorMessage = "確認密碼必填")]
         [Compare("password", ErrorMessage = "新密碼和確認密碼不同")]
         public string confirmPassword { get; set; }
     }

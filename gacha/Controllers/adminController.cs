@@ -165,18 +165,16 @@ namespace gacha.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id,  admin_ViewModel admin)
+        public async Task<IActionResult> Edit([Bind("account,name,roleId,email,phoneNumber")] admin_ViewModel admin)
         {
-
-            if (id != admin.account)
-            {
-                return NotFound();
-            }
+            // 移除 ModelState 中 password 的驗證錯誤
+            ModelState.Remove("password");
+            ModelState.Remove("confirmPassword");
 
             if (ModelState.IsValid)
             {
 
-                var existingAdmin = await _context.admin.FindAsync(id);
+                var existingAdmin = await _context.admin.FindAsync(admin.account);
                 if (existingAdmin == null)
                 {
                     return NotFound();
@@ -207,7 +205,7 @@ namespace gacha.Controllers
                 }
                 try
                 {
-                    _context.Update(admin);
+                    _context.Update(existingAdmin);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -230,24 +228,24 @@ namespace gacha.Controllers
         // GET: admin/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var admin = await _context.admin
-                .Include(a => a.role)
-                .FirstOrDefaultAsync(m => m.account == id);
+            var admin = await _context.admin.FindAsync(id);
             if (admin == null)
             {
-                return NotFound();
+                return NotFound(new { success = false, message = "未找到該帳號" });
             }
-            if (admin != null)
+
+            try
             {
                 _context.admin.Remove(admin);
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "帳號已成功刪除" });
             }
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            catch (Exception ex)
+            {
+                // 捕捉異常並返回錯誤信息
+                return Json(new { success = false, message = "刪除過程中發生錯誤", exception = ex.Message });
+            }
         }
 
         // POST: admin/Delete/5
@@ -256,13 +254,23 @@ namespace gacha.Controllers
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var admin = await _context.admin.FindAsync(id);
-            if (admin != null)
+            if (admin == null)
             {
-                _context.admin.Remove(admin);
+                return NotFound(new { success = false, message = "未找到該帳號" });
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                _context.admin.Remove(admin);
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "帳號已成功刪除" });
+            }
+            catch (Exception ex)
+            {
+                // 捕捉異常並返回錯誤信息
+                return Json(new { success = false, message = "刪除過程中發生錯誤", exception = ex.Message });
+            }
         }
 
         private bool adminExists(string id)
