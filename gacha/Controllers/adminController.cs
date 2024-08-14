@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using gacha.Models;
 using System.Runtime.Intrinsics.X86;
+using gacha.ViewModels;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using System.Text.RegularExpressions;
 
 namespace gacha.Controllers
 {
@@ -22,7 +25,22 @@ namespace gacha.Controllers
         // GET: admin
         public async Task<IActionResult> Index()
         {
-            var gachaContext = _context.admin.Include(a => a.role);
+            var gachaContext = from admin in _context.admin
+                               join role in _context.role
+                               on admin.roleId equals role.id
+                               select new admin_ViewModel
+                               {
+                                   account = admin.account,
+                                   name = admin.name,
+                                   roleId = admin.roleId,
+                                   title = role.title,
+                                   email = admin.email,
+                                   phoneNumber = admin.phoneNumber,
+                                   password = admin.password,
+
+                               };
+            ViewBag.roleId = new SelectList(_context.role, "id", "title");
+
             return View(await gachaContext.ToListAsync());
         }
 
@@ -56,24 +74,73 @@ namespace gacha.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("account,name,roleId,email,phoneNumber,password")] admin admin)
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("account,name,roleId,email,phoneNumber,password, confirmPassword")] admin_ViewModel admin)
         {
-            if (ModelState.IsValid)
-            {
-                //密碼加密
-                var hashPassword = BCrypt.Net.BCrypt.HashPassword(admin.password);
-
-                //把加密和輸入的密碼做比較,一致才存(測試用)
-                bool verify = BCrypt.Net.BCrypt.Verify(admin.password, hashPassword);
-                admin.password = hashPassword;
-
-                _context.Add(admin);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
             ViewData["roleId"] = new SelectList(_context.role, "id", "title", admin.roleId);
-            return View(admin);
+
+            //verify if email valid
+            var validEmail = admin.email;
+            var regexEmail = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+            if (!regexEmail.IsMatch(validEmail))
+            {
+                return Json(new { success = false, message = "請輸入有效的電子郵件地址" });
+            }
+
+            //verify if taiwan phone number
+            var twnumber = admin.phoneNumber;
+            var regex = new Regex(@"^09\d{8}$");
+            if (!regex.IsMatch(twnumber))
+            {
+                return Json(new { success = false, message = "請輸入有效的台灣手機號碼，格式為09開頭的十位數字" });
+            }
+
+            //verify if account exist
+            var adminConfirm = await _context.admin.AnyAsync(a => a.account == admin.account);
+            if (adminConfirm)
+            {
+                return Json(new { success = false, message = "此帳號已存在" });
+            }
+
+            //密碼加密
+            var hashPassword = BCrypt.Net.BCrypt.HashPassword(admin.password);
+            ////把加密和輸入的密碼做比較,一致才存(測試用)
+            //bool verify = BCrypt.Net.BCrypt.Verify(admin.password, hashPassword);
+            admin.password = hashPassword;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    admin newadmin = new admin()
+                    {
+                        account = admin.account,
+                        roleId = admin.roleId,
+                        name = admin.name,
+                        email = admin.email,
+                        phoneNumber = admin.phoneNumber,
+                        password = hashPassword
+                    };
+
+                    _context.Add(newadmin);
+                    await _context.SaveChangesAsync();
+                    //return RedirectToAction(nameof(Index));
+
+                    // 返回一個 JSON 結果而不是重定向
+                    return Json(new { success = true, message = "建立成功" });
+                }
+                else
+                {
+                    // 返回一個 JSON 結果，表示數據驗證失敗
+                    return Json(new { success = false, message = "建立帳號失敗" });
+                }
+            }
+            catch (Exception ex)
+            {
+
+                //Record outstanding actvity and return JSON result
+                //可以用紀錄Log.Error(ex)
+                return Json(new { success = false, message = "建立帳號有誤", exception = ex.Message });
+            }
         }
 
         // GET: admin/Edit/5
@@ -98,8 +165,9 @@ namespace gacha.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("account,name,roleId,email,phoneNumber,password")] admin admin)
+        public async Task<IActionResult> Edit(string id,  admin_ViewModel admin)
         {
+
             if (id != admin.account)
             {
                 return NotFound();
@@ -107,6 +175,36 @@ namespace gacha.Controllers
 
             if (ModelState.IsValid)
             {
+
+                var existingAdmin = await _context.admin.FindAsync(id);
+                if (existingAdmin == null)
+                {
+                    return NotFound();
+                }
+
+                //update non password column
+                existingAdmin.name = admin.name;
+                existingAdmin.roleId = admin.roleId;
+                existingAdmin.email = admin.email;
+                existingAdmin.phoneNumber = admin.phoneNumber;
+
+                //update password only when user input new password
+                if (!string.IsNullOrEmpty(admin.password) && !string.IsNullOrEmpty(admin.confirmPassword))
+                {
+                    //check password = confirm password
+                    if (admin.password == admin.confirmPassword)
+                    {
+                        existingAdmin.password = BCrypt.Net.BCrypt.HashPassword(admin.password);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("confirmPassword", "密碼和確認密碼不一致");
+                        ViewData["roleId"] = new SelectList(_context.role, "id", "title", admin.roleId);
+
+                        return View(admin);
+                    }
+                    
+                }
                 try
                 {
                     _context.Update(admin);

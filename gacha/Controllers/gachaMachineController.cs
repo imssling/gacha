@@ -93,7 +93,7 @@ namespace gacha.Controllers
                 }
 
                 _context.Add(gachaMachine);
-                await _context.SaveChangesAsync();          
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["themeId"] = new SelectList(_context.gachaTheme, "id", "themeName", gachaMachine.themeId);
@@ -149,8 +149,8 @@ namespace gacha.Controllers
                                 Directory.CreateDirectory(uploadsFolder);
                             }
 
-                            // 生成唯一的文件名以避免重名
-                            var uniqueFileName = Guid.NewGuid().ToString() + "_" + pictureFile.FileName;
+                        // 生成唯一的文件名以避免重名
+                        var uniqueFileName = Guid.NewGuid().ToString() + "_" + pictureFile.FileName;
 
                             // 目標文件的完整路徑
                             var filePath = Path.Combine(uploadsFolder, uniqueFileName);

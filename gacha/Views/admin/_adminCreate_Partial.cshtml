@@ -1,0 +1,151 @@
+﻿@model gacha.ViewModels.admin_ViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<h4>管理員</h4>
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form id="createForm" asp-action="Create" method="post" class="needs-validation" novalidate>
+                <!-- ADD validation if required -->
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="form-group row mb-3">
+                    <!-- Added mb-3 for margin -->
+                    <label asp-for="account" class="col-sm-3 col-form-label fw-bold"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="account" class="form-control" required maxlength="30" />
+                        <span asp-validation-for="account" class="text-danger"></span>
+                        <!-- Add Validation messsage if required -->
+                        <div class="valid-feedback">漂漂亮亮</div>
+                        <div class="invalid-feedback">帳號必填,誠實招來</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <!-- Added mb-3 for margin -->
+                    <label asp-for="name" class="col-sm-3 col-form-label fw-bold"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="name" class="form-control" required maxlength="10" />
+                        <span asp-validation-for="name" class="text-danger"></span>
+                        <!-- Add Validation messsage if required -->
+                        <div class="valid-feedback">漂漂亮亮</div>
+                        <div class="invalid-feedback">名稱必填,誠實招來</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <!-- Added mb-3 for margin -->
+                    <label asp-for="title" class="col-sm-3 col-form-label fw-bold"></label>
+                    <div class="col-sm-9">
+                        <select asp-for="roleId" class="form-control" asp-items="ViewBag.roleId" required></select>
+                        <div class="valid-feedback">漂漂亮亮</div>
+                        <div class="invalid-feedback">角色稱號必選,誠實招來</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <!-- Added mb-3 for margin -->
+                    <label asp-for="email" class="col-sm-3 col-form-label fw-bold"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="email" class="form-control" required type="email" maxlength="50" />
+                        <span asp-validation-for="email" class="text-danger"></span>
+                        <div class="valid-feedback">漂漂亮亮</div>
+                        <div class="invalid-feedback">信箱必填,誠實招來</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <!-- Added mb-3 for margin -->
+                    <label asp-for="phoneNumber" class="col-sm-3 col-form-label fw-bold"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="phoneNumber" class="form-control" required maxlength="20" />
+                        <span asp-validation-for="phoneNumber" class="text-danger" required></span>
+                        <div class="valid-feedback">漂漂亮亮</div>
+                        <div class="invalid-feedback">電話必填,誠實招來</div>
+                    </div>
+                </div>
+                <!-- New Password -->
+                <div class="form-group row mb-3">
+                    <label asp-for="password" class="col-sm-3 col-form-label fw-bold"></label>
+                    <div class="col-sm-9">
+                        <input type="password" asp-for="password" class="form-control" required
+                               data-val="true"
+                               data-val-regex="密碼必須至少6個字符長, 且包含數字和特殊字符"
+                               data-val-regex-pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@@$!%*?&])[A-Za-z\d@@$!%*?&]{6,}$" />
+
+                        <span asp-validation-for="password" class="text-danger"></span>
+                        <div class="valid-feedback">漂漂亮亮</div>
+                        <div class="invalid-feedback">密碼必填,誠實招來</div>
+                    </div>
+                </div>
+                <!-- Confirm Password Field -->
+                <div class="form-group row mb-3">
+                    <label asp-for="confirmPassword" class="col-sm-3 col-form-label fw-bold"></label>
+                    <div class="col-sm-9">
+                        <input type="password" asp-for="confirmPassword" class="form-control" required />
+                        <span asp-validation-for="confirmPassword" class="text-danger"></span>
+                        <div class="valid-feedback">漂漂亮亮</div>
+                        <div class="invalid-feedback">確認密碼必填, 誠實招來</div>
+                    </div>
+                </div>
+                <div class="form-group row justify-content-end">
+                    <div class="col-sm-10 d-flex justify-content-end">
+                        <button type="submit" class="btn button">
+                            <i class="fa-solid fa-floppy-disk fa-lg"></i>
+                        </button>
+                        @*  <a asp-action="Index" class="btn btn-link">Back to List</a> *@
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@* <div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="account" class="control-label"></label>
+                <input asp-for="account" class="form-control" />
+                <span asp-validation-for="account" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="name" class="control-label"></label>
+                <input asp-for="name" class="form-control" />
+                <span asp-validation-for="name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="roleId" class="control-label"></label>
+                <select asp-for="roleId" class="form-control" asp-items="ViewBag.roleId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="email" class="control-label"></label>
+                <input asp-for="email" class="form-control" />
+                <span asp-validation-for="email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="phoneNumber" class="control-label"></label>
+                <input asp-for="phoneNumber" class="form-control" />
+                <span asp-validation-for="phoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="password" class="control-label"></label>
+                <input asp-for="password" class="form-control" />
+                <span asp-validation-for="password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div> *@
+

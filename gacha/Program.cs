@@ -78,4 +78,5 @@ app.UseEndpoints(endpoints =>
         pattern: "{controller=Home}/{action=Index}/{id1?}/{mId?}");
 });
 
+
 app.Run();

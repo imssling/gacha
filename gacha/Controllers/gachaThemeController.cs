@@ -21,7 +21,7 @@ namespace gacha.Controllers
         // GET: gachaTheme
         public async Task<IActionResult> Index()
         {
-            return View(_context.gachaTheme);
+            return View(await _context.gachaTheme.ToListAsync());
         }
 
         // GET: gachaTheme/Details/5

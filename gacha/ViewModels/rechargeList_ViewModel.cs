@@ -12,8 +12,8 @@ namespace gacha.ViewModels
         [Required(ErrorMessage = ("儲值方案必填"))]
         public int rechargePlanId { get; set; }
 
-        //[Display(Name = "儲值方案")]
-        //public string? rechargePlan { get; set; }
+        [Display(Name = "儲值方案")]
+        public string? RechargePlan { get; set; }
 
 
         [Display(Name = "數量")]
@@ -36,10 +36,12 @@ namespace gacha.ViewModels
         [Display(Name = "日期")]
         public DateTime? rechargeDate { get; set; }
 
-        //[Display(Name = "會員名稱")]
-        //public string userName { get; set; }
+        [Display(Name = "會員名稱")]
+        public string? userName { get; set; }                                                 
 
         [Display(Name = "總價錢")]
-        public int rechargeTotalPrice { get; set; }
+        public int? rechargeTotalPrice { get; set; }
+
+       
     }
 }

@@ -1,0 +1,72 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form id="editForm" asp-action="Edit" enctype="multipart/form-data" class="needs-validation" novalidate>
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="form-group row mb-3">
+                    <label asp-for="id" class="col-sm-3 col-form-label"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="id" class="col-form-label" readonly="readonly" />
+                        <span asp-validation-for="id" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row mb-3">
+                    <label asp-for="themeId" class="col-sm-3 col-form-label fw-bold"></label>
+                    <div class="col-sm-9">
+                        <select asp-for="themeId" class="col-form-select" asp-for="themeId" asp-items="ViewBag.themeId">
+                        </select>
+                        <span asp-validation-for="themeId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row mb-3">
+                    <label asp-for="machineName" class="col-sm-3 col-form-label"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="machineName" class="form-control" />
+                        <span asp-validation-for="machineName" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label asp-for="machineDescription" class="col-sm-3 col-form-check"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="machineDescription" class="form-control" />
+                        <span asp-validation-for="machineName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row mb-3">
+                    <label asp-for="price" class="control-label"></label>
+                    <div class="col-sm-9">
+                        <span class="input-group-text">$</span>
+                        <input asp-for="price" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="price" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row mb-3">
+                    <label asp-for="status" class="col-sm-3 col-form-check"></label>
+                    <div class="col-sm-9">
+                        <input class="form-check-input" asp-for="status" /> @Html.DisplayNameFor(model => model.status)
+                    </div>
+                </div>
+                <div class="form-group row mb-3">
+                    <partial name="_ShowMachineImagePartial"  class="col-sm-3 col-form-check">
+                        <div class="col-sm-9">
+                            <img id="machineImage" src="@Url.Content("~/images/default.png")" alt="機台圖片" class="img-thumbnail" />
+                        </div>
+                        <div class="col-sm-9">
+                            <input asp-for="machinePictureName" type="file" accept="image/*" class="form-control" />
+                            <span asp-validation-for="machinePictureName" class="text-danger"></span>
+                        </div>
+                    </partial>
+                </div>
+                <div class="form-group row justify-content-end">
+                    <div class="col-sm-10 d-flex justify-content-end">
+                        <button type="submit" class="btn button">
+                            <i class="fa-solid fa-floppy-disk fa-lg"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

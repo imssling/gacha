@@ -9,6 +9,10 @@
     {
       "library": "fontawesome-iconpicker@3.2.0",
       "destination": "wwwroot/fontawesome-iconpicker/"
+    },
+    {
+      "library": "fixed-header-table@1.3.0",
+      "destination": "wwwroot/fixed-header-table/"
     }
   ]
 }

@@ -7,9 +7,10 @@
     <link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" asp-append-version="true" />
     @* REMEBER TO USE "asp-append-version" FOR A QUICKER VERSION *@
     <link href="~/css/datatables.css" rel="stylesheet" />
+
 }
 
-<h3>交換紀錄</h3>
+<h3>扭蛋交換紀錄</h3>
 
 @*DO NOT USE
     <p>
@@ -75,10 +76,9 @@ DO NOT USE*@
                 <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
                 DO NOT USE *@
                     @*  <a asp-action="Details" asp-route-id="@item.id">Details</a> *@
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exchangeModal-@item.id">
-                        Detail
-                    </button>
-
+                    <a class="button" data-bs-toggle="modal" data-bs-target="#exchangeModal-@item.id">
+                        <i class="fa-solid fa-list fa-lg"></i>
+                    </a>
                 </td>
             </tr>
             <div class="modal fade" id="exchangeModal-@item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

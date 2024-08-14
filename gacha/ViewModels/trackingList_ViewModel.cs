@@ -18,10 +18,13 @@ namespace gacha.ViewModels
         [Required (ErrorMessage=("通知狀態:待通知,無須通知,已通知"))]
         public string NoteStatus { get; set; }
 
-        [Display(Name = "扭蛋機台")]
+        [Display(Name = "扭蛋機台名稱")]
         public string GachaMachineName { get; set; }
 
         [Display(Name = "電子郵件")]
         public string UserEmail { get; set; }
+
+        [Display(Name = "會員名稱")]
+        public string UserName { get; set; }
     }
 }

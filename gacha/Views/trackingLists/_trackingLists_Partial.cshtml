@@ -11,7 +11,6 @@
     </style>
 }
 
-<h1>Details</h1>
 
 <div>
     <h4>追蹤清單</h4>
@@ -19,18 +18,18 @@
     <div class="container">
         <div class="row">
             <div class="col-4 fw-bold">
-                @Html.DisplayNameFor(model => model.UserId)
+                @Html.DisplayNameFor(model => model.UserName)
             </div>
             <div class="col-8">
-                @Html.DisplayFor(model => model.UserId)
+                @Html.DisplayFor(model => model.UserName)
             </div>
         </div>
         <div class="row">
             <div class="col-4 fw-bold">
-                @Html.DisplayNameFor(model => model.GachaMachineId)
+                @Html.DisplayNameFor(model => model.GachaMachineName)
             </div>
             <div class="col-8">
-                @Html.DisplayFor(model => model.GachaMachineId)
+                @Html.DisplayFor(model => model.GachaMachineName)
             </div>
         </div>
         <div class="row">
@@ -47,14 +46,6 @@
             </div>
             <div class="col-8">
                 @Html.DisplayFor(model => model.NoteStatus)
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-4 fw-bold">
-                @Html.DisplayNameFor(model => model.GachaMachineName)
-            </div>
-            <div class="col-8">
-                @Html.DisplayFor(model => model.GachaMachineName)
             </div>
         </div>
         <div class="row">

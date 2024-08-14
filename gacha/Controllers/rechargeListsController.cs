@@ -24,7 +24,9 @@ namespace gacha.Controllers
         {
             //var gachaContext = _context.rechargeList.Include(r => r.rechargePlan).Include(r => r.user);
             //return View(await gachaContext.ToListAsync());
-            var gachaContext = _context.rechargeList.Include(t => t.rechargePlan).Include(t => t.user)
+            var gachaContext = _context.rechargeList
+                .Include(t => t.rechargePlan)
+                .Include(t => t.user)
                 .Select(t => new rechargeList_ViewModel
                 {
                     id = t.id,
@@ -32,9 +34,12 @@ namespace gacha.Controllers
                     amount = t.amount,
                     paymentMode = t.paymentMode,
                     rechargePlanId = t.rechargePlanId,
+                    RechargePlan = t.rechargePlan.name,
                     userId = t.userId,
+                    userName = t.user.userName,
                     rechargeDate = t.rechargeDate,
                     rechargeTotalPrice = t.quantity * t.amount
+
 
                 });
             
@@ -42,7 +47,7 @@ namespace gacha.Controllers
         }
 
         // GET: rechargeLists/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, int? Uid, int? Pid)
         {
             if (id == null)
             {
@@ -58,38 +63,40 @@ namespace gacha.Controllers
             {
                 return NotFound();
             }
-            //var gachaContext = _context.rechargeList.Include(t => t.rechargePlan).Include(t => t.user)
-            //   .Select(t => new rechargeList_ViewModel
-            //   {
-            //       id = t.id,
-            //       quantity = t.quantity,
-            //       amount = t.amount,
-            //       paymentMode = t.paymentMode,
-            //       rechargePlanId = t.rechargePlanId,
-            //       userId = t.userId
+           
 
-            //   });
-            //if (rechargeList == null)
-            //{
-            //    return NotFound();
-            //}
+            var user = _context.userInfo.FirstOrDefault(u => u.id == rechargeList.userId);
+            var plan = _context.rechargePlan.Where(p => p.id == rechargeList.rechargePlanId);
 
-            rechargeList_ViewModel rechargeListV = new rechargeList_ViewModel()
+            if (user == null || plan == null)
             {
-                id = rechargeList.id,
-                quantity = rechargeList.quantity,
-                amount = rechargeList.amount,
-                paymentMode = rechargeList.paymentMode,
-                rechargePlanId = rechargeList.rechargePlanId,
-                //rechargePlan = rechargeList.rechargePlan?.name,
-                userId = rechargeList.userId,
-                rechargeDate = rechargeList.rechargeDate
-                //userName = rechargeList.user?.userName
-            };
+                return NotFound();
+            }
+
+            var xxx = await (from r in _context.rechargeList
+                   join p in _context.rechargePlan
+                   on r.rechargePlanId equals p.id
+                   join u in _context.userInfo
+                   on r.userId equals u.id
+                   where r.userId == id
+                   select new rechargeList_ViewModel
+                   {
+                       id = r.id,
+                       rechargePlanId = r.rechargePlanId,
+                       RechargePlan = p.name,
+                       quantity = r.quantity,
+                       amount = r.amount,
+                       paymentMode = r.paymentMode,
+                       userId = r.userId,
+                       rechargeDate = r.rechargeDate,
+                       userName = u.userName
+                   }).FirstOrDefaultAsync();
+
+
             ViewBag.rechargeName = rechargeList.rechargePlan.name;
             ViewBag.rechargeTotalPrice = rechargeList.quantity * rechargeList.amount;
             
-            return View(rechargeListV);
+            return View(xxx);
         }
 
         // GET: rechargeLists/Create
