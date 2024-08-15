@@ -52,16 +52,28 @@ namespace gacha.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,name,description,point,price,status,createdAt,updatedAt")] rechargePlan rechargePlan)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(rechargePlan);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(rechargePlan);
+                    await _context.SaveChangesAsync();
+                    return Json(new { success = true, message = "建立成功" });
+                }
             }
-            return View(rechargePlan);
+            catch (Exception ex)
+            {
+
+                //Record outstanding actvity and return JSON result
+                //可以用紀錄Log.Error(ex)
+                return Json(new { success = false, message = "建立方案有誤", exception = ex.Message });
+            }
+
+            return Json(new { success = false, message = "建立方案有誤QAQ" });
+
         }
 
         // GET: rechargePlan/Edit/5

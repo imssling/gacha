@@ -4,10 +4,39 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+@section Styles {
+
+    <link href="~/css/datatables.css" rel="stylesheet" />
+
+}
+
+<h1>角色</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @* <a asp-action="Create">Create New</a> *@
+    <button class="btn button" data-bs-toggle="modal" data-bs-target="#roleCreateModal">
+        <i class="fa-solid fa-plus fa-lg"></i>
+    </button>
+    @* creat new modal start *@
+    <div class="modal fade" id="roleCreateModal" tabindex="-1" aria-labelledby="roleCreateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    @* <h5 class="modal-title" id="createModalLabel">Create New Activity Type</h5> *@
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <partial name="_roleCreate_Partial" model="new role()"></partial>
+                    </div>
+                </div>
+                @*  <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div> *@
+            </div>
+        </div>
+    </div>
+    @* creat new modal end *@
 </p>
 <table class="table">
     <thead>
@@ -19,17 +48,117 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.title)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.title)
+                </td>
+                <td>
+                    <div class="d-flex flex-column">
+                        <a class="btn button mb-2" asp-action="Edit" asp-route-id="@item.id"><i class="fa-solid fa-pen-to-square"></i></a>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <a class="btn button mb-2 deleteBtn" asp-action="Delete" asp-route-id="@item.id"><i class="fa-solid fa-trash"></i></a>
+                    </div>
+
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+@section Scripts {
+
+    <script src="~/lib/datatables/js/jquery.datatables.min.js" asp-append-version="true"></script>
+    <script src="//cdn.datatables.net/fixedheader/3.3.1/js/dataTables.fixedHeader.min.js"></script>
+    <script src="~/js/datatables.js"></script>
+    <script>
+        $(".deleteBtn").on("click", function (e) {
+            e.preventDefault(); // 阻止默認的鏈接行為
+
+            var url = $(this).attr('href'); // 獲取刪除操作的URL
+            Swal.fire({
+                title: '刪除',
+                text: '確定要刪除嗎?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '確定',
+                cancelButtonText: '取消'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // 用戶確認後執行刪除操作
+                    $.ajax({
+                        url: url,
+                        type: 'GET', // 確保你使用的是POST方法，因為你在控制器中使用了POST刪除操作
+                        success: function (response) {
+                            // 刪除成功，顯示提示並移除項目
+                            Swal.fire('刪除成功', '該項目已被刪除', 'success').then((result) => {
+                                location.reload(); // 成功後重新載入頁面
+                            });
+                        },
+                        error: function () {
+                            Swal.fire('刪除失敗', '刪除過程中出現問題', 'error');
+                        }
+                    });
+                }
+            })
+        });
+
+        $(document).ready(function () {
+            $('.table').DataTable();
+        });
+        $(document).ready(function () {
+            console.log("Document ready");
+            if (!$.fn.DataTable.isDataTable('table')) {
+                console.log("Initializing DataTable");
+                $('table').DataTable({
+                    fixedHeader: {
+                        header: true,
+                    },
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/2.0.8/i18n/zh-HANT.json',
+                    },
+                    columnDefs: [
+                        {
+                            targets: '_all',
+                            className: 'text-center'
+                        }
+                    ],
+                });
+            } else {
+                console.log("DataTable already initialized");
+            }
+
+            // 換頁時回到最上面
+            $('table').on('page.dt', function () {
+                $('html, body').animate({
+                    scrollTop: $(".dataTables_wrapper").offset().top
+                }, 50);
+            });
+
+
+
+
+        });
+        //CREATE/EDIT Partial Bootstrap Validation
+        (function () {
+            'use strict';
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation');
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+        })();
+
+    </script>
+}

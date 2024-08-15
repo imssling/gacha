@@ -55,6 +55,8 @@ namespace gacha.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,title")] role role)
         {
+            Console.WriteLine(role.id.GetType().Name);  // 輸出 id 的類型，應該是 Int32
+
             if (ModelState.IsValid)
             {
                 _context.Add(role);
@@ -116,21 +118,26 @@ namespace gacha.Controllers
         }
 
         // GET: role/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var role = await _context.role
-                .FirstOrDefaultAsync(m => m.id == id);
+            var role = await _context.role.FindAsync(id);
             if (role == null)
             {
-                return NotFound();
+                return NotFound(new { success = false, message = "未找到該帳號" });
             }
 
-            return View(role);
+            try
+            {
+                _context.role.Remove(role);
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "帳號已成功刪除" });
+            }
+            catch (Exception ex)
+            {
+                // 捕捉異常並返回錯誤信息
+                return Json(new { success = false, message = "刪除過程中發生錯誤", exception = ex.Message });
+            }
         }
 
         // POST: role/Delete/5
@@ -139,13 +146,23 @@ namespace gacha.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var role = await _context.role.FindAsync(id);
-            if (role != null)
+            if (role == null)
             {
-                _context.role.Remove(role);
+                return NotFound(new { success = false, message = "未找到該帳號" });
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                _context.role.Remove(role);
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "帳號已成功刪除" });
+            }
+            catch (Exception ex)
+            {
+                // 捕捉異常並返回錯誤信息
+                return Json(new { success = false, message = "刪除過程中發生錯誤", exception = ex.Message });
+            }
         }
 
         private bool roleExists(int id)

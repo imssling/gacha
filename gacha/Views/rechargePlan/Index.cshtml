@@ -134,6 +134,8 @@
     <script src="~/lib/datatables/js/jquery.datatables.min.js" asp-append-version="true"></script>
     <script src="//cdn.datatables.net/fixedheader/3.3.1/js/dataTables.fixedHeader.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
 
     <script>
         var a = 0;
@@ -179,6 +181,56 @@
                         $("#point").val(priceInput);
                     });
             });
+
+
+            $("#createForm").submit(function (e) {
+                e.preventDefault();
+
+                // 手動觸發客戶端驗證
+                var form = $(this);
+                if (form.valid()) {
+                    $.ajax({
+                        url: form.attr("action"),
+                        type: "POST",
+                        data: form.serialize(),
+                        success: function (response) {
+                            if (response.success) {
+                                // 成功邏輯
+                                $('#createModal').modal('hide');
+                                //alert(response.message); //change to sweetalert
+                                Swal.fire({
+                                    title: '成功',
+                                    text: response.message,
+                                    icon: 'success',
+                                    confirmButtonText: 'Ok'
+
+                                }).then((result) => {
+                                    location.reload();
+                                });
+                            } else {
+                                // 顯示伺服器端驗證錯誤
+                                let errorList = $('#errorList');
+                                errorList.empty();  // 清空以前的錯誤訊息
+                                //alert(response.message);
+                                Swal.fire({
+                                    title: '失敗',
+                                    text: response.message,
+                                    icon: 'error',
+                                    confirmButtonText: 'Ok'
+
+                                });
+                                response.errors.forEach(function (error) {
+                                    errorList.append('<li class="text-danger">' + error + '</li>');
+                                });
+
+                            }
+                        }
+                    });
+                } else {
+                    // 如果表單無效，則不進行AJAX提交
+                    console.log("表單驗證失敗");
+                }
+            });
             
         });
         function Confirm(element) {
@@ -214,6 +266,8 @@
             }
             saveButtonClicked = false;
         });
+
+
       
 
             //a = modal.find('#price');
