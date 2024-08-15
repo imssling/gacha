@@ -83,7 +83,7 @@
                         <button class="btn button mb-2" data-bs-toggle="modal" data-bs-target="#adminEditModal-@item.account"><i class="fa-solid fa-pen-to-square"></i></button>
                     </div>
                     <div class="d-flex flex-column">
-                        <button class="btn button mb-2 deleteBtn" asp-action="Delete" asp-route-id="@item.account"><i class="fa-solid fa-trash"></i></button>
+                        <a class="btn button mb-2 deleteBtn" asp-action="Delete" asp-route-id="@item.account"><i class="fa-solid fa-trash"></i></a>
                     </div>
                     @* <a asp-action="Details" asp-route-id="@item.account"><i class="fa-solid fa-list fa-lg"></i></a> | *@
 
