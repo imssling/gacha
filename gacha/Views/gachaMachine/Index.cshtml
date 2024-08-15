@@ -12,8 +12,7 @@
 
     @* <a asp-action="Create" class="btn button"><i class="fa-solid fa-plus"></i></a> *@
     <a class="button" data-bs-toggle="modal" data-bs-target="#createModal"><i class="fa-solid fa-plus"></i></a>
-    <a asp-action="Create" class="btn button"><i class="fa-solid fa-plus"></i></a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
@@ -38,7 +37,8 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-            <td>
+                <partial name="_ShowMachineImagePartial" model="@item" />
+                @* @Html.DisplayFor(modelItem => item.machinePictureName) *@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.theme.themeName)
@@ -61,8 +61,8 @@
             </td>
         </tr>
 }
-}
     </tbody>
+</table>
 @foreach (var item in Model)
 {
     <!-- Edit Modal -->
@@ -125,12 +125,13 @@
 </div>
 
 
-</table>
+
 @section Scripts {
     <script src="~/lib/datatables/js/jquery.datatables.min.js" asp-append-version="true"></script>
     <script src="//cdn.datatables.net/fixedheader/3.3.1/js/dataTables.fixedHeader.min.js"></script>
     <script src="~/js/datatables.js"></script>
     <script>
+        $(document).ready(function () {
             let originImageSrc = {};
             let originImageTitle = {};
             const form = document.querySelector('.needs-validation');
@@ -241,7 +242,5 @@
                     }, false)
                 })
         })()
-
-        });
     </script>
 }
