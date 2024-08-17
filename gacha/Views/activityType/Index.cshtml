@@ -17,9 +17,9 @@
 <h3>活動類別</h3>
 <p>
     @*  <a asp-action="Create">Create New</a> *@
-    <button class="btn button" asp-action="Create" data-bs-toggle="modal" data-bs-target="#createModal">
-        <i class="fa-solid fa-plus fa-lg"></i>
-    </button>
+    <a class="btn button mb-2" asp-action="Create" data-bs-toggle="modal" data-bs-target="#createModal">
+        <i class="fa-solid fa-plus"></i>
+    </a>
     @* create new modal start *@
     <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -82,7 +82,7 @@
                         <a class="btn button mb-2" href="" data-bs-toggle="modal" data-bs-target="#activityTypeModal-@item.id">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
-                        <a asp-action="Delete" asp-route-id="@item.id" class="button delete" onclick="return Confirm(this)">
+                        <a asp-action="Delete" asp-route-id="@item.id" class="btn button mb-2 delete" onclick="return Confirm(this)">
                             <i class="fa-solid fa-trash"></i>
                         </a>
                     </div>
