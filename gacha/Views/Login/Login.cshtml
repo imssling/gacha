@@ -19,6 +19,10 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            background-image: url('/img/background6.jpg'); /* 替換為你的圖片路徑 */
+            background-size: cover; /* 使背景圖片覆蓋整個背景 */
+            background-position: center; /* 使背景圖片居中 */
+            background-repeat: no-repeat; /* 防止背景圖片重複 */
         }
         .login-container {
             background-color: white;
@@ -46,27 +50,19 @@
         .login-container button {
             width: 100%;
             padding: 12px;
-            background-color: #4CAF50;
+                background-color: #F6EEA2;
             border: none;
             color: white;
             border-radius: 4px;
-            cursor: pointer;
             font-size: 16px;
             transition: background-color 0.3s;
         }
         .login-container button:hover {
-            background-color: #45a049;
+            background-color: #F6EEA2;
         }
         .login-container .signup-link {
             text-align: center;
             margin-top: 10px;
-        }
-        .login-container .signup-link a {
-            color: #4CAF50;
-            text-decoration: none;
-        }
-        .login-container .signup-link a:hover {
-            text-decoration: underline;
         }
     </style>
 </head>
@@ -76,7 +72,7 @@
         <form asp-action="login">
             <input asp-for="account" type="text" placeholder="用戶名" required>
             <input asp-for="password" type="password" placeholder="密碼" required>
-            <button type="submit">登入</button>
+            <button style="color:black" type="submit">後台登入</button>
         </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
