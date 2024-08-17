@@ -7,7 +7,7 @@ namespace gacha.Models;
 
 public partial class rechargeList
 {
-    public int id { get; set; }
+    public string id { get; set; }
 
     public int quantity { get; set; }
 
