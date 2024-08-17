@@ -47,7 +47,7 @@ namespace gacha.Controllers
         }
 
         // GET: rechargeLists/Details/5
-        public async Task<IActionResult> Details(int? id, int? Uid, int? Pid)
+        public async Task<IActionResult> Details(string? id, int? Uid, int? Pid)
         {
             if (id == null)
             {
@@ -78,7 +78,7 @@ namespace gacha.Controllers
                    on r.rechargePlanId equals p.id
                    join u in _context.userInfo
                    on r.userId equals u.id
-                   where r.userId == id
+                   where r.userId == u.id
                    select new rechargeList_ViewModel
                    {
                        id = r.id,
@@ -269,7 +269,7 @@ namespace gacha.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,quantity,amount,paymentMode,rechargePlanId, rechargePlan,userId, userName, rechargeDate")] rechargeList_ViewModel rechargeListVM)
+        public async Task<IActionResult> Edit(string? id, [Bind("id,quantity,amount,paymentMode,rechargePlanId, rechargePlan,userId, userName, rechargeDate")] rechargeList_ViewModel rechargeListVM)
         {
             //增加rechargePlan paymentMode的select選項
             ViewBag.paymentMode = new SelectList(new List<SelectListItem>
@@ -298,10 +298,10 @@ namespace gacha.Controllers
             }, "Value", "Text");
 
 
-            if (id != rechargeListVM.id)
-            {
-                return NotFound();
-            }
+            //if (id != rechargeListVM.id)
+            //{
+            //    return NotFound();
+            //}
 
             if (ModelState.IsValid)
             {
@@ -336,7 +336,7 @@ namespace gacha.Controllers
         }
 
         // GET: rechargeLists/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string? id)
         {
             if (id == null)
             {
@@ -382,7 +382,7 @@ namespace gacha.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool rechargeListExists(int id)
+        private bool rechargeListExists(string id)
         {
             return _context.rechargeList.Any(e => e.id == id);
         }

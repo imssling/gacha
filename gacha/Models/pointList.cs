@@ -9,7 +9,7 @@ public partial class pointList
 {
     public int id { get; set; }
 
-    public int? rechargeListId { get; set; }
+    public string? rechargeListId { get; set; }
 
     public int? bagId { get; set; }
 

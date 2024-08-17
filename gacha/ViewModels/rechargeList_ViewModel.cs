@@ -6,7 +6,7 @@ namespace gacha.ViewModels
     public class rechargeList_ViewModel
     {
         [Display(Name = "儲值紀錄ID")]
-        public int id { get; set; }
+        public string? id { get; set; }
 
         [Display(Name = "儲值方案ID")]
         [Required(ErrorMessage = ("儲值方案必填"))]
