@@ -79,7 +79,7 @@ namespace gacha.Controllers
                    join u in _context.userInfo
                    on r.userId equals u.id
                    where r.userId == u.id
-                   select new rechargeList_ViewModel
+                             select new rechargeList_ViewModel
                    {
                        id = r.id,
                        rechargePlanId = r.rechargePlanId,
@@ -297,37 +297,21 @@ namespace gacha.Controllers
                 new SelectListItem { Value = "皇后方案", Text = "皇后方案" }
             }, "Value", "Text");
 
-
-            //if (id != rechargeListVM.id)
-            //{
-            //    return NotFound();
-            //}
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    var rechargeList = await _context.rechargeList.FindAsync(id);
-                    rechargeList.quantity = rechargeListVM.quantity;
-                    rechargeList.amount = rechargeListVM.amount;
-                    rechargeList.paymentMode = rechargeListVM.paymentMode;
-                    rechargeList.rechargePlanId = rechargeListVM.rechargePlanId;
-                    rechargeList.userId = rechargeListVM.userId;
+                
+                
+                var rechargeList = await _context.rechargeList.FindAsync(id);
+                rechargeList.quantity = rechargeListVM.quantity;
+                rechargeList.amount = rechargeListVM.amount;
+                rechargeList.paymentMode = rechargeListVM.paymentMode;
+                rechargeList.rechargePlanId = rechargeListVM.rechargePlanId;
+                rechargeList.userId = rechargeListVM.userId;
 
-                    _context.Update(rechargeList);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!rechargeListExists(rechargeListVM.id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _context.Update(rechargeList);
+                await _context.SaveChangesAsync();
+                
+                
                 return RedirectToAction(nameof(Index));
             }
             ViewData["rechargePlanId"] = new SelectList(_context.rechargePlan, "id", "name", rechargeListVM.rechargePlanId);
