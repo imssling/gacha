@@ -1,0 +1,69 @@
+﻿@model IEnumerable<gacha.Models.exchangeRecord>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>扭蛋交換分析</h1>
+
+<p>
+    <a asp-action="Create">Manual Data</a>
+</p>
+
+<div>
+    <canvas id="myChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.4/axios.js" integrity="sha512-HIcdQKr9Ts5iol6pF0Ud9t0kLPk0PbqDFuVwWqz36SE+AEaGGaUToHJ8FighPFDECLsMADbmmX4bj7w3ObJN1Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        let name = [];
+        let quantity = [];
+        $.ajax({
+            url: '/Chart_exchangeRecords/ExchangeData', // 指定 API 的 URL
+            type: 'GET', // 指定 HTTP 方法為 GET
+            success: function (data) {
+                console.log(data); // 當請求成功時，輸出資料到控制台
+                data.forEach(newData => {
+                    name.push(newData.productName);
+                    quantity.push(newData.trackCount);
+                })
+                console.log(name);
+                console.log(quantity);
+                const ctx = document.getElementById('myChart');
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: name,
+                        datasets: [{
+                            label: '交換次數',
+                            data: quantity,
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching exchange data:', error); // 當請求失敗時，輸出錯誤訊息
+            }
+        });
+    });
+
+
+
+   
+</script>
+
