@@ -1,0 +1,317 @@
+﻿@using System.Web
+@{
+    ViewData["Title"] = "";
+}
+@section Styles {
+    <style>
+        .card-header {
+            text-align: center;
+            font-size: 20px;
+        }
+    </style>
+}
+@* <div class="row">
+    <div class="col-3 my-3">
+        <select id="themeSelect" class="form-select col-3" aria-label="Default select example">
+            <option disabled>主題</option>
+        </select>
+
+    </div>
+</div> *@
+<div class="row">
+
+    <div class="col-lg-8">
+        <div class="card mb-4">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-4">
+                        <select id="themeSelect" class="form-select col-3" aria-label="Default select example" style="  background-color: rgba(255, 205, 86,0.2);">
+                            <option disabled>主題</option>
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <i class="fa-solid fa-gamepad fa-xl" style="color: #daae10;"></i>
+                        熱門機台分析
+                    </div>
+                </div>
+            </div>
+            <div class="card-body"><canvas id="tracking" width="100" height="50"></canvas></div>
+            <div class="card-footer small text-muted">上次更新時間 : @ViewBag.CurrentTime</div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fa-solid fa-venus-mars fa-xl" style="color: #daae10;"></i>
+                會員性別分析
+            </div>
+            <div class="card-body">
+                <canvas id="myPieChart" width="100" height="50"></canvas>
+            </div>
+            <div class="card-footer small text-muted">上次更新時間 : @ViewBag.CurrentTime</div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 儲值月份分析 -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fa-solid fa-dollar-sign fa-lg" style="color: #daae10;"></i>
+                營業額分析
+            </div>
+            <div class="card-body"><canvas id="recharging" style="width:200px;height:100px"></canvas></div>
+            <div class="card-footer small text-muted">上次更新時間 : @ViewBag.CurrentTime</div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@latest"></script>
+
+
+    <script>
+        var trackingChart; // 全局變數來保存圖表實例
+        var rechargeChart; // 全局變數來保存圖表實例
+
+
+        //追蹤機台長條圖
+        $(document).ready(function () {
+            updateGender(); //性別圓餅圖
+            getThemeName();
+            updateTracking(1);
+            rechargeLine([2022, 2023, 2024]); //傳遞多個年份來同時顯示它們的營業額數據
+
+        })
+        function updateGender() {
+            //性別圓餅圖
+            const ctx = document.getElementById('myPieChart').getContext('2d');
+            const genderData = {
+                labels: [
+                    '男',
+                    '女',
+                ],
+                datasets: [{
+                    label: '註冊人數',
+                    data: [@ViewBag.boy, @ViewBag.girl],
+                    backgroundColor: [
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 99, 132)',
+
+                    ],
+                    hoverOffset: 4
+                }]
+            };
+            new Chart(ctx, {
+                type: 'pie',
+                data: genderData
+            });
+        }
+        function updateTracking(themeId) {
+            $.ajax({
+                type: "GET",
+                url: `https://localhost:7273/chart/machineData?id=${themeId}`,
+            }).done(data => {
+                // console.log(data)
+                if (trackingChart) {
+                    trackingChart.destroy();
+                }
+                const labels = [];
+                const datasetData = [];
+                data.forEach(item => {
+                    // console.log(item.machineName);
+                    // console.log(item.trackCount);
+                    labels.push(item.machineName);  // 添加機器名稱到 labels
+                    datasetData.push(item.trackCount);  // 添加追蹤數量到 datasetData
+                });
+
+                const tracking = document.getElementById('tracking').getContext('2d');
+                const trackingData = {
+                    labels: labels,
+                    datasets: [{
+                        label: '追蹤數量',
+                        data: datasetData,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(255, 205, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(201, 203, 207, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(255, 159, 64)',
+                            'rgb(255, 205, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(54, 162, 235)',
+                            'rgb(153, 102, 255)',
+                            'rgb(201, 203, 207)'
+                        ],
+                        borderWidth: 1
+                    }]
+                };
+
+                const config = {
+                    type: 'bar',
+                    data: trackingData,
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    // forces step size to be 50 units
+                                    stepSize: 1 // 設定刻度步長為1，確保以整數顯示
+                                },
+                            },
+                        }
+                    },
+                };
+                trackingChart = new Chart(tracking, config);
+            }).fail(err => {
+                alert(err.responseText);
+            });
+        };
+        function getThemeName() {
+
+            var trackCount
+            $.ajax({
+                type: "GET",
+                url: `@Url.Action("getThemeName", "chart")`,
+            }).done(data => {
+                var themes = data;
+                const selectElement = document.getElementById('themeSelect');
+                // console.log(data);
+                themes.forEach(theme => {
+                    const option = document.createElement('option');
+                    option.value = theme.id;
+                    option.textContent = theme.themeName;
+                    selectElement.appendChild(option);
+                });
+            }).fail(err => {
+                alert(err);
+            });
+        }
+        function rechargeLine(years) {
+            console.log('Years:', years); // 調試輸出 years 的值
+            const rechargeCanvas = document.getElementById('recharging').getContext('2d');
+            const month = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
+            const predefinedColors = ['#FF6384', '#36A2EB', '#FFCE56'];
+
+            // 用來儲存每個年份的數據，鍵是年份，值是對應的數據
+            const yearDataMap = {};
+            let ajaxCalls = [];
+
+            years.forEach((year, index) => {
+                ajaxCalls.push(
+                    $.ajax({
+                        type: "GET",
+                        url: `https://localhost:7273/chart/GetMonthlyRevenue?year=${year}`,
+                    }).done(data => {
+                        try {
+                            const datasetData = [];
+                            let totalAmount = 0; // 用來儲存每年的總營業額
+                            data.forEach(item => {
+
+                                const amount = item.totalAmount;
+                                datasetData.push(amount);
+                                totalAmount += amount; // 累加總營業額
+                            });
+
+                            // 格式化總營業額，添加千位分隔符
+                            const formattedTotalAmount = totalAmount.toLocaleString();
+
+                            // 根據年份將數據儲存到 yearDataMap 中
+                            yearDataMap[year] = {
+                                label: `${year} 營業額: ${formattedTotalAmount}`,
+                                data: datasetData,
+                                fill: false,
+                                borderColor: predefinedColors[index % predefinedColors.length],
+                                tension: 0.1
+                            };
+                        }
+                        catch 
+                        {
+                            console.error(`Error processing data for year ${year}:`, error);
+                        }
+                        
+                    }).fail(err => {
+                        console.log(`Error fetching data for year ${year}:`, err);
+                    })
+                );
+            });
+
+            // 等待所有 AJAX 請求完成後，依據 years 的順序來填充 datasets
+            $.when.apply($, ajaxCalls).done(() => {
+                if (rechargeChart) {
+                    rechargeChart.destroy();
+                }
+
+                const datasets = years.map(year => yearDataMap[year]); // 按照 years 的順序生成 datasets
+
+                const rechargeData = {
+                    labels: month,
+                    datasets: datasets
+                };
+
+                const config = {
+                    type: 'line',
+                    data: rechargeData,
+                    options: {
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    font: {
+                                        size: 16 // 增大圖例標籤的字體大小
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                bodyFont: {
+                                    size: 14 // 增大工具提示的字體大小
+                                },
+                                titleFont: {
+                                    size: 16 // 增大工具提示標題的字體大小
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: {
+                                    font: {
+                                        size: 14 // 增大 x 軸標籤的字體大小
+                                    }
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    font: {
+                                        size: 14 // 增大 y 軸標籤的字體大小
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+
+
+
+                rechargeChart = new Chart(rechargeCanvas, config);
+            });
+        }
+
+
+
+        $('#themeSelect').on('change', function () {
+            var selectedValue = $(this).val(); // 取得選中的值
+            console.log(selectedValue)
+            updateTracking(selectedValue);     // 傳遞選中的值給 updateTracking 函數
+        })
+    </script>
+}
+
+
