@@ -7,8 +7,5 @@ namespace gacha.DTO
         public string productName {  get; set; }
         public int TrackCount {  get; set; }
 
-        public string Gender { get; set; }
-        public DateTime? Date { get; set; }
-
     }
 }

@@ -46,14 +46,25 @@
                             <i class="fa-solid fa-truck-fast fa-lg pe-2"></i>
                             出貨紀錄
                         </a>
-                        <a class="sidebar-link" asp-area="" asp-controller="exchangeRecords" asp-action="Index">
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link collapsed" data-bs-target="#exchangeRecordsMenu" data-bs-toggle="collapse" aria-expanded="false">
                             <i class="fa-solid fa-repeat fa-lg pe-2"></i>
-                            扭蛋交換紀錄
+                            交換管理
                         </a>
-                        <a class="sidebar-link" asp-area="" asp-controller="Chart_exchangeRecords" asp-action="Index">
-                            <i class="fa-solid fa-repeat fa-lg pe-2"></i>
-                            圖表-扭蛋交換
-                        </a>
+                        <ul id="exchangeRecordsMenu" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" asp-controller="exchangeRecords" asp-action="Index">
+                                    <i class="fa-solid fa-list-alt fa-lg pe-2 ps-4"></i>扭蛋交換紀錄
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" asp-controller="Chart_exchangeRecords" asp-action="Index">
+                                    <i class="fa-solid fa-chart-line fa-lg pe-2 ps-4"></i>圖表-扭蛋交換
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
                         <a class="sidebar-link" asp-area="" asp-controller="rechargeLists" asp-action="Index">
                             <i class="fa-solid fa-sack-dollar fa-lg pe-2"></i>
                             儲值紀錄

@@ -23,8 +23,13 @@ namespace gacha.Controllers
         // GET: Chart_exchangeRecords
         public async Task<IActionResult> Index()
         {
+            var gachaContext = _context.exchangeRecord
+            .Include(e => e.gachaIdFromNavigation)
+            .Include(e => e.gachaIdToNavigation)
+            .Include(e => e.userIdFromNavigation)
+            .Include(e => e.userIdToNavigation);
+            return View(await gachaContext.ToListAsync());
 
-            return View(_context.exchangeRecord);
         }
 
         // GET: Chart_exchangeRecords/ExchangeData
@@ -35,22 +40,17 @@ namespace gacha.Controllers
                                            on rrr.userIdFrom equals uuu.id
                                            join ggg in _context.gachaProduct
                                            on rrr.gachaIdTo equals ggg.id
-                                           group rrr by new {  rrr.gachaIdTo, ggg.productName } into groupData
+                                           group rrr by new { ggg.id, ggg.productName  } into groupData
                                            select new porductData_DTO
                                            {
-                                               productId = groupData.Key.gachaIdTo,
+                                               productId = groupData.Key.id,
                                                productName = groupData.Key.productName,
                                                TrackCount = groupData.Count()
-                                           }).ToListAsync();
+                                           })
+                                           .ToListAsync();
             return gachaExchangeData;
 
         }
-            //var gachaContext = _context.exchangeRecord
-            //.Include(e => e.gachaIdFromNavigation)
-            //.Include(e => e.gachaIdToNavigation)
-            //.Include(e => e.userIdFromNavigation)
-            //.Include(e => e.userIdToNavigation);
-            //return View(await gachaContext.ToListAsync());
 
 
         // GET: Chart_exchangeRecords/Details/5
