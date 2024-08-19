@@ -37,7 +37,7 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllersWithViews(options =>
 {
-    //options.Filters.Add<SessionCheckFilter>(); // 全局應用過濾器
+    options.Filters.Add<SessionCheckFilter>(); // 全局應用過濾器
 });
 
 var app = builder.Build();
