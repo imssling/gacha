@@ -14,7 +14,7 @@
 
 <p>
     @* <a asp-action="Create">Create New</a> *@
-    <button class="btn button" data-bs-toggle="modal" data-bs-target="#roleCreateModal">
+    <button class="btn button mb-2" data-bs-toggle="modal" data-bs-target="#roleCreateModal">
         <i class="fa-solid fa-plus fa-lg"></i>
     </button>
     @* creat new modal start *@
@@ -55,10 +55,9 @@
                     @Html.DisplayFor(modelItem => item.title)
                 </td>
                 <td>
-                    <div class="d-flex flex-column">
+                    <div >
                         <a class="btn button mb-2" asp-action="Edit" asp-route-id="@item.id"><i class="fa-solid fa-pen-to-square"></i></a>
-                    </div>
-                    <div class="d-flex flex-column">
+                   
                         <a class="btn button mb-2 deleteBtn" asp-action="Delete" asp-route-id="@item.id"><i class="fa-solid fa-trash"></i></a>
                     </div>
 
