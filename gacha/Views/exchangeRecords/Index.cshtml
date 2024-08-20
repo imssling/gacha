@@ -12,11 +12,10 @@
 
 <h3>扭蛋交換紀錄</h3>
 
-@*DO NOT USE
-    <p>
+@* <p>
     <a asp-action="Create">Create New</a>
-</p>
-DO NOT USE*@
+</p> *@
+
 
 
 
@@ -114,63 +113,14 @@ DO NOT USE*@
 
     <script>
         $(document).ready(function () {
-            // alert("love you tate");
             $('table').DataTable();
             google.charts.load('current', { 'packages': ['sankey'] });
             google.charts.setOnLoadCallback(drawChart);
 
         });
 
-
-
-
-
-        @*Google Chart Start*@
-
-            // <script type="text/javascript" >
-
-        //         $(document).ready(function () {
-        //             $('table').DataTable();
-        //             google.charts.load('current', { 'packages': ['sankey'] });
-        //             google.charts.setOnLoadCallback(drawChart);
-        //         });
-
-       
-        //     var exchangeRecords = Model as List<exchangeRecord_ViewModel>;
- 
-
-        //     function drawChart() {
-        //         var data = new google.visualization.DataTable();
-        //         data.addColumn('string', 'From');
-        //         data.addColumn('string', 'To');
-        //         data.addColumn('number', 'ExcahngeTime');
-        //         data.addRows([
-        // foreach (var record in Model)
-        // {
-        //     :["record.GachaNameFrom", "record.GachaNameTo", "ExcahngeTime"],
-        // }
-        //         var options = {
-        //             title: 'Exchange Records',
-        //             hAxis: { title: 'From', titleTextStyle: { color: '#333' } },
-        //             vAxis: { minValue: 0 }
-        //         };
-
-        //         var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
-        //         chart.draw(data, options);
-
-
-        //         // Sets chart options.
-        //         var options = {
-        //             width: 1200,
-        //         };
-
-        //         // Instantiates and draws our chart, passing in some options.
-        //         var chart = new google.visualization.Sankey(document.getElementById('sankey_basic'));
-        //         chart.draw(data, options);
-        //     }
-        // @*Google Chart End *@
     </script>
 
-   
+
 
 }

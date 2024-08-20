@@ -3,17 +3,34 @@
 @{
     ViewData["Title"] = "Index";
 }
+@section Styles{
+    <style>
+        .chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+        }
 
+        .chart-wrapper {
+            width: 95%;
+            max-width: 1400px;
+            height: 500px;
+        }
+    </style>
+
+}
 
 <h1>扭蛋交換分析</h1>
 
-<p>
-    <a asp-action="Create">Manual Data</a>
-</p>
 
-<div style="width: 100%; max-width: 600px; height: 400px;">
-    <canvas id="myChart"></canvas>
+<div class="chart-container">
+    <div class="chart-wrapper">
+        <canvas id="myChart"></canvas>
+    </div>
 </div>
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
