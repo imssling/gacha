@@ -28,55 +28,7 @@ namespace gacha.Controllers
 
             return View(_context.userInfo);
         }
-
-        // GET: userInfoes/GenderPie
-        public async Task<IActionResult> GenderPie()
-        {
-            //性別圓餅圖
-            ViewBag.boy = _context.userInfo.Where(b => b.gender == "男").Count();
-            ViewBag.girl = _context.userInfo.Where(b => b.gender == "女").Count();
-
-            // 獲取當前時間
-            ViewBag.CurrentTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
-            return View();
-        }
-
-
-        //追蹤清單長條圖
-        //GET:userInfoes/machineData
-        [HttpGet]
-        public async Task<IEnumerable<machineData_DTO>> machineData()
-        {
-            var machineTrackingData = await (from t in _context.trackingList
-                                             join g in _context.gachaMachine
-                                             on t.gachaMachineId equals g.id
-                                             group t by new { t.gachaMachineId, g.machineName } into groupedData
-                                             select new machineData_DTO
-                                             {
-                                                 MachineId = groupedData.Key.gachaMachineId,
-                                                 MachineName = groupedData.Key.machineName,
-                                                 TrackCount = groupedData.Count()
-                                             }).ToListAsync();
-            return machineTrackingData;
-        }
-
-        //儲值月份分析圖
-        //GET:userInfoes/rechargeData
-        [HttpGet]
-        //public async Task<IEnumerable<rechargeData_DTO>> rechargeData()
-        //{
-        //    var rechargeData = from r in _context.rechargeList
-        //                 group r by r.rechargeDate into grouped
-        //                 select new rechargeData_DTO
-        //                 {
-        //                     RechargeDate = grouped.Key,
-        //                     Count = grouped.Count()
-        //                 };
-
-
-        //    return rechargeData;
-        //}
-
+       
         // GET: userInfoes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
