@@ -17,7 +17,7 @@
 
 <h1>活動</h1>
 <p>
-   @*  <a asp-action="Create">Create New</a> *@
+
     <a class="btn button mb-2" asp-action="Create" data-bs-toggle="modal" data-bs-target="#activityCreateModal">
         <i class="fa-solid fa-plus"></i> 
     </a>
@@ -26,8 +26,7 @@
     <div class="modal fade" id="activityCreateModal" tabindex="-1" aria-labelledby="activityCreateModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    @* <h5 class="modal-title" id="createModalLabel">Create New Activity Type</h5> *@
+                <div class="modal-header">                 
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -35,9 +34,6 @@
                         <partial name="_activityCreate_Partial" model="new gacha.ViewModels.activity_ViewModel()"></partial>
                     </div>
                 </div>
-                @*  <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div> *@
             </div>
         </div>
     </div>
@@ -102,9 +98,6 @@
                     @Html.DisplayFor(modelItem => item.activityTypeName)
                 </td>
                 <td>
-                    @* <a asp-action="Edit" asp-route-id="@item.id">Edit</a>  *@
-                    @* <a asp-action="Details" asp-route-id="@item.id">Details</a> | *@
-                    @* <a asp-action="Delete" asp-route-id="@item.id">Delete</a> *@
                     <div class="d-flex flex-column">
                         <a class="btn button mb-2" href="" data-bs-toggle="modal" data-bs-target="#activityEditModal-@item.id">
                             <i class="fa-solid fa-pen-to-square"></i>
@@ -123,16 +116,11 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    @* <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> *@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <partial name="_activityEdit_Partial" model="@item" />
                 </div>
-                @* <div class="modal-footer justify-content-end d-flex">
-            <button type="button" class="btn btn-secondary justify-content-end" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save</button>
-            </div> *@
             </div>
         </div>
     </div>

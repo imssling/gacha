@@ -14,7 +14,6 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
                 <div class="form-group row mb-3">
-                    <!-- Added mb-3 for margin -->
                     <label asp-for="title" class="col-sm-3 col-form-label fw-bold"></label>
                     <div class="col-sm-9">
                         <input asp-for="title" class="form-control" id="title" required />
@@ -25,7 +24,6 @@
                 </div>
 
                 <div class="form-group row mb-3">
-                    <!-- Added mb-3 for margin -->
                     <label asp-for="description" class="col-sm-3 col-form-label fw-bold"></label>
                     <div class="col-sm-9">
                         <input asp-for="description" class="form-control" id="description" required />
@@ -36,7 +34,6 @@
                 </div>
 
                 <div class="form-group row mb-3">
-                    <!-- Added mb-3 for margin -->
                     <label asp-for="activityTypeId" class="col-sm-3 col-form-label fw-bold"></label>
                     <div class="col-sm-9">
                         <select asp-for="activityTypeId" class="form-control" asp-items="ViewBag.activityTypeId" id="activityTypeId" required></select>
@@ -46,7 +43,6 @@
                 </div>
 
                 <div class="form-group row mb-3">
-                    <!-- Added mb-3 for margin -->
                     <label asp-for="activityStart" class="col-sm-3 col-form-label fw-bold"></label>
                     <div class="col-sm-9">
                         <input asp-for="activityStart" class="form-control" id="activityStart" required />
@@ -57,7 +53,6 @@
                 </div>
 
                 <div class="form-group row mb-3">
-                    <!-- Added mb-3 for margin -->
                     <label asp-for="activityEnd" class="col-sm-3 col-form-label fw-bold"></label>
                     <div class="col-sm-9">
                         <input asp-for="activityEnd" class="form-control" id="activityEnd" required />
@@ -72,7 +67,6 @@
                         <button type="submit" class="btn button mb-2">
                             <i class="fa-solid fa-floppy-disk fa-lg"></i>
                         </button>
-                      @*   <a asp-action="Index" class="btn btn-link">Back to List</a> *@
                     </div>
                 </div>
             </form>
